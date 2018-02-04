@@ -1,0 +1,36 @@
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane {
+    -fx-tab-min-width: 120px;
+    -fx-padding: 0
+}
+
+/* make tabs transparent, remove round edges, make them stretch their space */
+.tab-pane .tab {
+    -fx-background-color: -fx-background;
+    -fx-background-radius: 2;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: ladder(-fx-background, derive(-fx-background, 25%) 60%, derive(-fx-background, -15%) 61%);
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    /*-fx-text-fill: #828282;*/
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    /*-fx-text-fill: #96b946;*/
+}
+
+.tab-pane:top *.tab-header-area {
+    -fx-background-insets: 0, 0;
+}

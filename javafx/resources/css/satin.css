@@ -1,0 +1,55 @@
+/* PLAYBACK */
+
+#play-pause:selected, #play {
+	-fx-background-image: url(satin/play.png);
+}
+
+#play-pause, #pause {
+	-fx-background-image: url(satin/pause.png);
+}
+
+#stop {
+	-fx-background-image: url(satin/splay.png);
+}
+
+#skipback {
+	-fx-background-image: url(satin/skipb.png);
+}
+
+#skip {
+	-fx-background-image: url(satin/skipf.png);
+}
+
+#repeat {
+	-fx-background-image: url(satin/ref.png);
+}
+
+/* OTHER */
+
+#up {
+	-fx-background-image: url(satin/up.png);
+}
+
+#down {
+	-fx-background-image: url(satin/down.png);
+}
+
+#like {
+	-fx-background-image: url(satin/add.png);
+}
+
+#dislike {
+	-fx-background-image: url(satin/del.png);
+}
+
+#save {
+	-fx-background-image: url(satin/save.png);
+}
+
+#back {
+	-fx-background-image: url(satin/undo.png);
+}
+
+#close {
+	-fx-background-image: url(satin/close.png);
+}

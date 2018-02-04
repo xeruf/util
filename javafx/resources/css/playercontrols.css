@@ -1,0 +1,14 @@
+@import "nocfa.css";
+
+#controls #repeat:selected {
+    -fx-background-color: -fx-base;
+}
+
+#controls .button, #controls .toggle-button {
+    -fx-background-color: transparent;
+    -fx-background-size: 22;
+    -fx-label-padding: 5;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+		-fx-opacity: 0.9;
+}

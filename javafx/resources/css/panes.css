@@ -1,0 +1,15 @@
+
+HBox {
+	-fx-alignment: center-left;
+}
+
+GridPane {
+	-fx-hgap: 3;
+	-fx-vgap: 3;
+}
+
+SearchView {
+	-fx-hgap: 3;
+	-fx-vgap: 3;
+	-fx-padding: 2;
+}

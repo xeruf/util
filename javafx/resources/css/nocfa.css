@@ -1,0 +1,105 @@
+/* PLAYBACK */
+
+#play-pause:selected, #play {
+	-fx-background-image: url(nocfa/play.png);
+}
+#play-pause:selected:hover, #play:hover {
+	-fx-background-image: url(nocfa/play_hover.png);
+}
+
+#play-pause, #pause {
+	-fx-background-image: url(nocfa/pause.png);
+}
+#play-pause:hover, #pause:hover {
+	-fx-background-image: url(nocfa/pause_hover.png);
+}
+
+#stop {
+	-fx-background-image: url(nocfa/stop.png);
+}
+#stop:hover {
+	-fx-background-image: url(nocfa/stop_hover.png);
+}
+
+/* Playback advanced */
+
+#skip {
+	-fx-background-image: url(nocfa/skip.png);
+}
+#skip:hover {
+	-fx-background-image: url(nocfa/skip_hover.png);
+}
+
+#skipback {
+	-fx-background-image: url(nocfa/skipb.png);
+}
+#skipback:hover {
+	-fx-background-image: url(nocfa/skipb_hover.png);
+}
+
+#repeat {
+	-fx-background-image: url(nocfa/repeat.png);
+}
+#repeat:hover {
+	-fx-background-image: url(nocfa/repeat_hover.png);
+}
+
+/* OTHER useful stuff */
+
+#refresh {
+	-fx-background-image: url(nocfa/refresh.png);
+}
+#refresh:hover {
+	-fx-background-image: url(nocfa/refresh_hover.png);
+}
+
+#close {
+	-fx-background-image: url(nocfa/close.png);
+}
+#close:hover {
+	-fx-background-image: url(nocfa/close_hover.png);
+}
+
+#back {
+	-fx-background-image: url(nocfa/back.png);
+}
+#back:hover {
+	-fx-background-image: url(nocfa/back_hover.png);
+}
+
+#save {
+	-fx-background-image: url(nocfa/save.png);
+}
+#save:hover {
+	-fx-background-image: url(nocfa/save_hover.png);
+}
+
+/* OTHER */
+
+#up {
+	-fx-background-image: url(nocfa/up.png);
+}
+#up:hover {
+	-fx-background-image: url(nocfa/up_hover.png);
+}
+
+#down {
+	-fx-background-image: url(nocfa/down.png);
+}
+#down:hover {
+	-fx-background-image: url(nocfa/down_hover.png);
+}
+
+#like {
+	-fx-background-image: url(nocfa/like.png);
+}
+#like:hover {
+	-fx-background-image: url(nocfa/like_hover.png);
+}
+
+#dislike {
+	-fx-background-image: url(nocfa/dislike.png);
+}
+#dislike:hover {
+	-fx-background-image: url(nocfa/dislike_hover.png);
+}

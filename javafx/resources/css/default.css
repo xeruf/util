@@ -1,0 +1,23 @@
+@import "panes.css";
+@import "playercontrols.css";
+@import "focus.css";
+@import "tabs.css";
+
+.root {
+    -fx-control-inner-background: derive(-fx-base, 60%);
+}
+
+.table-view .scroll-bar:horizontal .increment-arrow,
+.table-view .scroll-bar:horizontal .decrement-arrow,
+.table-view .scroll-bar:horizontal .increment-button,
+.table-view .scroll-bar:horizontal .decrement-button,
+.tree-view .scroll-bar:horizontal .increment-arrow,
+.tree-view .scroll-bar:horizontal .decrement-arrow,
+.tree-view .scroll-bar:horizontal .increment-button,
+.tree-view .scroll-bar:horizontal .decrement-button {
+    -fx-padding:0;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}

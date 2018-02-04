@@ -1,0 +1,4 @@
+.root {
+    /* Main Color of the whole application*/
+    -fx-base: hsb(25, 80%, 20%);
+}

@@ -1,0 +1,16 @@
+allprojects {
+    apply plugin: 'idea'
+    idea {
+        module {
+            outputDir file('build/idea/main')
+            testOutputDir file('build/idea/test')
+        }
+    }
+}
+
+subprojects {
+    group = 'xerus.util'
+    repositories {
+        mavenCentral()
+    }
+}

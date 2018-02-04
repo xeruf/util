@@ -1,0 +1,22 @@
+
+.root {
+	-fx-accent: ladder(-fx-base, hsba(205, 100%, 50%, 0.6), hsba(205, 50%, 100%, 0.6));
+    -fx-focus-color: derive(-fx-accent, -20%);
+    -fx-selection-bar-non-focused: ladder(-fx-base, hsba(205, 45%, 40%, 0.3), hsba(205, 25%, 100%, 0.3));
+
+    -fx-menu-focused: linear-gradient(to bottom, -fx-selection-bar, derive(-fx-selection-bar, 20%));
+}
+
+.menu-item:focused {
+    -fx-background-color: -fx-menu-focused;
+}
+
+.menu-bar > .container > .menu-button:hover,
+.menu-bar > .container > .menu-button:focused,
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: -fx-menu-focused;
+}
+
+.text-input:focused {
+    -fx-highlight-text-fill: ladder(-fx-accent, white 59%, #111 60%);
+}

@@ -1,0 +1,25 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':kotlin')
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+}
+
+sourceSets.main.java.srcDirs = ["src"]
+sourceSets.main.resources.srcDirs = ["resources"]
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all { kotlinOptions.jvmTarget = '1.8' }
+kotlin.experimental.coroutines "enable"
