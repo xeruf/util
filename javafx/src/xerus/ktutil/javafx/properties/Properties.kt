@@ -44,6 +44,7 @@ fun Observable.addOneTimeListener(runnable: () -> Unit) = addListener(object : I
 class Listeners<in T>(private val observable: ObservableValue<T>) {
 
 	private val listeners = ArrayDeque<Any>()
+	
 	fun add(listener: Any) {
 		listeners.add(listener)
 	}
