@@ -156,14 +156,14 @@ public final class FileTools {
 	// == WRITE ==
 	
 	/**
-	 * write {@code text} and a linebreak after each element into the given file
+	 * write {@code lines} and a linebreak after each element into the given file
 	 * @param file name of the file
-	 * @param text the text to append
+	 * @param lines the lines to append
 	 * @param append if the writer should append on an existing file
 	 */
-	public static boolean write(String file, boolean append, String... text) {
+	public static boolean write(String file, boolean append, String... lines) {
 		try (Writer w = new FileWriter(file, append)) {
-			for (String line : text)
+			for (String line : lines)
 				w.write(line + "\n");
 			return true;
 		} catch(IOException e) {

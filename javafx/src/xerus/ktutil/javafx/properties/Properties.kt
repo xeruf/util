@@ -19,7 +19,7 @@ fun <T> Property<T>.bind(callable: () -> T, vararg dependencies: Observable): Pr
 
 /** binds this Property via a simple InvalidationListener, the Property will NOT appear bound
  * @return the [InvalidationListener] used to establish the connection */
-fun <T> Property<T>.bindSoft(callable: () -> T, vararg dependencies: Observable): InvalidationListener {
+fun <T> WritableValue<T>.bindSoft(callable: () -> T, vararg dependencies: Observable): InvalidationListener {
 	value = callable()
 	val listener = InvalidationListener { _ -> value = callable() }
 	dependencies.forEach { it.addListener(listener) }
@@ -27,7 +27,7 @@ fun <T> Property<T>.bindSoft(callable: () -> T, vararg dependencies: Observable)
 }
 
 /** calls the given function with the value of the dependency as argument whenever it notifies its ChangeListeners */
-inline fun <T, U> Property<T>.dependOn(dependency: ObservableValue<U>, crossinline function: (U) -> T) {
+inline fun <T, U> WritableValue<T>.dependOn(dependency: ObservableValue<U>, crossinline function: (U) -> T) {
 	dependency.addListener { _, _, new -> value = function(new) }
 }
 

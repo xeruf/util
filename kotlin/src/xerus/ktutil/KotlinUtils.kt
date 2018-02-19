@@ -2,14 +2,8 @@
 
 package xerus.ktutil
 
-import jdk.nashorn.internal.objects.NativeFunction.function
-import java.io.*
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.StandardCopyOption
 import java.time.LocalDate
 import java.util.*
-import kotlin.reflect.KClass
 
 // Stringies
 
@@ -41,11 +35,12 @@ inline fun <T> T.printNamed(name: Any? = null) = apply { testString().let { prin
 
 // COLLECTIONS
 
-inline fun <T> List<T>.getReverse(index: Int): T {
-	return this[size - 1 - index]
-}
+inline fun <T> Collection<T>?.nullIfEmpty() = this?.takeUnless { it.isEmpty() }
 
-fun <E> MutableList<E>.removeLast() = this.removeAt(this.size - 1)
+inline fun <T> List<T>.getReverse(index: Int): T =
+	this[size - 1 - index]
+
+inline fun <E> MutableList<E>.removeLast() = this.removeAt(this.size - 1)
 
 fun ByteArray.toInt(): Int {
 	return this[3].toInt() and 0xFF or (this[2].toInt() and 0xFF shl 8) or (this[1].toInt() and 0xFF shl 16) or (this[0].toInt() and 0xFF shl 24)

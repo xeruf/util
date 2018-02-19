@@ -102,7 +102,7 @@ class WeakCollection<E>(size: Int = 4, val growFactor: Float = 1.6f) : AbstractM
 						return false
 					next = elements[cursor]?.get()
 				}
-				return next() != null
+				return next != null
 			}
 			
 			override fun next(): E {

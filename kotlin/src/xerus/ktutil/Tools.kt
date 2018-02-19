@@ -17,7 +17,7 @@ fun formattedTime(): String {
  * @param shorten if true, adjusts the format to the size of the number, else it is always hh:mm:ss
  * @return `seconds` in hh:mm:ss format
  */
-fun formatTime(seconds: Int, format: String = "02d:%02d:%02d") =
+fun formatTime(seconds: Int, format: String = "%02d:%02d:%02d") =
 		format.format(seconds % 86400 / 3600, seconds % 3600 / 60, seconds % 60)
 
 fun formatTimeDynamic(seconds: Int, orientation: Int = seconds)  =

@@ -1,5 +1,6 @@
 package xerus.util.helpers;
 
+/** times in milliseconds */
 public class Timer {
 
 	private static final boolean isNano = true;
@@ -8,19 +9,23 @@ public class Timer {
 	private long time;
 	
 	public Timer() {
-		time = System.nanoTime();
+		restart();
 	}
 	
 	public static void start() {
 		t = new Timer();
 	}
-	
+
+	public void restart() { time = System.currentTimeMillis(); }
+
+	/** elapsed time in milliseconds */
 	public static long runtime() {
 		return t.time();
 	}
-	
+
+	/** elapsed time in milliseconds */
 	public long time() {
-		return System.nanoTime() - time;
+		return System.currentTimeMillis() - time;
 	}
 	
 	public static long finish() {

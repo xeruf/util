@@ -2,17 +2,26 @@ package xerus.ktutil.helpers
 
 import xerus.ktutil.toInt
 
-open class Rater<X> @JvmOverloads constructor(var obj: X?, var points: Double, protected val inverted: Boolean = false) {
+open class Rater<X> @JvmOverloads constructor(
+        /** the current object of this Rater */
+        @JvmField var obj: X?,
+        /** the points to the current [obj] of this Rater */
+        @JvmField var points: Double,
+        /** if true, then objects with less points will be preferred */
+        protected val inverted: Boolean = false) {
 
-    @JvmOverloads constructor(invert: Boolean = false) : this(null, if (invert) java.lang.Double.MAX_VALUE else java.lang.Double.MIN_VALUE, invert)
+    @JvmOverloads constructor(invert: Boolean = false) : this(null, if (invert) java.lang.Double.MAX_VALUE else -java.lang.Double.MAX_VALUE, invert)
 
     fun hasObj() = obj != null
 
-    /** replaces the objects if the given points are higher than the saved ones  */
-    fun update(newObj: X?, newPoints: Double): Boolean {
-        if (!inverted && newPoints > points || inverted && newPoints < points) {
-            obj = newObj
-            points = newPoints
+    /** replaces the objects if the given points are higher than the saved ones
+     * @return if other became the current [obj] */
+    fun update(other: X?, otherPoints: Double): Boolean {
+        if(other == obj)
+            return true
+        if (!inverted && otherPoints > points || inverted && otherPoints < points) {
+            obj = other
+            points = otherPoints
             return true
         }
         return false

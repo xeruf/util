@@ -6,7 +6,8 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
-@Throws(IOException::class)
+fun File.appendln(line: String) = appendText(line + "\n")
+
 fun Path.moveRecursively(destination: Path) {
 	val s = this.toFile()
 	if (s.isDirectory) {
