@@ -1,14 +1,12 @@
 package xerus.ktutil.javafx.ui
 
-import javafx.beans.binding.Bindings
 import javafx.scene.Scene
 import javafx.scene.control.ScrollPane
 import javafx.scene.image.Image
 import javafx.stage.Stage
 import javafx.stage.Window
-import xerus.ktutil.javafx.bindStylesheets
 import xerus.ktutil.javafx.initWindowOwner
-import xerus.ktutil.javafx.setPositionRelativeTo
+import xerus.ktutil.javafx.ui.controls.LogTextFlow
 
 class Version(val version: String, val title: String, vararg minorChanges: String) {
 	internal val changes = ArrayList<Change>(minorChanges.map { Change(it) })

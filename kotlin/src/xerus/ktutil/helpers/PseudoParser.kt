@@ -114,11 +114,11 @@ class PseudoParser(startDelimiter: Char, endDelimiter: Char) {
     class ParserException : Exception {
         val match: String
 
-        internal constructor(msg: String) : super("Error while parsing " + msg) {
+        constructor(msg: String) : super("Error while parsing " + msg) {
             match = msg
         }
 
-        internal constructor(msg: String, t: Throwable) : super("Error while parsing " + msg, t) {
+        constructor(msg: String, t: Throwable) : super("Error while parsing " + msg, t) {
             match = msg
         }
     }

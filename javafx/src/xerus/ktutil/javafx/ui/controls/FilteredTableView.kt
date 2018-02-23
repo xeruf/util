@@ -1,4 +1,4 @@
-package xerus.ktutil.javafx.ui
+package xerus.ktutil.javafx.ui.controls
 
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList

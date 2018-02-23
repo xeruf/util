@@ -14,11 +14,14 @@ open class Rater<X> @JvmOverloads constructor(
 
     fun hasObj() = obj != null
 
+    fun clear() {
+        points = if (inverted) java.lang.Double.MAX_VALUE else -java.lang.Double.MAX_VALUE
+        obj = null
+    }
+
     /** replaces the objects if the given points are higher than the saved ones
      * @return if other became the current [obj] */
     fun update(other: X?, otherPoints: Double): Boolean {
-        if(other == obj)
-            return true
         if (!inverted && otherPoints > points || inverted && otherPoints < points) {
             obj = other
             points = otherPoints

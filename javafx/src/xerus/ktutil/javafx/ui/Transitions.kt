@@ -1,41 +1,18 @@
 package xerus.ktutil.javafx.ui
 
 import javafx.animation.Transition
-import javafx.geometry.Pos
-import javafx.scene.Node
-import javafx.scene.control.Button
-import javafx.scene.layout.HBox
+import javafx.scene.layout.Region
 import javafx.util.Duration
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import xerus.ktutil.javafx.*
 
-
-open class FadingHBox(visible: Boolean, protected var targetHeight: Double = 30.0, spacing: Double = 3.0) : HBox(spacing) {
-    private val fader = SimpleTransition(this, Duration.seconds(0.3), { frac -> setSize(height = targetHeight * frac); opacity = frac }, false)
-    protected val closeButton = Button().onClick { fadeOut() }.id("close")
-
-    init {
-        id("controls")
-        alignment = Pos.CENTER
-        if (visible) {
-            setSize(height = targetHeight)
-        } else {
-            setSize(height = 0.0)
-            opacity = 0.0
-        }
-    }
-
-    fun setChildren(vararg children: Node) {
-        this.children.setAll(*children)
-        fill(pos = 0)
-        fill()
-        add(closeButton)
-    }
+interface Fadable {
+    val fader: SimpleTransition<Region>
 
     fun show(new: () -> Unit) {
         launch {
-            if (opacity == 1.0)
+            if (visible)
                 fader.play()
             while (fading)
                 delay(50)
@@ -47,20 +24,27 @@ open class FadingHBox(visible: Boolean, protected var targetHeight: Double = 30.
     }
 
     fun fadeOut() {
-        if (opacity == 1.0 && !fading)
+        if (visible && !fading)
             fader.play()
     }
 
     fun ensureVisible() {
-        if (opacity == 0.0 && !fading)
+        if (!visible && !fading)
             fader.play()
     }
 
     val fading: Boolean
         get() = fader.playing
+
+    val visible: Boolean
+        get() = fader.target.opacity > 0.0
+
 }
 
-open class SimpleTransition<T>(private val target: T, time: Duration, private val function: T.(pos: Double) -> Unit, instantPlay: Boolean = true, private val onComplete: (T.() -> Unit)? = null) : Transition() {
+fun Region.verticalTransition(seconds: Double, targetHeight: Int): SimpleTransition<Region>
+    = SimpleTransition(this, Duration.seconds(seconds), { frac -> setSize(height = targetHeight * frac); opacity = frac }, false, { isVisible = opacity > 0.1 })
+
+open class SimpleTransition<out T>(internal val target: T, time: Duration, private val function: T.(pos: Double) -> Unit, instantPlay: Boolean = true, private val onComplete: (T.() -> Unit)? = null) : Transition() {
     var playing: Boolean = instantPlay
 
     init {
