@@ -7,6 +7,7 @@ import javafx.concurrent.Task
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.Node
+import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.layout.*
@@ -30,12 +31,12 @@ fun <T : Node> T.id(id: String): T = this.apply { setId(id) }
 
 fun Region.setSize(width: Double? = null, height: Double? = null) {
 	if (width != null) {
-		minWidth = width
-		maxWidth = width
+		minWidth = width.toDouble()
+		maxWidth = width.toDouble()
 	}
 	if (height != null) {
-		minHeight = height
-		maxHeight = height
+		minHeight = height.toDouble()
+		maxHeight = height.toDouble()
 	}
 }
 
@@ -61,7 +62,7 @@ fun Node.priority(priority: Priority = Priority.ALWAYS) = also {
 	GridPane.setHgrow(it, priority)
 }
 
-fun HBox.fill(node: Node = Region(), pos: Int = children.size) {
+fun HBox.fill(node: Region = Region(), pos: Int = children.size) {
 	children.add(pos, node)
 	HBox.setHgrow(node, Priority.ALWAYS)
 }

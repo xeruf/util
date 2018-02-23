@@ -4,19 +4,17 @@ import javafx.beans.property.DoubleProperty
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.Slider
 import javafx.scene.layout.StackPane
+import xerus.ktutil.javafx.properties.bindSoft
 import xerus.ktutil.javafx.setSize
 
-class SlideBar(width: Int) : StackPane() {
+class SlideBar(width: Int? = null) : StackPane() {
 
-    private val progressBar = ProgressBar(0.0).apply {
-        setSize(width = width.toDouble())
+    val slider = Slider(0.0, 1.0, 0.0).apply {
+        setSize(width = width?.toDouble())
     }
 
-    private val slider = Slider(0.0, 1.0, 0.0).apply {
-        setSize(width = width.toDouble())
-        valueProperty().addListener({ _, _, new ->
-            progressBar.progress = new.toDouble() * 0.96 + 0.04
-        })
+    private val progressBar = ProgressBar(0.0).apply {
+        slider.widthProperty().addListener { _, _, new -> prefWidth = new.toDouble() }
     }
 
     val value: DoubleProperty = slider.valueProperty()
@@ -24,6 +22,10 @@ class SlideBar(width: Int) : StackPane() {
     init {
         styleClass.add("slide-bar")
         children.addAll(progressBar, slider)
+        progressBar.progressProperty().bindSoft({
+            val corrector = 10 / progressBar.width
+            slider.value * (1 - corrector) + corrector
+        }, slider.valueProperty(), progressBar.widthProperty())
     }
 
 }
