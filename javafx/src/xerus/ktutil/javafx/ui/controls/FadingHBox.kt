@@ -10,8 +10,8 @@ import xerus.ktutil.javafx.ui.Fadable
 import xerus.ktutil.javafx.ui.SimpleTransition
 import xerus.ktutil.javafx.ui.verticalTransition
 
-open class FadingHBox(visible: Boolean, targetHeight: Int = 30, spacing: Int = 3) : HBox(spacing.toDouble()), Fadable {
-    override val fader: SimpleTransition<Region> = this.verticalTransition(targetHeight)
+open class FadingHBox(visible: Boolean, fromTop: Boolean, targetHeight: Int = 30, spacing: Int = 3) : HBox(spacing.toDouble()), Fadable {
+    override val fader: SimpleTransition<Region> = this.verticalTransition(targetHeight, fromTop)
     protected val closeButton = Button().onClick { fadeOut() }.id("close")
 
     init {

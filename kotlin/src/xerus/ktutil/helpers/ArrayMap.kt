@@ -44,15 +44,16 @@ class ArrayMap<K, V> : MutableMap<K, V> {
 	
 	override fun remove(key: K): V? {
 		val i = indexOf(key)
-		if (i == -1)
-			return null
+		return if (i == -1)
+			null
 		else {
 			keys.removeAt(i)
 			values.removeAt(i)
 		}
 	}
 	
-	inline fun indexOf(key: K) = keys.indexOf(key)
+	@Suppress("NOTHING_TO_INLINE")
+	private inline fun indexOf(key: K) = keys.indexOf(key)
 	
 	inner class ArrayMapEntry(val index: Int) : MutableMap.MutableEntry<K, V> {
 		override val key = keys[index]

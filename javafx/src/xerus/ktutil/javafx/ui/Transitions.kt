@@ -42,14 +42,14 @@ interface Fadable {
 
 }
 
-fun Region.verticalTransition(targetHeight: Int, seconds: Double = 0.4): SimpleTransition<Region>
-    = SimpleTransition(this, Duration.seconds(seconds), { frac -> setSize(height = targetHeight * frac); translateY = -targetHeight * (1-frac); opacity = frac; isVisible = opacity > 0.0 }, false)
+fun Region.verticalTransition(targetHeight: Int, fromTop: Boolean, seconds: Double = 0.4): SimpleTransition<Region>
+    = SimpleTransition(this, Duration.seconds(seconds), { frac -> setSize(height = targetHeight * frac); translateY = (if(fromTop) -1 else 1) * targetHeight * (1-frac); opacity = frac; isVisible = opacity > 0.0 }, false)
 
-open class SimpleTransition<out T>(internal val target: T, time: Duration, private val function: T.(pos: Double) -> Unit, instantPlay: Boolean = true, private val onComplete: (T.() -> Unit)? = null) : Transition() {
+open class SimpleTransition<out T>(internal val target: T, length: Duration, private val function: T.(pos: Double) -> Unit, instantPlay: Boolean = true, private val onComplete: (T.() -> Unit)? = null) : Transition() {
     var playing: Boolean = instantPlay
 
     init {
-        cycleDuration = time
+        cycleDuration = length
         if (instantPlay)
             onJFX { play() }
     }
