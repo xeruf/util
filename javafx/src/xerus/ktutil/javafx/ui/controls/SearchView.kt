@@ -63,9 +63,9 @@ class SearchView<T : Any>(val options: ObservableList<AnySearchable<T>>) : GridP
         init {
             val (connector, con) =
                     if (rows.size == 0)
-                        Label().apply { prefWidth = 0.0 }.pair { ConstantObservable(conjunctions[0]) }
+                        Label().apply { prefWidth = 0.0 }.pair { ImmutableObservable(conjunctions[0]) }
                     else
-                        ComboBox<Conjunction<T>>(UnmodifiableObservableList(*conjunctions)).apply { selectionModel.select(0) }.pair { valueProperty() }
+                        ComboBox<Conjunction<T>>(ImmutableObservableList(*conjunctions)).apply { selectionModel.select(0) }.pair { valueProperty() }
             conjunction = con
 
             val option = ComboBox(options).select(searchable)
@@ -217,11 +217,11 @@ abstract class Type<T> {
 }
 
 abstract class DefaultType<T>(vararg conditions: Condition<T>) : Type<T>() {
-    override val conditions = UnmodifiableObservableList(*conditions)
+    override val conditions = ImmutableObservableList(*conditions)
 }
 
 class NumberType<T>(override val representation: () -> Pair<Control, ObservableValue<T?>>) : Type<T>() where T : Comparable<T>, T : Number {
-    override val conditions = UnmodifiableObservableList<Condition<T>>(
+    override val conditions = ImmutableObservableList<Condition<T>>(
             Condition.contains { if (it.toDouble().rem(1.0) == 0.0) it.toLong().toString() else it.toString() }
             , Condition.equals()
             , Condition.larger("more than")
@@ -230,7 +230,7 @@ class NumberType<T>(override val representation: () -> Pair<Control, ObservableV
 }
 
 class TimeType<T : Comparable<T>>(override val representation: () -> Pair<Control, ObservableValue<T?>>) : Type<T>() {
-    override val conditions = UnmodifiableObservableList<Condition<T>>(
+    override val conditions = ImmutableObservableList<Condition<T>>(
             Condition.equals()
             , Condition.larger("after")
             , Condition.smaller("before")
@@ -276,7 +276,7 @@ class MultiSearchable<in T, U>(val name: String, override val type: Type<U>, ove
 
 class SearchableColumn<T, U : Any>(val name: String, override val type: Type<U>, override val converter: (T) -> U?, private val display: (T) -> String? = { converter(it)?.toString() }) : TableColumn<T, String>(name), AnySearchable<T> {
     init {
-        setCellValueFactory { ConstantObservable(display(it.value)) }
+        setCellValueFactory { ImmutableObservable(display(it.value)) }
     }
 
     override fun toString() = name

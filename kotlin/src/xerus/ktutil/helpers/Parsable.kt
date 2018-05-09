@@ -1,6 +1,6 @@
 package xerus.ktutil.helpers
 
-import xerus.ktutil.getField
+import xerus.ktutil.reflectField
 import xerus.ktutil.joinEnumeration
 
 private val fieldParser = PseudoParser('%')
@@ -33,7 +33,7 @@ interface Parsable {
 	
 	private fun insertField(string: String): String {
 		string.split('|').let {
-			val value = getField(it[0])
+			val value = reflectField(it[0])
 			if (it.size > 1) {
 				val separator = it[1]
 				@Suppress("UNCHECKED_CAST")

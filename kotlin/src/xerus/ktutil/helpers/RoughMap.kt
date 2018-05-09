@@ -33,8 +33,8 @@ class RoughMap<V : Any> {
 	}
 	
 	fun findAll(key: String): List<V> =
-			keys.mapIndexedNotNull { i, s -> if(s.contains(key, true)) values[i] else null }
-		
+			keys.mapIndexedNotNull { i, s -> if (s.contains(key, true)) values[i] else null }
+	
 }
 
-class KeyNotFoundException(key: String) : Exception("Key not found: $key")
+class KeyNotFoundException(key: String) : IllegalArgumentException("Key not found: $key")

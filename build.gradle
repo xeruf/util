@@ -1,15 +1,16 @@
-allprojects {
-    apply plugin: 'idea'
-    idea {
-        module {
-            outputDir file('build/idea/main')
-            testOutputDir file('build/idea/test')
-        }
-    }
-}
+
+ext.kotlinVersion = "1.2.40"
 
 subprojects {
-    group = 'xerus.util'
+    apply plugin: "idea"
+    idea {
+        module {
+            outputDir = file("build/idea/main")
+            testOutputDir = file("build/idea/test")
+        }
+    }
+    
+    group = "xerus.util"
     repositories {
         mavenCentral()
     }

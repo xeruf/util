@@ -6,23 +6,18 @@ import java.util.ArrayList;
 
 public class SysoutListener {
 	
-	private static ArrayList<SysoutObserver> observers = new ArrayList<>();
+	private static ArrayList<SysoutObserver> observers = new ArrayList<>(2);
 	
 	static {
 		coverSysout();
 	}
 	
-	public static void addObserver(SysoutObserver observer) {
-		if (observers == null) {
-			observers = new ArrayList<>();
-			coverSysout();
-		}
+	public static SysoutObserver addObserver(SysoutObserver observer) {
 		observers.add(observer);
+		return observer;
 	}
 	
 	public static void removeObserver(SysoutObserver observer) {
-		if (observers == null)
-			return;
 		observers.remove(observer);
 	}
 	
@@ -38,9 +33,8 @@ public class SysoutListener {
 			public void write(int b) {
 				super.write(b);
 				buffer.write(b);
-				if (b == '\n') {
+				if (b == '\n')
 					fire();
-				}
 			}
 			@Override
 			public void println(String s) {

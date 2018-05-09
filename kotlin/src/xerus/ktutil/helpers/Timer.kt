@@ -27,7 +27,7 @@ class Timer {
             t = Timer()
         }
 
-        /** elapsed time in milliseconds  */
+        /** elapsed time in milliseconds */
         fun runtime(): Long = t!!.time()
 
         fun finish(msg: String = "Time"): Long {

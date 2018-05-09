@@ -2,11 +2,13 @@ package xerus.ktutil.helpers
 
 open class Rater<X> constructor(
         /** the current object of this Rater */
+        @JvmField
         var obj: X?,
         /** the points to the current [obj] of this Rater */
+        @JvmField
         var points: Double,
         /** if true, then objects with less points will be preferred */
-        protected val inverted: Boolean = false): Comparable<Rater<X>> {
+        private val inverted: Boolean = false): Comparable<Rater<X>> {
     
     constructor(invert: Boolean = false) : this(null, if (invert) Double.MAX_VALUE else -Double.MAX_VALUE, invert)
     
@@ -19,7 +21,7 @@ open class Rater<X> constructor(
     
     /** replaces the object if the given points are higher than the saved ones
      * @return if [other] became the current [obj] */
-    fun update(other: X?, otherPoints: Double): Boolean {
+    open fun update(other: X?, otherPoints: Double): Boolean {
         if (!inverted && otherPoints > points || inverted && otherPoints < points) {
             obj = other
             points = otherPoints

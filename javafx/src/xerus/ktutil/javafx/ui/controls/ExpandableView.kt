@@ -8,13 +8,16 @@ import javafx.scene.layout.GridPane
 import xerus.ktutil.javafx.onClick
 import xerus.ktutil.javafx.styleClass
 
+@Suppress("UNCHECKED_CAST")
 open class ExpandableView<T>(
 		val toNodes: (T) -> Array<Node> = {
-			(it as? Node)?.let { arrayOf(it) }
-					?: (it as? Array<Node>)
-					?: (it as? Collection<Node>)?.toTypedArray()
-					?: throw IllegalArgumentException("Type parameter is not automatically convertible to Node. " +
-							"Please specify the toNodes Parameter")
+			when(it) {
+				is Node -> arrayOf(it)
+				is Array<*> -> it as Array<Node>
+				is Collection<*> -> (it as Collection<Node>).toTypedArray()
+				else -> throw IllegalArgumentException("Type parameter is not automatically convertible to Node. " +
+						"Please specify the toNodes Parameter")
+			}
 		},
 		val rowCreator: () -> T) : GridPane() {
 	

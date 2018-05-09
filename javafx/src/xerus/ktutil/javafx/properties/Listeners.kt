@@ -6,7 +6,7 @@ import javafx.beans.value.ObservableValue
 import java.util.*
 
 open class Listeners<T>(private val observable: ObservableValue<T>) {
-
+    
     private val listeners = ArrayDeque<Any>()
 
     fun add(listener: Any) {
@@ -28,12 +28,5 @@ open class Listeners<T>(private val observable: ObservableValue<T>) {
             }
         return new
     }
-
-    /*
-    fun addListener(listener: InvalidationListener) = add(listener)
-    fun addListener(listener: ChangeListener<*>) = add(listener)
-    fun removeListener(listener: InvalidationListener) = remove(listener)
-    fun removeListener(listener: ChangeListener<*>) = remove(listener)
-    */
-
+    
 }

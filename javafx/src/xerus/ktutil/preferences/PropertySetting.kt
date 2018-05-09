@@ -4,9 +4,9 @@ import javafx.beans.InvalidationListener
 import javafx.beans.property.ObjectProperty
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
+import xerus.ktutil.SystemUtils.suppressErr
 import xerus.ktutil.javafx.properties.Listeners
 import xerus.ktutil.javafx.properties.bindSoft
-import xerus.ktutil.suppressErr
 import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -70,7 +70,6 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 	}
 	
 	// Listeners
-	
 	private val listeners = Listeners(this)
 	override fun addListener(listener: InvalidationListener) = listeners.add(listener)
 	override fun addListener(listener: ChangeListener<in T>) = listeners.add(listener)

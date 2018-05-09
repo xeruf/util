@@ -10,6 +10,9 @@ import javafx.stage.FileChooser
 import javafx.stage.Window
 import xerus.ktutil.findFolder
 import xerus.ktutil.javafx.createButton
+import xerus.ktutil.javafx.properties.dependOn
+import xerus.ktutil.javafx.properties.listen
+import xerus.ktutil.javafx.properties.setSilently
 import java.io.File
 import java.nio.file.Path
 
@@ -26,35 +29,31 @@ class FileChooser(private val window: Window, initialDir: File, private val exte
 	val path: Path
 		get() = file.toPath()
 	
-	val button: Button by lazy {
-		createButton("Select $name", { showFileChooser() })
-	}
+	fun button() = createButton("Select $name") { showFileChooser() }
 	
-	val textField: TextField by lazy {
-		TextField(selectedFile.get().toString()).apply {
-			selectedFile.addListener { _, _, nv -> text = nv.toString() }
-			focusedProperty().addListener { _, _, focus ->
-				val newFile = File(text)
-				if (!focus && selectedFile.get() != newFile)
-					selectedFile.set(newFile)
-			}
-			maxWidth = Double.MAX_VALUE
-			HBox.setHgrow(this, Priority.ALWAYS)
+	fun textField() = TextField().apply {
+		val listener = textProperty().dependOn(selectedFile) { it.toString() }
+		textProperty().listen {
+			val newFile = File(it)
+			if (selectedFile.get() != newFile)
+				selectedFile.setSilently(newFile, listener)
 		}
+		maxWidth = Double.MAX_VALUE
+		HBox.setHgrow(this, Priority.ALWAYS)
 	}
 	
-	fun createHBox() = HBox(5.0, textField, button)
+	fun createHBox() = HBox(5.0, textField(), button())
 	
 	var title = "Select $name"
 	fun showFileChooser() {
 		val file = if (extension == null) {
 			val chooser = DirectoryChooser()
-			chooser.initialDirectory = findFolder(selectedFile.get())
+			chooser.initialDirectory = selectedFile.get().findFolder()
 			chooser.title = title
 			chooser.showDialog(window)
 		} else {
 			val chooser = FileChooser()
-			chooser.initialDirectory = findFolder(selectedFile.get())
+			chooser.initialDirectory = selectedFile.get().findFolder()
 			if (extension.isNotEmpty())
 				chooser.extensionFilters.add(FileChooser.ExtensionFilter(extension.toUpperCase(), "*.$extension"))
 			chooser.title = title

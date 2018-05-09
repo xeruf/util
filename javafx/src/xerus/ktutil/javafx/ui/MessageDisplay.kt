@@ -30,7 +30,7 @@ interface JFXMessageDisplay : MessageDisplay {
 		}
 	}
 	
-	fun showAlert(type: Alert.AlertType, title: String?, header: String? = null, content: String, vararg buttons: ButtonType) =
+	fun showAlert(type: Alert.AlertType, title: String? = null, header: String? = null, content: String, vararg buttons: ButtonType) =
 			window.createAlert(type, title, header, content, *buttons).apply { show() }
 	
 }

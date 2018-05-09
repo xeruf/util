@@ -3,6 +3,14 @@ HBox {
 	-fx-alignment: center-left;
 }
 
+HBox, VBox {
+	-fx-spacing: 3;
+}
+
+.segmented-button HBox { 
+	-fx-spacing: 0; 
+}
+
 GridPane {
 	-fx-hgap: 3;
 	-fx-vgap: 3;

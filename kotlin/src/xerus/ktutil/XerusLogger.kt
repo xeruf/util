@@ -1,5 +1,6 @@
 package xerus.ktutil
 
+import xerus.ktutil.SystemUtils.suppressErr
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -85,7 +86,7 @@ object XerusLogger : Logger("xerus.xeruslogger", null) {
 			setLevel(logLevel)
 			config("LogLevel set to $logLevel")
 		} catch (e: IllegalArgumentException) {
-			System.err.println(level + " is not a valid Logger Level!")
+			System.err.println("$level is not a valid Logger Level!")
 		}
 	}
 	

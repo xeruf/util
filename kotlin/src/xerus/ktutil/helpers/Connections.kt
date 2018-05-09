@@ -14,7 +14,8 @@ fun HttpURLConnection.dumpResponse() = try {
 		}
 	}
 	inputStream.dump()
-} catch (_: IOException) {
+} catch (e: IOException) {
+	println(e)
 	errorStream.dump()
 }
 
@@ -28,14 +29,14 @@ object Connections {
 	}
 	
 	@Throws(IOException::class)
-	fun Post(connection: HttpURLConnection, vararg params: String): HttpURLConnection {
-		connection.doOutput = true // Triggers POST.
+	fun post(connection: HttpURLConnection, vararg params: String): HttpURLConnection {
+		connection.doOutput = true // Triggers POST
 		connection.outputStream.use { output -> output.write(params.joinToString("&").toByteArray(charset("UTF-8"))) }
 		return connection
 	}
 	
 	@Throws(MalformedURLException::class, IOException::class)
-	fun createPostConnection(url: String, vararg params: String) = Post(createConnection(url), *params)
+	fun createPostConnection(url: String, vararg params: String) = post(createConnection(url), *params)
 }
 
 @Suppress("UNCHECKED_CAST")

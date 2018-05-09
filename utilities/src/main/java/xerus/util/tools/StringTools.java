@@ -83,7 +83,7 @@ public final class StringTools {
 	public static String join(String delimiter, int... numbers) {
 		StringBuilder sb = new StringBuilder();
 		for (int i : numbers)
-			sb.append(delimiter + i);
+			sb.append(delimiter).append(i);
 		return sb.substring(delimiter.length());
 	}
 	
@@ -91,14 +91,14 @@ public final class StringTools {
 	public static String join(String delimiter, double... params) {
 		StringBuilder sb = new StringBuilder();
 		for (double d : params)
-			sb.append(delimiter + Tools.round(d));
+			sb.append(delimiter).append(Tools.round(d));
 		return sb.substring(delimiter.length());
 	}
 	
 	public static String join(CharSequence delimiter, Collection objects) {
 		StringBuilder sb = new StringBuilder();
 		for (Object o : objects)
-			sb.append(delimiter + o.toString());
+			sb.append(delimiter).append(o.toString());
 		return sb.substring(delimiter.length());
 	}
 	

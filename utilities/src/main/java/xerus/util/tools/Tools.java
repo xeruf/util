@@ -99,11 +99,11 @@ public final class Tools {
 	
 	// region NUMBERS
 	
+	private final static int[] powersOf10 = {1, 10, 100, 1000, 10000};
+
 	/**
 	 * rounds a double to {@code n} decimal places
 	 */
-	private final static int[] powersOf10 = {1, 10, 100, 1000, 10000};
-	
 	public static final double round(double number, int decimals) {
 		if (decimals < 5)
 			return Math.rint(number / powersOf10[decimals]) * powersOf10[decimals];

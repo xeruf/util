@@ -51,6 +51,7 @@ fun Array<out Observable>.addListener(runnable: () -> Unit): InvalidationListene
 /** calls the given function with the value of the dependency as argument whenever it notifies its ChangeListeners */
 inline fun <T, U> WritableValue<T>.dependOn(dependency: ObservableValue<U>, crossinline function: (U) -> T): ChangeListener<U> {
 	val listener = ChangeListener<U> { _, _, new -> value = function(new) }
+	listener.changed(dependency, dependency.value, dependency.value)
 	dependency.addListener(listener)
 	return listener
 }
@@ -68,3 +69,8 @@ fun Observable.addOneTimeListener(runnable: () -> Unit) = addListener(object : I
 fun <T> ObservableValue<T>.listen(listener: (T) -> Unit) =
 		addListener { _, _, new -> listener(new) }
 
+fun <T> Property<T>.setSilently(value: T, listenerToSilence: ChangeListener<T>) {
+	removeListener(listenerToSilence)
+	setValue(value)
+	addListener(listenerToSilence)
+}

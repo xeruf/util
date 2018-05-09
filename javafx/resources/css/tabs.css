@@ -15,6 +15,10 @@
     -fx-padding: 0;
 }
 
+.tab-pane > .tab-header-area > .headers-region > .tab:hover > .tab-container > .tab-label  {
+    -fx-underline: true;
+}
+
 .tab-pane .tab:selected {
     -fx-background-color: ladder(-fx-background, derive(-fx-background, 25%) 60%, derive(-fx-background, -15%) 61%);
 }

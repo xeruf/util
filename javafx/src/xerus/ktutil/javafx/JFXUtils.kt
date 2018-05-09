@@ -5,9 +5,9 @@ import javafx.beans.binding.Bindings
 import javafx.beans.property.Property
 import javafx.concurrent.Task
 import javafx.event.ActionEvent
+import javafx.event.EventDispatcher
 import javafx.event.EventHandler
 import javafx.scene.Node
-import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.layout.*
@@ -15,7 +15,12 @@ import javafx.scene.paint.Color
 import javafx.scene.text.*
 import javafx.stage.Stage
 import javafx.stage.Window
+import javafx.stage.WindowEvent
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
+import xerus.ktutil.javafx.properties.addListener
 import xerus.ktutil.javafx.properties.addOneTimeListener
+import xerus.ktutil.printNamed
 import xerus.ktutil.printWith
 
 inline fun checkJFX(crossinline run: () -> Unit) {
@@ -30,7 +35,14 @@ inline fun onJFX(crossinline run: () -> Unit) = Platform.runLater { run() }
 fun <T : Node> T.styleClass(styleClass: String): T = this.apply { getStyleClass().add(styleClass) }
 fun <T : Node> T.id(id: String): T = this.apply { setId(id) }
 
-fun Region.setSize(width: Double? = null, height: Double? = null) {
+fun <T : Region> T.allowExpand(horizontal: Boolean = true, vertical: Boolean = true) = also {
+	if (horizontal)
+		it.maxWidth = Double.MAX_VALUE
+	if (vertical)
+		it.maxHeight = Double.MAX_VALUE
+}
+
+fun Region.setSize(width: Double? = null, height: Double? = null) = apply {
 	if (width != null) {
 		minWidth = width.toDouble()
 		maxWidth = width.toDouble()
@@ -44,6 +56,9 @@ fun Region.setSize(width: Double? = null, height: Double? = null) {
 fun <T : Control> T.tooltip(string: String) = apply { tooltip = Tooltip(string) }
 
 fun <T : Labeled> T.text(text: String) = also { it.text = text }
+fun <T : Labeled> T.centerText() = apply { textAlignment = TextAlignment.CENTER }
+fun <T : Labeled> T.textWidth(text: String? = this.text) = text.textWidth(font)
+
 inline fun <T : ButtonBase> T.onClick(crossinline runnable: T.() -> Unit) = apply {
 	setOnAction { runnable(this) }
 }
@@ -58,7 +73,7 @@ fun Pane.addButton(text: String = "", handler: (ActionEvent) -> Unit) = createBu
 
 fun GridPane.spacing(spacing: Int = 3) = also { it.hgap = spacing.toDouble(); it.vgap = spacing.toDouble() }
 
-fun Node.priority(priority: Priority = Priority.ALWAYS) = also {
+fun Node.grow(priority: Priority = Priority.ALWAYS) = also {
 	HBox.setHgrow(it, priority)
 	VBox.setVgrow(it, priority)
 	GridPane.setVgrow(it, priority)
@@ -67,11 +82,13 @@ fun Node.priority(priority: Priority = Priority.ALWAYS) = also {
 
 fun HBox.fill(node: Region = Region(), pos: Int = children.size) {
 	children.add(pos, node)
+	node.maxWidth = Double.MAX_VALUE
 	HBox.setHgrow(node, Priority.ALWAYS)
 }
 
-fun VBox.fill(node: Node = Region(), pos: Int = children.size) {
+fun VBox.fill(node: Region = Region(), pos: Int = children.size) {
 	children.add(pos, node)
+	node.maxHeight = Double.MAX_VALUE
 	VBox.setVgrow(node, Priority.ALWAYS)
 }
 
@@ -96,11 +113,20 @@ fun Stage.initWindowOwner(other: Window) {
 }
 
 fun Stage.setPositionRelativeTo(other: Window) {
-	setOnShowing { hide() }
+	var disabled = false
+	setOnShowing { if(!disabled) opacity = 0.0 }
 	setOnShown {
-		x = other.x + other.width / 2 - width / 2
-		y = other.y + other.height / 2 - height / 2
-		show()
+		if (disabled) return@setOnShown
+		val newx = (other.x + other.width / 2 - width / 2).toInt().toDouble()
+		val newy = (other.y + other.height / 2 - height / 2).toInt().toDouble()
+		onJFX {
+			disabled = true
+			hide()
+			x = newx; y = newy
+			opacity = 1.0
+			show()
+			disabled = false
+		}
 	}
 }
 
@@ -127,8 +153,6 @@ fun hexToColor(hex: String) =
 
 fun <T> Task<T>.launch() =
 		kotlinx.coroutines.experimental.launch { run() }
-
-fun Labeled.textWidth(text: String? = this.text) = text.textWidth(font)
 
 fun String?.textWidth(font: Font) =
 		Text(this).let {
