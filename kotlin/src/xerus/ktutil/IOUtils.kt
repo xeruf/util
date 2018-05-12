@@ -59,7 +59,8 @@ fun File.write(line: Int, text: String) {
 fun InputStream.dump() = bufferedReader().forEachLine { println(it) }
 
 /** copies the contents of the InputStream to the OutputStream.
- * @param progressHandler is invoked every time after the buffer has been transferred. If it returns true, then the copying will cease immediately
+ * @param progressHandler is invoked every time after the buffer has been transferred.
+ * If it returns true, then the copying will cease immediately.
  * @param closeIn if this InputStream should be closed when this method returns
  * @param closeOut if the OutputStream should be closed when this method returns */
 fun InputStream.copyTo(out: OutputStream, closeIn: Boolean = false, closeOut: Boolean = false, progressHandler: (Long) -> Boolean): Long {

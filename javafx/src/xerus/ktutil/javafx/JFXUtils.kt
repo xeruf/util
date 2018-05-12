@@ -105,41 +105,6 @@ fun Text.format(bold: Boolean = false, italic: Boolean = false) = apply {
 	style = arrayOf("weight: bold".takeIf { bold }, "style: italic".takeIf { italic }).filterNotNull().joinToString(separator = ";", prefix = "-fx-font-")
 }
 
-fun Stage.initWindowOwner(other: Window) {
-	initOwner(other)
-	setPositionRelativeTo(other)
-	if (other is Stage)
-		bindStylesheets(other)
-}
-
-fun Stage.setPositionRelativeTo(other: Window) {
-	var disabled = false
-	setOnShowing { if(!disabled) opacity = 0.0 }
-	setOnShown {
-		if (disabled) return@setOnShown
-		val newx = (other.x + other.width / 2 - width / 2).toInt().toDouble()
-		val newy = (other.y + other.height / 2 - height / 2).toInt().toDouble()
-		onJFX {
-			disabled = true
-			hide()
-			x = newx; y = newy
-			opacity = 1.0
-			show()
-			disabled = false
-		}
-	}
-}
-
-fun Stage.bindStylesheets(other: Stage) {
-	when {
-		other.scene == null -> other.sceneProperty().addOneTimeListener { bindStylesheets(other) }
-		scene == null -> sceneProperty().addOneTimeListener { bindStylesheets(other) }
-		else -> {
-			Bindings.bindContent(scene.stylesheets, other.scene.stylesheets)
-		}
-	}
-}
-
 fun <T, U> TableView<T>.addColumn(title: String, function: (T) -> U) {
 	columns.add(TableColumn<T, U>(title, { function(it.value) }))
 }
