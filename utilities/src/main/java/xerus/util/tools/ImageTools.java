@@ -61,8 +61,7 @@ public final class ImageTools {
 		public boolean equals(Object obj) {
 			if(obj.getClass() == Pixel.class){
 				Pixel p = (Pixel)obj;
-				if(this.r()==p.r() && this.g()==p.g() && this.b()==p.b())
-					return true;
+				return this.r() == p.r() && this.g() == p.g() && this.b() == p.b();
 			}
 			return false;
 		}

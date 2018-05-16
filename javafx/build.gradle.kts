@@ -1,13 +1,8 @@
-import org.jetbrains.kotlin.config.LanguageFeature
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.2.41"
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {

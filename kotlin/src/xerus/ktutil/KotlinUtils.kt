@@ -34,6 +34,13 @@ fun Double.format(digits: Int) = "%.${digits}f".format(Locale.ENGLISH, this)
 inline val Double.square
 	get() = this * this
 
+fun Long.byteCountString(): String {
+	val unit = 1024
+	val exp = (Math.log(toDouble()) / Math.log(unit.toDouble())).toInt()
+	val prefix = " KMGTPE"[Math.max(exp, 0)]
+	return String.format("%.1f %sB", this / Math.pow(unit.toDouble(), exp.toDouble()), prefix)
+}
+
 // Basics
 
 /** @return 1 if true, 0 if false */

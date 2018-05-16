@@ -48,7 +48,6 @@ public abstract class BasePanel extends JPanel implements SwingShowError {
 	 */
 	protected void buttonCall(int buttonid) throws Exception {
 	}
-	;
 
 // COMPONENT REGISTRATION
 	

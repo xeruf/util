@@ -11,6 +11,7 @@ inline fun File.appendln(line: String) = appendText(line + "\n")
 
 inline fun Path.exists() = Files.exists(this)
 inline fun Path.renameTo(new: Path) = Files.move(this, new)
+inline fun Path.delete() = Files.deleteIfExists(this)
 
 inline fun Path.createFile() = Files.createFile(this)
 inline fun Path.createDir() = Files.createDirectory(this)

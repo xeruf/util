@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public final class ConnectionTools {
 	
-	public static HttpURLConnection createConnection(String url) throws MalformedURLException, IOException {
+	public static HttpURLConnection createConnection(String url) throws IOException {
 		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 		connection.setRequestProperty("Accept-Charset", "UTF-8");
 		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
@@ -26,7 +26,7 @@ public final class ConnectionTools {
 		return connection;
 	}
 	
-	public static HttpURLConnection createPostConnection(String url, String... params) throws MalformedURLException, IOException {
+	public static HttpURLConnection createPostConnection(String url, String... params) throws IOException {
 		return Post(createConnection(url), params);
 	}
 	

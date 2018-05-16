@@ -17,7 +17,7 @@ public class ArraySet<E> extends ArrayList<E> implements Set<E> {
 	
 	@Override
 	public boolean add(E e) {
-		return contains(e) ? false : super.add(e);
+		return !contains(e) && super.add(e);
 	}
 	
 	@Override

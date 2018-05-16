@@ -19,11 +19,11 @@ private fun Testable.test(param: Double, timeout: Long = Long.MAX_VALUE): Long =
 
 object Benchmark {
 	
-	fun test(vararg torun: Runnable) {
+	fun test(vararg torun: () -> Unit) {
 		for (method in torun) {
 			System.gc()
 			Timer.start()
-			method.run()
+			method()
 			Timer.finish()
 		}
 	}

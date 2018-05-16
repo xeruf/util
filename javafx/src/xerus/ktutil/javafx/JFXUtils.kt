@@ -16,12 +16,14 @@ import javafx.scene.text.*
 import javafx.stage.Stage
 import javafx.stage.Window
 import javafx.stage.WindowEvent
+import kotlinx.coroutines.experimental.DefaultDispatcher
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import xerus.ktutil.javafx.properties.addListener
 import xerus.ktutil.javafx.properties.addOneTimeListener
 import xerus.ktutil.printNamed
 import xerus.ktutil.printWith
+import kotlin.coroutines.experimental.CoroutineContext
 
 inline fun checkJFX(crossinline run: () -> Unit) {
 	if (Platform.isFxApplicationThread())
@@ -116,8 +118,8 @@ fun hexToColor(hex: String) =
 				Integer.parseInt(hex.substring(5, 7), 16)
 		)
 
-fun <T> Task<T>.launch() =
-		kotlinx.coroutines.experimental.launch { run() }
+fun <T> Task<T>.launch(context: CoroutineContext = DefaultDispatcher) =
+		kotlinx.coroutines.experimental.launch(context) { run() }
 
 fun String?.textWidth(font: Font) =
 		Text(this).let {

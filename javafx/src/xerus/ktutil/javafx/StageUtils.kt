@@ -9,9 +9,9 @@ import xerus.ktutil.javafx.properties.addOneTimeListener
 
 fun Window.createStage(title: String, content: Parent) =
 		Stage().also {
-			it.initWindowOwner(this)
 			it.title = title
 			it.scene = Scene(content)
+			it.initWindowOwner(this)
 		}
 
 fun Stage.initWindowOwner(other: Window) {

@@ -5,6 +5,7 @@ import javafx.scene.control.ScrollPane
 import javafx.scene.image.Image
 import javafx.stage.Stage
 import javafx.stage.Window
+import xerus.ktutil.getResource
 import xerus.ktutil.javafx.createStage
 import xerus.ktutil.javafx.initWindowOwner
 import xerus.ktutil.javafx.ui.controls.LogTextFlow
@@ -48,7 +49,7 @@ class Changelog(private vararg val notes: String) {
 		val scroll = ScrollPane(text)
 		scroll.isFitToWidth = true
 		parent.createStage("Changelog", scroll).apply {
-			icons.add(Image(javaClass.getResourceAsStream("/css/nocfa/paper.png")))
+			icons.add(Image(Changelog::class.java.getResourceAsStream("/css/nocfa/log.png")))
 			height = 400.0
 			width = 500.0
 			show()

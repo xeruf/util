@@ -293,7 +293,7 @@ public final class Tools {
 	public static void suspendErr() {
 		System.setErr(new PrintStream(new OutputStream() {
 			@Override
-			public void write(int b) throws IOException {
+			public void write(int b) {
 			}
 		}));
 	}
