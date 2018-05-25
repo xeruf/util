@@ -31,7 +31,7 @@ public class DistributedRandom<T> {
 	
 	public T generate() {
 		double rand = Math.random() * sum;
-		for (Map.Entry<T, Float> entry : distribution.entrySet()) {
+		for (Map.Entry<T,Float> entry : distribution.entrySet()) {
 			rand -= entry.getValue();
 			if (rand < 0)
 				return entry.getKey();

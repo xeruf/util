@@ -25,16 +25,16 @@ public class MyTable extends JTable {
 	public TableData getData() {
 		return data;
 	}
-
+	
 	public void addRow(Object... value) {
 		data.addRow(value);
 	}
-
+	
 	public void fitColumns(Object... preferredColumns) {
 		final TableColumnModel columnModel = getColumnModel();
 		boolean isInt = true;
-		for(Object o : preferredColumns)
-			if(!(o.getClass() == Integer.class))
+		for (Object o : preferredColumns)
+			if (!(o.getClass() == Integer.class))
 				isInt = false;
 		for (int column = 0; column < getColumnCount(); column++) {
 			int width = 40;
@@ -54,22 +54,22 @@ public class MyTable extends JTable {
 	}
 	
 	public boolean containedIn(Object element, Object... array) {
-		for(Object o : array)
-			if(o.equals(element))
+		for (Object o : array)
+			if (o.equals(element))
 				return true;
 		return false;
 	}
-
+	
 	public void centerColumns(Object... columns) {
 		final DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		final TableColumnModel columnModel = getColumnModel();
 		for (Object column : columns) {
-			if(column.getClass() == Integer.class)
-				columnModel.getColumn((Integer)column).setCellRenderer(centerRenderer);
+			if (column.getClass() == Integer.class)
+				columnModel.getColumn((Integer) column).setCellRenderer(centerRenderer);
 			else
 				columnModel.getColumn(columnModel.getColumnIndex(column)).setCellRenderer(centerRenderer);
 		}
 	}
-
+	
 }

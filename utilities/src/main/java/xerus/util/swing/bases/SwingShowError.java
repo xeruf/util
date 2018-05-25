@@ -17,7 +17,7 @@ public interface SwingShowError extends ShowError {
 	
 	default void showMessage(Object message, String title, AlertType type) {
 		try {
-			JOptionPane.showMessageDialog((Component) this, message, title, (int)JOptionPane.class.getField(type.name() + "_MESSAGE").get(null));
+			JOptionPane.showMessageDialog((Component) this, message, title, (int) JOptionPane.class.getField(type.name() + "_MESSAGE").get(null));
 		} catch(IllegalAccessException|NoSuchFieldException e) {
 			e.printStackTrace();
 		}

@@ -71,6 +71,7 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 	
 	// Listeners
 	private val listeners = Listeners(this)
+	
 	override fun addListener(listener: InvalidationListener) = listeners.add(listener)
 	override fun addListener(listener: ChangeListener<in T>) = listeners.add(listener)
 	override fun removeListener(listener: InvalidationListener) = listeners.remove(listener)

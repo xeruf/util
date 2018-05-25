@@ -11,7 +11,7 @@ import xerus.ktutil.javafx.styleClass
 @Suppress("UNCHECKED_CAST")
 open class ExpandableView<T>(
 		val toNodes: (T) -> Array<Node> = {
-			when(it) {
+			when (it) {
 				is Node -> arrayOf(it)
 				is Array<*> -> it as Array<Node>
 				is Collection<*> -> (it as Collection<Node>).toTypedArray()

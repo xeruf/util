@@ -41,33 +41,33 @@ import javafx.util.Callback
 import java.text.Format
 
 class FormattedTableCellFactory<S, T> : Callback<TableColumn<S, T>, TableCell<S, T>> {
-
-    var alignment: TextAlignment? = null
-    var format: Format? = null
-
-    override fun call(p: TableColumn<S, T>): TableCell<S, T> {
-        val cell = object : TableCell<S, T>() {
-            override fun updateItem(item: T?, empty: Boolean) {
-                if (item === getItem())
-                    return
-                super.updateItem(item, empty)
-                when {
-                    item == null -> {
-                        super.setText(null)
-                        super.setGraphic(null)
-                    }
-                    format != null -> super.setText(format!!.format(item))
-                    item is Node -> super.setGraphic(item)
-                    else -> super.setText(item.toString())
-                }
-            }
-        }
-        cell.textAlignment = alignment
-        when (alignment) {
-            TextAlignment.CENTER -> cell.setAlignment(Pos.CENTER)
-            TextAlignment.RIGHT -> cell.setAlignment(Pos.CENTER_RIGHT)
-            else -> cell.setAlignment(Pos.CENTER_LEFT)
-        }
-        return cell
-    }
+	
+	var alignment: TextAlignment? = null
+	var format: Format? = null
+	
+	override fun call(p: TableColumn<S, T>): TableCell<S, T> {
+		val cell = object : TableCell<S, T>() {
+			override fun updateItem(item: T?, empty: Boolean) {
+				if (item === getItem())
+					return
+				super.updateItem(item, empty)
+				when {
+					item == null -> {
+						super.setText(null)
+						super.setGraphic(null)
+					}
+					format != null -> super.setText(format!!.format(item))
+					item is Node -> super.setGraphic(item)
+					else -> super.setText(item.toString())
+				}
+			}
+		}
+		cell.textAlignment = alignment
+		when (alignment) {
+			TextAlignment.CENTER -> cell.setAlignment(Pos.CENTER)
+			TextAlignment.RIGHT -> cell.setAlignment(Pos.CENTER_RIGHT)
+			else -> cell.setAlignment(Pos.CENTER_LEFT)
+		}
+		return cell
+	}
 }

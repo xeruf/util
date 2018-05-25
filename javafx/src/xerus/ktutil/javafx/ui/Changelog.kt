@@ -35,7 +35,7 @@ class Changelog(private vararg val notes: String) {
 	private val versions = ArrayList<Version>()
 	
 	fun version(major: Int, minor: Int, title: String, vararg minorChanges: String) = version("$major.$minor", title, *minorChanges)
-
+	
 	fun version(id: String, title: String, vararg minorChanges: String) = Version(id, title, *minorChanges).also { versions.add(it) }
 	
 	fun show(parent: Window) {

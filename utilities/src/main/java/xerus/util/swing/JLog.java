@@ -6,23 +6,25 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class JLog extends JTextArea implements LogArea {
-
+	
 	public JLog() {
 		setEditable(false);
 		setLineWrap(true);
 		setWrapStyleWord(true);
 	}
-
-	/** add this to the parent<br>
+	
+	/**
+	 * add this to the parent<br>
 	 * only suppposed to be invoked once
-	 * @return a new JScrollPane that wraps this component */
+	 * @return a new JScrollPane that wraps this component
+	 */
 	public JScrollPane get() {
 		return new JScrollPane(this);
 	}
-
+	
 	@Override
 	public void appendText(String s) {
 		super.append(s);
 	}
-
+	
 }

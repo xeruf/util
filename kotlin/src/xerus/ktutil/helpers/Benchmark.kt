@@ -8,16 +8,16 @@ import kotlin.math.absoluteValue
 typealias Testable = (Double) -> Unit
 
 private fun Testable.test(param: Double, timeout: Long = Long.MAX_VALUE): Long =
-	runBlocking {
-		val job = launch {
-			Timer.start()
-			invoke(param)
+		runBlocking {
+			val job = launch {
+				Timer.start()
+				invoke(param)
+			}
+			withTimeoutOrNull(timeout) {
+				job.join()
+			} ?: return@runBlocking Long.MAX_VALUE
+			Timer.runtime()
 		}
-		withTimeoutOrNull(timeout) {
-			job.join()
-		} ?: return@runBlocking Long.MAX_VALUE
-		Timer.runtime()
-	}
 
 object Benchmark {
 	
@@ -52,7 +52,7 @@ object Benchmark {
 		var param = initialParam
 		var precision = initialPrecision
 		do {
-			if(doGC)
+			if (doGC)
 				System.gc()
 			val plusTime = testable.test(param + param * precision, time)
 			if (plusTime < time) {
@@ -61,7 +61,7 @@ object Benchmark {
 				precision *= 2
 				continue
 			}
-			if(doGC)
+			if (doGC)
 				System.gc()
 			val minusTime = testable.test(param - param * precision, time)
 			if (minusTime < time) {

@@ -48,15 +48,19 @@ inline fun Boolean.toInt() = to(1, 0)
 
 /** @return [ifTrue] when this is true, [ifFalse] when this is false */
 inline fun <T> Boolean.to(ifTrue: T, ifFalse: T) = if (this) ifTrue else ifFalse
+
 /** @return result of [ifTrue] when this is true, result of [ifFalse] when this is false */
 inline fun <T> Boolean.to(ifTrue: () -> T, ifFalse: () -> T) = if (this) ifTrue() else ifFalse()
 
 /** @return the [value] if true or else null */
 inline fun <T> Boolean.ifTrue(value: T) = to(value, null)
+
 /** @return result of [calc] if true or else null */
 inline fun <T> Boolean.ifTrue(calc: () -> T) = to(calc, { null })
+
 /** @return the [value] if false or else null */
 inline fun <T> Boolean.ifFalse(value: T) = to(null, value)
+
 /** @return result of [calc] if false or else null */
 inline fun <T> Boolean.ifFalse(calc: () -> T) = to({ null }, calc)
 

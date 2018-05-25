@@ -73,7 +73,7 @@ public class SimpleLogger extends Logger {
 	 * @param toSysout if a Handler to System.out should be added to a newly created logger
 	 */
 	public static SimpleLogger getLogger(Level loglevel, boolean toSysout) {
-		if(logger != null) {
+		if (logger != null) {
 			logger.setLevel(loglevel);
 			logger.config("Logger set to level " + loglevel);
 			return logger;

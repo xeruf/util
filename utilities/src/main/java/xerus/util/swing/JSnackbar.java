@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class JSnackbar extends JPanel implements ActionListener {
-
+	
 	private boolean permanent;
 	private JLabel textLabel;
 	
@@ -22,12 +22,12 @@ public class JSnackbar extends JPanel implements ActionListener {
 		x.addActionListener(this);
 		setVisible(visible);
 	}
-
+	
 	/** creates an inititally visible JSnackbar that will vanish when clicked away */
 	public JSnackbar(String info) {
 		this(info, false, true);
 	}
-
+	
 	/** creates an inititally invisible JSnackbar that will persist when clicked away */
 	public JSnackbar() {
 		this("", true, false);
@@ -42,7 +42,7 @@ public class JSnackbar extends JPanel implements ActionListener {
 		textLabel.setText(String.format(s, args));
 		this.setVisible(true);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (permanent) {
@@ -51,5 +51,5 @@ public class JSnackbar extends JPanel implements ActionListener {
 			this.getParent().remove(this);
 		}
 	}
-
+	
 }

@@ -21,5 +21,5 @@ public class Masker {
 			s = s.replace(mask + i, toMask[i]);
 		return s;
 	}
-
+	
 }

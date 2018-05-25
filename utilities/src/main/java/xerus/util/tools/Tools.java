@@ -100,7 +100,7 @@ public final class Tools {
 	// region NUMBERS
 	
 	private final static int[] powersOf10 = {1, 10, 100, 1000, 10000};
-
+	
 	/**
 	 * rounds a double to {@code n} decimal places
 	 */

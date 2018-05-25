@@ -32,19 +32,19 @@ public final class ConnectionTools {
 	public static void dumpResponse(HttpURLConnection connection) {
 		try {
 			if (connection.getResponseCode() % 100 != 5) {
-				for (Entry<String, List<String>> e : connection.getHeaderFields().entrySet()) {
+				for (Entry<String,List<String>> e : connection.getHeaderFields().entrySet()) {
 					System.out.println(e);
 				}
 			}
 			Tools.dumpStream(connection.getInputStream());
-		} catch (IOException e1) {
+		} catch(IOException e1) {
 			Tools.dumpStream(connection.getErrorStream());
 		}
 	}
 	
 	public static class HTTPQuery<T extends HTTPQuery> {
 		
-		private Map<String, List<String>> query;
+		private Map<String,List<String>> query;
 		
 		public HTTPQuery(String... queries) {
 			query = new HashMap<>();

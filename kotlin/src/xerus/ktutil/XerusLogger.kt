@@ -105,7 +105,7 @@ object XerusLogger : Logger("xerus.xeruslogger", null) {
 	}
 	
 	fun addOutputStream(out: OutputStream) =
-		createHandler(out).also { addHandler(it) }
+			createHandler(out).also { addHandler(it) }
 	
 	private fun createHandler(out: OutputStream): StreamHandler {
 		val handler = object : StreamHandler(out, ShortFormatter()) {

@@ -4,13 +4,7 @@ import java.lang.ref.SoftReference
 import java.lang.ref.WeakReference
 import java.util.ArrayList
 import java.util.NoSuchElementException
-import kotlin.collections.AbstractMutableCollection
 import kotlin.collections.HashMap
-import kotlin.collections.MutableIterator
-import kotlin.collections.addAll
-import kotlin.collections.filterTo
-import kotlin.collections.forEachIndexed
-import kotlin.collections.toTypedArray
 
 class Cache<T, V> {
 	
@@ -37,7 +31,7 @@ class WeakCollection<E>(size: Int = 4, val growFactor: Float = 1.6f) : AbstractM
 		get() = lastindex + 1
 	
 	override fun add(element: E): Boolean {
-		if(elements.size > size) {
+		if (elements.size > size) {
 			insertAt(element, size)
 			return true
 		}
@@ -58,8 +52,8 @@ class WeakCollection<E>(size: Int = 4, val growFactor: Float = 1.6f) : AbstractM
 	fun ensureSize(newSize: Int) {
 		val new = arrayOfNulls<WeakReference<E>>((newSize + 2).coerceAtLeast((size * growFactor).toInt()))
 		var i = -1
-		for(element in elements) {
-			if(!element.isEmpty()) {
+		for (element in elements) {
+			if (!element.isEmpty()) {
 				i++
 				new[i] = element
 			}
@@ -103,9 +97,9 @@ class WeakCollection<E>(size: Int = 4, val growFactor: Float = 1.6f) : AbstractM
 			
 			private var next: E? = null
 			override fun hasNext(): Boolean {
-				while(next == null) {
+				while (next == null) {
 					cursor++
-					if(cursor > lastindex)
+					if (cursor > lastindex)
 						return false
 					next = elements[cursor]?.get()
 				}

@@ -50,5 +50,5 @@ public interface SwingSetting extends Setting {
 		box.addActionListener(a -> putMulti(key, box.isSelected()));
 		return box;
 	}
-
+	
 }

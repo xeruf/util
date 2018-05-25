@@ -44,7 +44,7 @@ fun formattedTime(): String {
 fun formatTime(seconds: Int, format: String = "%02d:%02d:%02d") =
 		format.format(seconds % 86400 / 3600, seconds % 3600 / 60, seconds % 60)
 
-fun formatTimeDynamic(seconds: Int, orientation: Int = seconds)  =
+fun formatTimeDynamic(seconds: Int, orientation: Int = seconds) =
 		when {
 			orientation > 3600 -> formatTime(seconds)
 			orientation > 60 -> formatTime(seconds, "%2$02d:%3$02d")
