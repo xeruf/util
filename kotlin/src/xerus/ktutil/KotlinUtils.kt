@@ -81,7 +81,7 @@ fun <T> T?.testString(): String = when (this) {
 	else -> toString()
 }
 
-inline fun <T> T.printNamed(name: Any? = null) =
+inline fun <T> T.printIt(name: Any? = null) =
 		apply { testString().let { println(if (name != null) "$name: $it" else it) } }
 
 // Other

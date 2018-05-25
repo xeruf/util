@@ -1,13 +1,9 @@
 package xerus.ktutil.javafx.ui
 
-import javafx.scene.Scene
 import javafx.scene.control.ScrollPane
 import javafx.scene.image.Image
-import javafx.stage.Stage
 import javafx.stage.Window
-import xerus.ktutil.getResource
 import xerus.ktutil.javafx.createStage
-import xerus.ktutil.javafx.initWindowOwner
 import xerus.ktutil.javafx.ui.controls.LogTextFlow
 
 class Version(val version: String, val title: String, vararg minorChanges: String) {

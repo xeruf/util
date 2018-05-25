@@ -1,7 +1,7 @@
 package xerus.ktutil.javafx.ui.controls
 
 import javafx.scene.control.TextArea
-import xerus.ktutil.javafx.checkJFX
+import xerus.ktutil.javafx.checkFx
 import xerus.ktutil.ui.Loggable
 
 class LogTextArea : TextArea(), Loggable {
@@ -12,6 +12,6 @@ class LogTextArea : TextArea(), Loggable {
     }
 
     override fun appendText(text: String) =
-            checkJFX { super.appendText(text) }
+            checkFx { super.appendText(text) }
 
 }

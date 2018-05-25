@@ -2,15 +2,16 @@ package xerus.util.javafx;
 
 import xerus.util.tools.Tools;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
 import javafx.css.CssMetaData;
 import javafx.css.Styleable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class JFXTools {
 	

@@ -1,6 +1,6 @@
 package xerus.ktutil.helpers
 
-import java.util.HashMap
+import java.util.*
 
 class DistributedRandom<T> {
 

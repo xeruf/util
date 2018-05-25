@@ -1,11 +1,11 @@
 package xerus.util.javafx;
 
+import xerus.util.ui.LogArea;
+
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-
-import xerus.util.ui.LogArea;
 
 public class LogTextArea extends VBox implements LogArea {
 	

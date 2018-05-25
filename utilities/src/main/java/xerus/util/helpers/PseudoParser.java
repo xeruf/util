@@ -1,11 +1,11 @@
 package xerus.util.helpers;
 
-import static org.apache.commons.lang3.StringUtils.split;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+
+import static org.apache.commons.lang3.StringUtils.split;
 
 public class PseudoParser {
 	

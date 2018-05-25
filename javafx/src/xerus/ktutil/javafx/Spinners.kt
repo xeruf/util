@@ -1,6 +1,5 @@
 package xerus.ktutil.javafx
 
-import javafx.beans.property.Property
 import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory
 import javafx.util.converter.LocalTimeStringConverter

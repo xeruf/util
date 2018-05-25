@@ -19,7 +19,6 @@ import javafx.scene.control.CheckBoxTreeItem
 import javafx.scene.control.TreeItem
 import javafx.scene.control.cell.CheckBoxTreeCell
 import xerus.ktutil.javafx.properties.bind
-import xerus.ktutil.javafx.properties.bindSoft
 import xerus.ktutil.nullIfEmpty
 import java.util.concurrent.Callable
 import java.util.function.Predicate

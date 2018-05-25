@@ -1,6 +1,8 @@
 package xerus.ktutil.helpers
 
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.experimental.withTimeoutOrNull
 import kotlin.math.absoluteValue
 
 typealias Testable = (Double) -> Unit

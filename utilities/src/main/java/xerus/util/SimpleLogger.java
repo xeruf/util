@@ -1,7 +1,6 @@
 package xerus.util;
 
 import xerus.util.tools.Tools;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.io.OutputStream;

@@ -1,9 +1,9 @@
 package xerus.util.swing;
 
+import xerus.util.ui.LogArea;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import xerus.util.ui.LogArea;
 
 public class JLog extends JTextArea implements LogArea {
 

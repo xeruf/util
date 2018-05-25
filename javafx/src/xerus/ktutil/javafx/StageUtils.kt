@@ -28,7 +28,7 @@ fun Stage.setPositionRelativeTo(other: Window) {
 		if (disabled) return@setOnShown
 		val newx = (other.x + other.width / 2 - width / 2).toInt().toDouble()
 		val newy = (other.y + other.height / 2 - height / 2).toInt().toDouble()
-		onJFX {
+		onFx {
 			disabled = true
 			hide()
 			x = newx; y = newy

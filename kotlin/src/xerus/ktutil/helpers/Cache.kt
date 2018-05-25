@@ -4,6 +4,13 @@ import java.lang.ref.SoftReference
 import java.lang.ref.WeakReference
 import java.util.ArrayList
 import java.util.NoSuchElementException
+import kotlin.collections.AbstractMutableCollection
+import kotlin.collections.HashMap
+import kotlin.collections.MutableIterator
+import kotlin.collections.addAll
+import kotlin.collections.filterTo
+import kotlin.collections.forEachIndexed
+import kotlin.collections.toTypedArray
 
 class Cache<T, V> {
 	

@@ -7,9 +7,6 @@
  * implementation *******************************************************************************/
 package xerus.util.javafx;
 
-import java.lang.reflect.Field;
-import java.util.function.Predicate;
-
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -20,6 +17,8 @@ import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.CheckBoxTreeItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.cell.CheckBoxTreeCell;
+import java.lang.reflect.Field;
+import java.util.function.Predicate;
 
 /**
  * An extension of {@link TreeItem} with the possibility to filter its children. To enable filtering it is necessary to

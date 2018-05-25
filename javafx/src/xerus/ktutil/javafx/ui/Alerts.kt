@@ -6,7 +6,7 @@ import javafx.scene.control.ButtonType
 import javafx.stage.Stage
 import javafx.stage.Window
 import xerus.ktutil.javafx.bindStylesheets
-import xerus.ktutil.javafx.checkJFX
+import xerus.ktutil.javafx.checkFx
 import xerus.ktutil.javafx.setPositionRelativeTo
 
 interface MessageDisplay {
@@ -25,7 +25,7 @@ interface JFXMessageDisplay : MessageDisplay {
 	val window: Window
 	
 	override fun showMessage(message: Any, title: String?, type: AlertType) {
-		checkJFX {
+		checkFx {
 			showAlert(type, title = title, content = message.toString())
 		}
 	}

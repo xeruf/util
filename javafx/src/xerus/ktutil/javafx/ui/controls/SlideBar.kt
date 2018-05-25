@@ -4,19 +4,20 @@ import javafx.beans.property.DoubleProperty
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.Slider
 import javafx.scene.layout.StackPane
-import xerus.ktutil.javafx.onJFX
+import xerus.ktutil.javafx.onFx
 import xerus.ktutil.javafx.properties.bindSoft
+import xerus.ktutil.javafx.scrollable
 import xerus.ktutil.javafx.setSize
 
 class SlideBar(width: Int? = null) : StackPane() {
 
-    val slider = Slider(0.0, 1.0, 0.0).apply {
+    val slider = Slider(0.0, 1.0, 0.0).scrollable(0.1).apply {
         setSize(width = width?.toDouble())
     }
 
     private val progressBar = ProgressBar(0.0).apply {
         slider.widthProperty().addListener { _, _, new -> prefWidth = new.toDouble() }
-        onJFX {
+        onFx {
             prefWidth = slider.width
         }
     }

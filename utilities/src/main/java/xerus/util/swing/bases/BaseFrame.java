@@ -1,9 +1,8 @@
 package xerus.util.swing.bases;
 
+import javax.swing.*;
 import java.awt.Component;
 import java.awt.Dimension;
-
-import javax.swing.*;
 
 public abstract class BaseFrame extends JFrame {
 

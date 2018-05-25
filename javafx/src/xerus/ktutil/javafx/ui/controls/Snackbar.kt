@@ -7,7 +7,7 @@ import javafx.scene.control.Control
 import javafx.scene.control.Label
 import javafx.scene.control.Labeled
 
-class Snackbar(fromTop: Boolean = false) : FadingHBox(false, fromTop, 25) {
+class Snackbar(fromTop: Boolean = false) : FadingHBox(false, if(fromTop) -1.0 else 1.0, 25) {
 
     val child: Node
         get() = children[1]

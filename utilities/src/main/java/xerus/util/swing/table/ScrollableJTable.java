@@ -1,10 +1,9 @@
 package xerus.util.swing.table;
 
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-
-import javax.swing.*;
 
 public class ScrollableJTable extends JPanel {
 	

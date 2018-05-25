@@ -1,18 +1,10 @@
 package xerus.util.swing.bases;
 
+import xerus.util.swing.SwingTools;
+
+import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Font;
-
-import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
-import xerus.util.swing.SwingTools;
 
 /**
  * Base class for a simple, dynamic interface using GridBagLayout <br/>

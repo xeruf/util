@@ -1,7 +1,7 @@
 package xerus.ktutil.helpers
 
-import xerus.ktutil.reflectField
 import xerus.ktutil.joinEnumeration
+import xerus.ktutil.reflectField
 
 private val fieldParser = PseudoParser('%')
 private val bracketParser = PseudoParser('{', '}')
