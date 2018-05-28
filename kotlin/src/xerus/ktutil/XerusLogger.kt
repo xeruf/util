@@ -69,14 +69,23 @@ object XerusLogger : Logger("xerus.xeruslogger", null) {
 		val prefs = suppressErr { Preferences.userRoot().node("/xerus") }
 		var default = prefs.get("loglevel", defaultLevel)
 		
-		if (args.size > 1 && args[1] == "save") {
-			prefs.put("loglevel", args[0].toLowerCase())
-			default = args[0]
+		val l = args.indexOf("--loglevel")
+		var level = default
+		if (l > -1) {
+			if (args.size < l + 2)
+				System.err.println("No loglevel provided!")
+			else {
+				level = args[l + 1]
+				if (args.contains("--save") && level != default) {
+					prefs.put("loglevel", level)
+					default = level
+				}
+			}
 		}
-		invoke(if (args.isNotEmpty() && args[0].isNotBlank()) args[0] else default)
+		invoke(level)
 		logLines(Level.CONFIG,
-				"This application can be launched from console using \"java -jar %jarname%.jar %LogLevel%\" (wrapped in % signs are placeholders that should be replaced by their appropriate value)",
-				"LogLevel can be one of: OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST. Appending the argument \"save\" will result in the given LogLevel becoming the default, which is currently ${default.toUpperCase()}")
+				"This application can be launched from console using \"java -jar %jarname%.jar --loglevel %LogLevel%\" (wrapped in % signs are placeholders that should be replaced by their appropriate value)",
+				"LogLevel can be one of: OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST. Appending the argument \"--save\" will result in the given LogLevel becoming the default, which is currently ${default.toUpperCase()}")
 		return this
 	}
 	
