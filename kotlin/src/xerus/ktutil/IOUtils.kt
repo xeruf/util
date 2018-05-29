@@ -36,6 +36,18 @@ fun File?.findFolder(): File {
 	return file ?: File(System.getProperty("user.dir"))
 }
 
+/** waits until the backup file is gone and then creates a backup file before performing the operation */
+fun <T> File.safe(operation: File.() -> T): T {
+	val sibling = resolveSibling("$name~")
+	while(!sibling.createNewFile())
+		Thread.sleep(10)
+	if(this.exists())
+		sibling.writeText(readText())
+	val result = operation(this)
+	sibling.delete()
+	return result
+}
+
 fun String.replaceIllegalFileChars() =
 		replace(":", " -").replace('|', '-').replace('/', '-').trim()
 
@@ -44,7 +56,7 @@ fun String.replaceIllegalFileChars() =
 fun File.write(line: Int, text: String) {
 	val lines = readLines()
 	if (line >= lines.size) {
-		appendText("\n".repeat(line - lines.size) + text)
+		appendText("\n".repeat(line - lines.size + hasNewline.to(0, 1)) + text)
 	} else {
 		val old = File("$name.old")
 		renameTo(old)
@@ -85,6 +97,20 @@ fun InputStream.copyTo(out: OutputStream, closeIn: Boolean = false, closeOut: Bo
 	}
 }
 
+val File.hasNewline: Boolean
+	get() {
+		RandomAccessFile(this, "r").use {
+			val fileLength = it.length() - 1;
+			if (fileLength < 0)
+				return true;
+			it.seek(fileLength);
+			val lastByte = it.readByte().toInt();
+			return lastByte == 0xA || lastByte == 0xD;
+		}
+	}
+
+// Serialization
+
 fun writeObject(file: File, obj: Any) {
 	ObjectOutputStream(FileOutputStream(file)).use { oos ->
 		oos.writeObject(obj)
@@ -95,4 +121,3 @@ fun writeObject(file: File, obj: Any) {
 @Suppress("Unchecked_cast")
 inline fun <reified T : Any> readObject(file: File): T =
 		ObjectInputStream(FileInputStream(file)).use { ois -> return ois.readObject() as T }
-
