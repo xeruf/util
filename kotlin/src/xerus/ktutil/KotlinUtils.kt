@@ -41,6 +41,18 @@ fun Long.byteCountString(): String {
 	return String.format("%.1f %sB", this / Math.pow(unit.toDouble(), exp.toDouble()), prefix)
 }
 
+// Statistics
+
+tailrec fun Int.factorial(total: Double = 1.0): Double = if (this <= 1) total else (this - 1).factorial(total * this)
+
+tailrec fun Int.factorial(downTo: Int, total: Double = 1.0): Double = if (this <= downTo) total else (this - 1).factorial(downTo, total * this)
+
+fun binominalCD(k: Int, n: Int, p: Double = 0.5): Double =
+		(0..k).sumByDouble { binominalPD(it, n, p) }
+
+fun binominalPD(k: Int, n: Int, p: Double = 0.5) =
+		Math.pow(p, k.toDouble()) * Math.pow(1 - p, (n - k).toDouble()) * (n.factorial(k) / (n - k).factorial())
+
 // Basics
 
 /** @return 1 if true, 0 if false */
