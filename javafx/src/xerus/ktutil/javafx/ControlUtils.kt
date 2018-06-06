@@ -23,7 +23,7 @@ fun CheckBox.bind(property: Property<Boolean>) = apply { selectedProperty().bind
 
 fun <T> ComboBox<T>.select(item: T) = apply { selectionModel.select(item) }
 
-fun Slider.scrollable(step: Double) = this.apply {
+fun Slider.scrollable(step: Double = (max - min) / 20) = this.apply {
 	blockIncrement = step
 	setOnScroll {
 		if (it.touchCount > 0)

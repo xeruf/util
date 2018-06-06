@@ -1,5 +1,7 @@
 package xerus.ktutil.helpers
 
+fun originalPoints(inverted: Boolean) = if (inverted) Double.POSITIVE_INFINITY else Double.NEGATIVE_INFINITY
+
 open class Rater<X> constructor(
 		/** the current object of this Rater */
 		@JvmField
@@ -10,12 +12,12 @@ open class Rater<X> constructor(
 		/** if true, then objects with less points will be preferred */
 		private val inverted: Boolean = false) : Comparable<Rater<X>> {
 	
-	constructor(invert: Boolean = false) : this(null, if (invert) Double.MAX_VALUE else -Double.MAX_VALUE, invert)
+	constructor(invert: Boolean = false) : this(null, originalPoints(invert), invert)
 	
 	fun hasObj() = obj != null
 	
 	fun clear() {
-		points = if (inverted) Double.MAX_VALUE else -Double.MAX_VALUE
+		points = originalPoints(inverted)
 		obj = null
 	}
 	
@@ -32,7 +34,7 @@ open class Rater<X> constructor(
 	
 	fun update(other: Rater<X>, multiplier: Double = 1.0) = update(other.obj, other.points * multiplier)
 	
-	override fun compareTo(other: Rater<X>) = points.minus(other.points).times(10000).toInt()
+	override fun compareTo(other: Rater<X>) = points.compareTo(other.points)
 	
 	override fun toString() = "%s - Punkte: %.2f".format(obj, points)
 	

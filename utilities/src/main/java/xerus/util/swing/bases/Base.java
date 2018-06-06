@@ -54,7 +54,7 @@ public abstract class Base extends BasePanel {
 		scroll.setBorder(null);
 		reg(scroll);
 		SwingTools.addChangeListener(outLabel, c -> SwingUtilities.invokeLater(() -> scroll.getVerticalScrollBar().setValue(0)));
-		outLabel.setPreferredSize(new Dimension(500, 20));
+		scroll.setPreferredSize(new Dimension(500, 20));
 	}
 	
 	@Override

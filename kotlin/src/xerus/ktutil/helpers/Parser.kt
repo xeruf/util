@@ -3,7 +3,7 @@ package xerus.ktutil.helpers
 import xerus.ktutil.toInt
 import java.util.*
 
-class PseudoParser(startDelimiter: Char, endDelimiter: Char) {
+class Parser(startDelimiter: Char, endDelimiter: Char) {
 	
 	constructor(delimiter: Char) : this(delimiter, delimiter)
 	
@@ -13,7 +13,7 @@ class PseudoParser(startDelimiter: Char, endDelimiter: Char) {
 	 * parses the given String by applying the function to every String within the delimiters
 	 *
 	 * @return the results of the unparsed sections concatenated with the results of the function
-	 * @throws ParserException wraps the function when it throws an Exception
+	 * @throws ParserException wraps any Exceptions thrown by the function
 	 */
 	fun parse(toParse: String, unparsed: (String) -> String = { it }, function: (String) -> String): String {
 		val split = delimiters.apply(toParse)
@@ -37,9 +37,8 @@ class PseudoParser(startDelimiter: Char, endDelimiter: Char) {
 	
 	/** Creates a Matcher from this Parser with the given String
 	 * @throws ParserException when the Matcher encounters errors while reading in the String to parse */
-	fun createMatcher(toParse: String, vararg keys: String): Matcher {
-		return Matcher(delimiters, toParse, *keys)
-	}
+	fun createMatcher(toParse: String, vararg keys: String): Matcher =
+			Matcher(delimiters, toParse, *keys)
 	
 	class Matcher @Throws(ParserException::class)
 	constructor(delimiters: Delimiters, toParse: String, vararg keys: String) {
@@ -111,16 +110,19 @@ class PseudoParser(startDelimiter: Char, endDelimiter: Char) {
 		
 	}
 	
-	class ParserException : Exception {
-		val match: String
-		
-		constructor(msg: String) : super("Error while parsing " + msg) {
-			match = msg
-		}
-		
-		constructor(msg: String, t: Throwable) : super("Error while parsing " + msg, t) {
-			match = msg
-		}
+}
+
+
+class ParserException : Exception {
+	
+	val match: String
+	
+	constructor(msg: String) : super("Error while parsing $msg") {
+		match = msg
+	}
+	
+	constructor(msg: String, t: Throwable) : super("Error while parsing $msg", t) {
+		match = msg
 	}
 	
 }
