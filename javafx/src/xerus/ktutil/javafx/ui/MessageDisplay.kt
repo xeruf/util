@@ -43,9 +43,11 @@ fun Window?.createAlert(type: Alert.AlertType, title: String? = null, header: St
 				it.initWindowOwner(this)
 		}
 
+val Alert.stage
+	get() = dialogPane.scene.window as Stage
+
 fun Alert.initWindowOwner(window: Window) {
 	initOwner(window)
-	val stage = dialogPane.scene.window as? Stage ?: return
 	stage.setPositionRelativeTo(window)
 	if (window is Stage)
 		stage.bindStylesheets(window)

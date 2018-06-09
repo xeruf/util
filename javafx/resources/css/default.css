@@ -24,4 +24,5 @@
 
 .slide-bar .slider .track {
     -fx-background-color: null;  /* Hide the track */
+    -fx-padding: 10;
 }

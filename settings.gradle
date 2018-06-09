@@ -1,2 +1,2 @@
-rootProject.name = 'Util'
+rootProject.name = 'util'
 include 'kotlin', 'javafx', 'utilities', 'test'

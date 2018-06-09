@@ -13,6 +13,10 @@ inline fun String?.nullIfEmpty() = if (isNullOrEmpty()) null else this
 
 fun String.containsAny(vararg sequences: CharSequence) = sequences.any { contains(it, true) }
 
+fun List<Any>.joinEnumeration(): String =
+		if (size == 1) get(0).toString()
+		else "%s & %s".format(slice(0..size - 2).joinToString(), last())
+
 fun joinEnumeration(vararg sequences: Any): String =
 		if (sequences.size == 1) sequences[0].toString()
 		else "%s & %s".format(sequences.slice(0..sequences.size - 2).joinToString(), sequences.last())
@@ -22,6 +26,9 @@ fun joinEnumeration(vararg sequences: Any): String =
 inline fun Boolean.toInt() = if (this) 1 else 0
 
 inline fun <T, U> T.pair(function: T.() -> U): Pair<T, U> = Pair(this, this.run(function))
+
+inline fun <T> T?.ifNull(runnable: () -> Unit) = also { if(it==null) runnable() }
+inline fun <T> T?.ifNotNull(runnable: (T) -> Unit) = also { if(it!=null) runnable(it) }
 
 // DEBUG
 

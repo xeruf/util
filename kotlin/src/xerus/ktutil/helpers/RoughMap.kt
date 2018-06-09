@@ -1,7 +1,5 @@
 package xerus.ktutil.helpers
 
-import xerus.ktutil.XerusLogger
-
 class RoughMap<V : Any> {
 	
 	val keys = ArrayList<String>()

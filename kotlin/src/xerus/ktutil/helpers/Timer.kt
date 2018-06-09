@@ -44,7 +44,7 @@ class Timer {
             if (millis < 10000)
                 res.append(millis).append("m")
             else
-                res.append(millis / 100 / 10.0)
+                res.append(millis / 1000)
             return res.append("s").toString()
         }
     }

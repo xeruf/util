@@ -40,6 +40,8 @@ fun Region.setSize(width: Double? = null, height: Double? = null) {
 	}
 }
 
+fun <T : Control> T.tooltip(string: String) = apply { tooltip = Tooltip(string) }
+
 fun <T : Labeled> T.text(text: String) = also { it.text = text }
 inline fun <T : ButtonBase> T.onClick(crossinline runnable: T.() -> Unit) = apply {
 	setOnAction { runnable(this) }
@@ -137,3 +139,5 @@ fun String?.textWidth(font: Font) =
 
 fun Scene.printSize() = printWith { it.height.toString() + " " + it.width }
 fun Region.printSize() = printWith { it.height.toString() + " " + it.width }
+
+fun TextField.placeholder(prompt: String) = apply { promptText = prompt }

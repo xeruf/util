@@ -5,7 +5,8 @@ import javafx.scene.layout.Region
 import javafx.util.Duration
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
-import xerus.ktutil.javafx.*
+import xerus.ktutil.javafx.onJFX
+import xerus.ktutil.javafx.setSize
 
 interface Fadable {
     val fader: SimpleTransition<Region>
@@ -41,8 +42,8 @@ interface Fadable {
 
 }
 
-fun Region.verticalTransition(seconds: Double, targetHeight: Int): SimpleTransition<Region>
-    = SimpleTransition(this, Duration.seconds(seconds), { frac -> setSize(height = targetHeight * frac); opacity = frac }, false, { isVisible = opacity > 0.1 })
+fun Region.verticalTransition(targetHeight: Int, seconds: Double = 0.4): SimpleTransition<Region>
+    = SimpleTransition(this, Duration.seconds(seconds), { frac -> setSize(height = targetHeight * frac); translateY = -targetHeight * (1-frac); opacity = frac; isVisible = opacity > 0.0 }, false)
 
 open class SimpleTransition<out T>(internal val target: T, time: Duration, private val function: T.(pos: Double) -> Unit, instantPlay: Boolean = true, private val onComplete: (T.() -> Unit)? = null) : Transition() {
     var playing: Boolean = instantPlay

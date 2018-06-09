@@ -36,7 +36,9 @@ class Changelog(private vararg val notes: String) {
 	
 	private val versions = ArrayList<Version>()
 	
-	fun version(major: Int, minor: Int, title: String, vararg minorChanges: String) = Version("%s.%s".format(major, minor), title, *minorChanges).also { versions.add(it) }
+	fun version(major: Int, minor: Int, title: String, vararg minorChanges: String) = version("$major.$minor", title, *minorChanges)
+
+	fun version(id: String, title: String, vararg minorChanges: String) = Version(id, title, *minorChanges).also { versions.add(it) }
 	
 	fun show(parent: Window) {
 		val text = LogTextFlow()
@@ -64,7 +66,7 @@ class Changelog(private vararg val notes: String) {
 			for (version in versions) {
 				for (patch in version.patches.withIndex().reversed()) {
 					appendln(version.version + "." + (patch.index + 1))
-					patch.value.forEach { appendln(" - " + it) }
+					patch.value.forEach { appendln(" - $it") }
 					appendln()
 				}
 				

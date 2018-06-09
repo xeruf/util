@@ -36,7 +36,7 @@ open class Rater<X> @JvmOverloads constructor(
     fun update(other: Rater<X>) = update(other.obj, other.points)
     fun update(other: Rater<X>, multiplier: Double) = update(other.obj, other.points * multiplier)
 
-    override fun toString() = obj.toString() + " - Punkte: " + points
+    override fun toString() = "%s - Punkte: %.2f".format(obj, points)
 
     override fun equals(other: Any?) =
             other is Rater<*> && other.points == this.points && other.obj == other

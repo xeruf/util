@@ -72,7 +72,7 @@ object XerusLogger : Logger("xerus.xeruslogger", null) {
 			prefs.put("loglevel", args[0].toLowerCase())
 			default = args[0]
 		}
-		invoke(if (args.isNotEmpty()) args[0] else default)
+		invoke(if (args.isNotEmpty() && args[0].isNotBlank()) args[0] else default)
 		logLines(Level.CONFIG,
 				"This application can be launched from console using \"java -jar %jarname%.jar %LogLevel%\" (wrapped in % signs are placeholders that should be replaced by their appropriate value)",
 				"LogLevel can be one of: OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST. Appending the argument \"save\" will result in the given LogLevel becoming the default, which is currently ${default.toUpperCase()}")
