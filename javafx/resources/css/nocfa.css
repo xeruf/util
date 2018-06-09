@@ -53,10 +53,10 @@
 	-fx-background-image: url(nocfa/refresh_hover.png);
 }
 
-#close {
+#close, .x {
 	-fx-background-image: url(nocfa/close.png);
 }
-#close:hover {
+#close:hover, .x:hover {
 	-fx-background-image: url(nocfa/close_hover.png);
 }
 

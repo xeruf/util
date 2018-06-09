@@ -3,7 +3,7 @@ package xerus.ktutil.helpers
 import java.util.*
 
 /** Implementation of ArrayList which prohibits double Elements  */
-class ArraySet<E>() : ArrayList<E>(), Set<E> {
+class ArraySet<E>() : ArrayList<E>(), MutableSet<E> {
 	
 	constructor(list: Collection<E>) : this() {
 		addAll(list)

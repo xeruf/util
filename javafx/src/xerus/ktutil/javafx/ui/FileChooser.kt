@@ -10,20 +10,21 @@ import javafx.stage.FileChooser
 import javafx.stage.Window
 import xerus.ktutil.findFolder
 import xerus.ktutil.javafx.createButton
-import xerus.ktutil.javafx.spacing
 import java.io.File
+import java.nio.file.Path
 
-/**
- * @param extension the extension for the filter - when null, then it will only allow directories */
+/** @param extension the extension for the filter
+ * - when null, then it will only allow directories
+ * - when it is empty, any file will be allowed */
 class FileChooser(private val window: Window, initialDir: File, private val extension: String?, private val name: String) {
 	
 	val selectedFile = SimpleObjectProperty<File>(initialDir)
 	
-	val hBox: HBox
-		get() {
-			HBox.setHgrow(textField, Priority.ALWAYS)
-			return HBox(5.0, textField, button)
-		}
+	val file: File
+		get() = selectedFile.get()
+	
+	val path: Path
+		get() = file.toPath()
 	
 	val button: Button by lazy {
 		createButton("Select $name", { showFileChooser() })
@@ -38,8 +39,11 @@ class FileChooser(private val window: Window, initialDir: File, private val exte
 					selectedFile.set(newFile)
 			}
 			maxWidth = Double.MAX_VALUE
+			HBox.setHgrow(this, Priority.ALWAYS)
 		}
 	}
+	
+	fun createHBox() = HBox(5.0, textField, button)
 	
 	var title = "Select $name"
 	fun showFileChooser() {
@@ -52,7 +56,7 @@ class FileChooser(private val window: Window, initialDir: File, private val exte
 			val chooser = FileChooser()
 			chooser.initialDirectory = findFolder(selectedFile.get())
 			if (extension.isNotEmpty())
-				chooser.extensionFilters.add(FileChooser.ExtensionFilter(extension.toUpperCase(), "*." + extension))
+				chooser.extensionFilters.add(FileChooser.ExtensionFilter(extension.toUpperCase(), "*.$extension"))
 			chooser.title = title
 			chooser.showOpenDialog(window)
 		}

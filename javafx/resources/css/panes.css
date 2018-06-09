@@ -8,7 +8,7 @@ GridPane {
 	-fx-vgap: 3;
 }
 
-SearchView {
+SearchView, ExpandableView {
 	-fx-hgap: 3;
 	-fx-vgap: 3;
 	-fx-padding: 2;
