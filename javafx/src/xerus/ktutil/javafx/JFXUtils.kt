@@ -27,6 +27,7 @@ inline fun checkJFX(crossinline run: () -> Unit) {
 
 inline fun onJFX(crossinline run: () -> Unit) = Platform.runLater { run() }
 
+fun <T : Node> T.styleClass(styleClass: String): T = this.apply { getStyleClass().add(styleClass) }
 fun <T : Node> T.id(id: String): T = this.apply { setId(id) }
 
 fun Region.setSize(width: Double? = null, height: Double? = null) {

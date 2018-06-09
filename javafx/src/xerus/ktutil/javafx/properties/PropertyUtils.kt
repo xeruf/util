@@ -3,15 +3,10 @@ package xerus.ktutil.javafx.properties
 import javafx.beans.InvalidationListener
 import javafx.beans.Observable
 import javafx.beans.binding.Bindings
-import javafx.beans.binding.ObjectBinding
 import javafx.beans.property.Property
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
 import javafx.beans.value.WritableValue
-import javafx.collections.FXCollections
-import jdk.nashorn.internal.objects.NativeFunction.function
-import sun.misc.ExtensionDependency
-import java.util.*
 import java.util.concurrent.Callable
 
 fun <T> Property<T>.bind(callable: () -> T, vararg dependencies: Observable): Property<T> {
@@ -19,17 +14,17 @@ fun <T> Property<T>.bind(callable: () -> T, vararg dependencies: Observable): Pr
 	return this
 }
 
-fun <T, U> Property<T>.bindBidirectional(other: Property<U> , converterToOther: (T) -> U, converterFromOther: (U) -> T): Property<T> {
+fun <T, U> Property<T>.bindBidirectional(other: Property<U>, converterToOther: (T) -> U, converterFromOther: (U) -> T): Property<T> {
 	var working = false
 	addListener { _, _, new ->
-		if(!working) {
+		if (!working) {
 			working = true
 			other.value = converterToOther(new)
 			working = false
 		}
 	}
 	other.addListener { _, _, new ->
-		if(!working) {
+		if (!working) {
 			working = true
 			value = converterFromOther(new)
 			working = false
@@ -71,5 +66,5 @@ fun Observable.addOneTimeListener(runnable: () -> Unit) = addListener(object : I
 })
 
 fun <T> ObservableValue<T>.listen(listener: (T) -> Unit) =
-	addListener { _, _, new -> listener(new) }
+		addListener { _, _, new -> listener(new) }
 

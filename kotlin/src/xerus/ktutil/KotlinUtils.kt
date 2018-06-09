@@ -9,6 +9,7 @@ import java.util.*
 
 /** If this String is null or empty, other is returned, else this */
 inline fun String?.or(other: String) = if (this.isNullOrEmpty()) other else this!!
+
 inline fun String?.nullIfEmpty() = if (isNullOrEmpty()) null else this
 
 fun String.containsAny(vararg sequences: CharSequence) = sequences.any { contains(it, true) }
@@ -27,8 +28,8 @@ inline fun Boolean.toInt() = if (this) 1 else 0
 
 inline fun <T, U> T.pair(function: T.() -> U): Pair<T, U> = Pair(this, this.run(function))
 
-inline fun <T> T?.ifNull(runnable: () -> Unit) = also { if(it==null) runnable() }
-inline fun <T> T?.ifNotNull(runnable: (T) -> Unit) = also { if(it!=null) runnable(it) }
+inline fun <T> T?.ifNull(runnable: () -> Unit) = also { if (it == null) runnable() }
+inline fun <T> T?.ifNotNull(runnable: (T) -> Unit) = also { if (it != null) runnable(it) }
 
 // DEBUG
 
@@ -46,7 +47,7 @@ inline fun <T> T.printNamed(name: Any? = null) = apply { testString().let { prin
 inline fun <C: Collection<T>, T> C?.nullIfEmpty() = this?.takeUnless { it.isEmpty() }
 
 inline fun <T> List<T>.getReverse(index: Int): T =
-	this[size - 1 - index]
+		this[size - 1 - index]
 
 inline fun <E> MutableList<E>.removeLast() = this.removeAt(this.size - 1)
 
@@ -74,4 +75,13 @@ fun Any.getField(field: String): Any = javaClass.getField(field).get(this)
 fun String.toLocalDate(): LocalDate? {
 	val split = split("-").map { it.toIntOrNull() ?: return null }
 	return LocalDate.of(split[0], split[1], split[2])
+}
+
+/** calls [action] with all values from [start], inclusive, to [end], exclusive */
+inline fun forRange(start: Int, end: Int, action: (Int) -> Unit) {
+	var i = start
+	while (i < end) {
+		action(i)
+		i++
+	}
 }
