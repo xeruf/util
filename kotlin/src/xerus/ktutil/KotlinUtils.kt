@@ -43,7 +43,7 @@ inline fun <T> T.printNamed(name: Any? = null) = apply { testString().let { prin
 
 // COLLECTIONS
 
-inline fun <T> Collection<T>?.nullIfEmpty() = this?.takeUnless { it.isEmpty() }
+inline fun <C: Collection<T>, T> C?.nullIfEmpty() = this?.takeUnless { it.isEmpty() }
 
 inline fun <T> List<T>.getReverse(index: Int): T =
 	this[size - 1 - index]

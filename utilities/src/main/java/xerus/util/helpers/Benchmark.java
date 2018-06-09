@@ -11,29 +11,29 @@ public abstract class Benchmark {
 		}
 	}
 	
-	public static void test(int param, method... torun) {
-		for (method method : torun) {
+	public static void test(int param, Testable... torun) {
+		for (Testable testable : torun) {
 			System.gc();
-			output(method.test(param), param);
+			output(testable.test(param), param);
 		}
 	}
 	
-	public static int optimise(int param, method consumer) {
+	public static int optimise(int param, Testable consumer) {
 		int precision = 2;
 		long time = consumer.test(param);
 		output(time, param, precision);
 		do {
 			System.gc();
-			long time1 = consumer.test(param + param / precision);
-			if (time1 < time) {
+			long newTime = consumer.test(param + param / precision);
+			if (newTime < time) {
 				param += param / precision;
-				time = time1;
+				time = newTime;
 				continue;
 			}
-			time1 = consumer.test(param - param / precision);
-			if (time1 < time) {
+			newTime = consumer.test(param - param / precision);
+			if (newTime < time) {
 				param -= param / precision;
-				time = time1;
+				time = newTime;
 				continue;
 			}
 			precision *= 2;
@@ -45,22 +45,22 @@ public abstract class Benchmark {
 	private static void output(long... values) {
 		StringBuilder sb = new StringBuilder("Time: " + values[0]);
 		if (values.length > 1) {
-			sb.append("Parameter: " + values[1]);
+			sb.append("Parameter: ").append(values[1]);
 			if (values.length > 2)
-				sb.append("Precision: " + values[2]);
+				sb.append("Precision: ").append(values[2]);
 		}
 		System.out.println(sb.toString());
 	}
 	
-	public interface method {
+	public interface Testable {
 		
-		public default long test(int param) {
+		default long test(int param) {
 			Timer.start();
 			perform(param);
 			return Timer.runtime();
 		}
 		
-		abstract void perform(int param);
+		void perform(int param);
 		
 	}
 	

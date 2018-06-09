@@ -23,8 +23,8 @@ class App : Application() {
         private lateinit var stager: (Stage) -> Unit
         private lateinit var content: (() -> Scene)
 
-        fun launch(title: String = "Test", stager: ((Stage) -> Unit)? = null, generator: () -> Scene) {
-            this.content = generator
+        fun launch(title: String = "Test", stager: ((Stage) -> Unit)? = null, scene: () -> Scene) {
+            this.content = scene
             this.stager = { it.title = title; stager?.invoke(stage) }
             Application.launch(App::class.java)
         }

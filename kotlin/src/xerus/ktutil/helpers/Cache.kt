@@ -11,7 +11,7 @@ class Cache<T, V> {
 	
 	fun put(key: T, value: V) = map.put(key, SoftReference(value))
 	fun get(key: T) = map[key]?.get()
-	fun get(key: T, alternative: (T) -> V) = get(key) ?: alternative(key)
+	fun getOrPut(key: T, alternative: (T) -> V) = get(key) ?: alternative(key).also { put(key, it) }
 	
 }
 

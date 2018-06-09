@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     compile(kotlin("stdlib"))
-    compile("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "0.+")
+    compile("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "0.22.5")
 }
 
 java.sourceSets {
