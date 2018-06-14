@@ -1,7 +1,7 @@
 ext.kotlinVersion = "1.2.40"
 
 apply plugin: "maven"
-group = "com.github.fwcd" // TODO
+group = "com.github.Xerus2000"
 
 subprojects {
 	apply plugin: "idea"
