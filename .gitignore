@@ -4,3 +4,10 @@ out
 
 .gradle
 build
+
+bin
+*.class
+
+.project
+.classpath
+.settings
