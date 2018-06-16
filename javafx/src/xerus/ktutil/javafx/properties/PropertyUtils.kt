@@ -7,6 +7,7 @@ import javafx.beans.property.Property
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
 import javafx.beans.value.WritableValue
+import javafx.collections.ObservableList
 import java.util.concurrent.Callable
 
 fun <T> Property<T>.bind(callable: () -> T, vararg dependencies: Observable): Property<T> {
@@ -68,6 +69,9 @@ fun Observable.addOneTimeListener(runnable: () -> Unit) = addListener(object : I
 
 fun <T> ObservableValue<T>.listen(listener: (T) -> Unit) =
 		addListener { _, _, new -> listener(new) }
+
+fun <T> ObservableList<T>.listen(listener: (ObservableList<T>) -> Unit) =
+		addListener { _: Observable -> listener(this) }
 
 fun <T> Property<T>.setSilently(value: T, listenerToSilence: ChangeListener<T>) {
 	removeListener(listenerToSilence)

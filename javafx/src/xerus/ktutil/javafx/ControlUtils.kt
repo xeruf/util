@@ -23,6 +23,13 @@ fun CheckBox.bind(property: Property<Boolean>) = apply { selectedProperty().bind
 
 fun <T> ComboBox<T>.select(item: T) = apply { selectionModel.select(item) }
 
+fun CheckBoxTreeItem<*>.updateSelection() {
+	(children.firstOrNull() as? CheckBoxTreeItem)?.run {
+		isSelected = !isSelected
+		isSelected = !isSelected
+	} ?: run { isSelected = false }
+}
+
 fun Slider.scrollable(step: Double = (max - min) / 20) = this.apply {
 	blockIncrement = step
 	setOnScroll {

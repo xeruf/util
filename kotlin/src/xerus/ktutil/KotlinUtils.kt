@@ -102,6 +102,8 @@ inline fun <T> T.printIt(name: Any? = null) =
 
 // Other
 
+fun Throwable.str() = "${javaClass.simpleName}: $message"
+
 fun Any.reflectField(fieldName: String): Any = javaClass.getField(fieldName).get(this)
 
 fun String.toLocalDate(): LocalDate? {
