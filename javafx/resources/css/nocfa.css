@@ -21,6 +21,36 @@
 	-fx-background-image: url(nocfa/stop_hover.png);
 }
 
+/* Playlist controls */
+
+#shuffle:selected, #shuffleon {
+	-fx-background-image : url(nocfa/shuffle.png);
+}
+
+#shuffle, #shuffleoff {
+	-fx-background-image : url(nocfa/shuffle-disabled.png);
+}
+
+#shuffle:selected:hover, #shuffleon:hover {
+	-fx-background-image : url(nocfa/shuffle-hover.png);
+}
+
+#shuffle:hover, #shuffleoff:hover {
+	-fx-background-image : url(nocfa/shuffle-disabled-hover.png);
+}
+
+#repeat:selected, #repeaton {
+	-fx-background-image: url(nocfa/refresh.png);
+}
+
+#repeat:selected:hover, #repeaton:hover {
+	-fx-background-image: url(nocfa/refresh_hover.png);
+}
+
+#repeat, #repeatoff {
+	-fx-background-image: url(nocfa/repeat-disabled.png);
+}
+
 /* Playback advanced */
 
 #skip {
@@ -37,12 +67,13 @@
 	-fx-background-image: url(nocfa/skipb_hover.png);
 }
 
+/*
 #repeat {
 	-fx-background-image: url(nocfa/repeat.png);
 }
 #repeat:hover {
 	-fx-background-image: url(nocfa/repeat_hover.png);
-}
+}*/
 
 /* OTHER useful stuff */
 
