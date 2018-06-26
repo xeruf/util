@@ -13,11 +13,13 @@ class App : Application() {
 	
 	override fun start(primaryStage: Stage) {
 		stage = primaryStage
+		initialized = true
 		stager.invoke(primaryStage)
 		restart()
 	}
 	
 	companion object {
+		var initialized = false
 		lateinit var stage: Stage
 		
 		private lateinit var stager: (Stage) -> Unit
