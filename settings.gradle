@@ -1,2 +1,4 @@
 rootProject.name = 'util'
+rootProject.buildFileName = 'gradle/build.gradle'
+
 include 'kotlin', 'javafx'
