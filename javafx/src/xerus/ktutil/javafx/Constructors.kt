@@ -47,11 +47,11 @@ fun <T, U> TableColumn(title: String, function: (TableColumn.CellDataFeatures<T,
 fun <T, U> TreeTableColumn(title: String, function: (TreeTableColumn.CellDataFeatures<T, U>) -> U) =
 		TreeTableColumn<T, U>(title).apply { setCellValueFactory { ImmutableObservable(function(it)) } }
 
-class SimpleTask(title: String = "", message: String = "", autostart: Boolean = true, private val runnable: suspend SimpleTask.() -> Unit) : Task<Unit>() {
+open class SimpleTask(title: String = "", message: String = "", autostart: Boolean = true, private val runnable: suspend SimpleTask.() -> Unit) : Task<Unit>() {
 	
 	init {
-		updateTitle(title)
-		updateMessage(message)
+		this.updateTitle(title)
+		this.updateMessage(message)
 		if (autostart)
 			launch()
 	}

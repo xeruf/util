@@ -1,11 +1,14 @@
 package xerus.ktutil.javafx
 
+import javafx.beans.property.Property
+import javafx.beans.value.ObservableValue
 import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory
 import javafx.util.converter.LocalTimeStringConverter
 import xerus.ktutil.javafx.properties.dependentObservable
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 fun intSpinner(min: Int = -Int.MAX_VALUE, max: Int = Int.MAX_VALUE, initial: Int = 0) = Spinner<Int>(min, max, initial).editable()
 fun doubleSpinner(min: Double = -Double.MAX_VALUE, max: Double = Double.MAX_VALUE, initial: Double = 0.0) = Spinner<Double>(min, max, initial).editable()
@@ -28,6 +31,12 @@ fun <T> Spinner<T>.editable(): Spinner<T> {
 }
 
 fun <T> Spinner<T>.optionalProperty() = editor.textProperty().dependentObservable { if (it.isEmpty()) null else value }
+
+infix fun <T> Spinner<T>.syncTo(observable: Property<T>): Spinner<T> {
+	valueFactory.value = observable.value
+	observable.bind(valueProperty())
+	return this
+}
 
 class TimeSpinner : Spinner<LocalTime>() {
 	
