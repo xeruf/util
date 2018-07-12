@@ -91,8 +91,8 @@ inline fun <T> T?.printWith(function: (T) -> Any?) =
 		println(if (this == null) "null" else "${this.testString()} - ${function(this).testString()}")
 
 fun <T> T?.testString(): String = when (this) {
-	is Array<*> -> Arrays.toString(this)
-	is Iterable<*> -> this.joinToString { it.testString() }
+	is Array<*> -> this.joinToString { it.testString() }
+	is Collection<*> -> this.joinToString { it.testString() }
 	null -> "null"
 	else -> toString()
 }
