@@ -7,6 +7,7 @@ import javafx.stage.Stage
 import javafx.stage.Window
 import xerus.ktutil.javafx.properties.addOneTimeListener
 
+/** Creates a new Stage from this Window given the [title] and [content], that has this [Window] as its owner */
 fun Window.createStage(title: String, content: Parent) =
 		Stage().also {
 			it.title = title
@@ -14,6 +15,8 @@ fun Window.createStage(title: String, content: Parent) =
 			it.initWindowOwner(this)
 		}
 
+/** Sets the [other] [Window] as owner of this Stage and adjusts the position.
+ * Also binds Stylesheets if [other] is a Stage. */
 fun Stage.initWindowOwner(other: Window) {
 	initOwner(other)
 	setPositionRelativeTo(other)
@@ -21,6 +24,8 @@ fun Stage.initWindowOwner(other: Window) {
 		bindStylesheets(other)
 }
 
+/** Use some hacks to adjust the Position of this [Stage] to the position of the [Window].
+ * Only works if called before showing this Stage. */
 fun Stage.setPositionRelativeTo(other: Window) {
 	var disabled = false
 	setOnShowing { if (!disabled) opacity = 0.0 }
@@ -39,6 +44,9 @@ fun Stage.setPositionRelativeTo(other: Window) {
 	}
 }
 
+/** Bins the Stylesheets of this Stage to the ones of [other].
+ * If the Scene is not yet initialized, it waits until that happens.
+ * After calling this function, the stylesheets of this object must not be modified directly anymore. */
 fun Stage.bindStylesheets(other: Stage) {
 	when {
 		other.scene == null -> other.sceneProperty().addOneTimeListener { bindStylesheets(other) }

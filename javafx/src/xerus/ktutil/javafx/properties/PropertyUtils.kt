@@ -43,9 +43,13 @@ fun <T> WritableValue<T>.bindSoft(callable: () -> T, vararg dependencies: Observ
 	return listener
 }
 
-fun Array<out Observable>.addListener(runnable: () -> Unit): InvalidationListener {
+/** Adds the given Listener to each Observable in the Array.
+ * @param trigger whether the [runnable] should be run after adding it as Listener */
+fun Array<out Observable>.addListener(trigger: Boolean = false, runnable: () -> Unit): InvalidationListener {
 	val listener = InvalidationListener { _ -> runnable() }
 	forEach { it.addListener(listener) }
+	if (trigger)
+		runnable()
 	return listener
 }
 
@@ -57,22 +61,29 @@ inline fun <T, U> WritableValue<T>.dependOn(dependency: ObservableValue<U>, cros
 	return listener
 }
 
+/** Creates a simple ObervableValue that updates it's value according to the function when ever
+ * this ObservableValue triggers its ChangeListeners */
 fun <T, U> ObservableValue<T>.dependentObservable(function: (T) -> U): ObservableValue<U> =
 		SimpleObservable(function(value)).also { addListener { _, _, new -> it.value = function(new) } }
 
+/** Adds a Listener that removes itself after being triggered once */
 fun Observable.addOneTimeListener(runnable: () -> Unit) = addListener(object : InvalidationListener {
 	override fun invalidated(observable: Observable?) {
-		runnable()
 		this@addOneTimeListener.removeListener(this)
+		runnable()
 	}
 })
 
+/** Adds a ChangeListener to this ObservableValue that only receives the new value */
 fun <T> ObservableValue<T>.listen(listener: (T) -> Unit) =
 		addListener { _, _, new -> listener(new) }
 
+/** Adds a ChangeListener to this ObservableList that only receives this list */
 fun <T> ObservableList<T>.listen(listener: (ObservableList<T>) -> Unit) =
 		addListener { _: Observable -> listener(this) }
 
+/** Removes a listener, sets this Property to the [value] and then adds the listener back
+ * @param listenerToSilence The listener to temporarily remove, so it doesn't get fired by this change */
 fun <T> Property<T>.setSilently(value: T, listenerToSilence: ChangeListener<T>) {
 	removeListener(listenerToSilence)
 	setValue(value)

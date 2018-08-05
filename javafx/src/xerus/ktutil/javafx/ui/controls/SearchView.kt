@@ -201,13 +201,13 @@ abstract class Type<T> {
 				, Condition.equals { content, filter -> content.equals(filter, true) }
 		)
 		
-		val INT = NumberType { intSpinner().apply { editor.text = "" }.pair { optionalProperty() } }
-		val DOUBLE = NumberType { doubleSpinner().apply { editor.text = "" }.pair { optionalProperty() } }
+		val INT = NumberType { intSpinner().apply { editor.text = "" }.pair { optionalValue() } }
+		val DOUBLE = NumberType { doubleSpinner().apply { editor.text = "" }.pair { optionalValue() } }
 		
 		val DATE = TimeType { DatePicker().pair { valueProperty() } }
-		val TIME = TimeType { TimeSpinner().pair { optionalProperty() } }
+		val TIME = TimeType { TimeSpinner().pair { optionalValue() } }
 		
-		val LENGTH = create({ TimeSpinner().pair { optionalProperty() } }
+		val LENGTH = create({ TimeSpinner().pair { optionalValue() } }
 				, Condition.equals()
 				, Condition.larger("longer than")
 				, Condition.smaller("shorter than"))

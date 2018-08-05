@@ -41,7 +41,7 @@ object Benchmark {
 		print("Warming up..")
 		do {
 			print(".")
-			val times = LongArray(5, { testable.test(initialParam) })
+			val times = LongArray(5) { testable.test(initialParam) }
 			val avg = times.average()
 			val variance = times.map { (it - avg).toInt().absoluteValue }.average()
 		} while (variance > avg / 20)

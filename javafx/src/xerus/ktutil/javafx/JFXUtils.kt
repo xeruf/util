@@ -49,10 +49,14 @@ fun Region.setSize(width: Double? = null, height: Double? = null) = apply {
 
 // TEXT
 
+/** Returns a new Font with the same family and size but adjusted weight and posture */
 fun Font.format(bold: Boolean = false, italic: Boolean = false): Font =
 		Font.font(family, if (bold) FontWeight.BOLD else FontWeight.NORMAL, if (italic) FontPosture.ITALIC else FontPosture.REGULAR, size)
 
+/** Returns a new Font with the same family and size but in italics */
 fun Font.italic() = format(italic = true)
+
+/** Returns a new Font with the same family and size but in bold */
 fun Font.bold() = format(bold = true)
 
 fun Text.format(bold: Boolean = false, italic: Boolean = false) = apply {

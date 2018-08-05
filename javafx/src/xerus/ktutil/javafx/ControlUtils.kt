@@ -23,6 +23,7 @@ fun CheckBox.bind(property: Property<Boolean>) = apply { selectedProperty().bind
 
 fun <T> ComboBox<T>.select(item: T) = apply { selectionModel.select(item) }
 
+/** Updates the Selection of this [CheckBoxTreeItem] by flipping the isSelected state of the first child twice */
 fun CheckBoxTreeItem<*>.updateSelection() {
 	(children.firstOrNull() as? CheckBoxTreeItem)?.run {
 		isSelected = !isSelected
@@ -30,6 +31,9 @@ fun CheckBoxTreeItem<*>.updateSelection() {
 	} ?: run { isSelected = false }
 }
 
+/** Adjusts this Slider to react to scrolling.
+ * @param step The amount to increase or decrease the value when scrolling.
+ * 	By default will be calculated so there are 20 steps across the Slider */
 fun Slider.scrollable(step: Double = (max - min) / 20) = this.apply {
 	blockIncrement = step
 	setOnScroll {
@@ -43,5 +47,5 @@ fun Slider.scrollable(step: Double = (max - min) / 20) = this.apply {
 }
 
 fun <T, U> TableView<T>.addColumn(title: String, function: (T) -> U) {
-	columns.add(TableColumn<T, U>(title, { function(it.value) }))
+	columns.add(TableColumn<T, U>(title) { function(it.value) })
 }
