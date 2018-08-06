@@ -16,28 +16,3 @@ This project consists of a few modules, with potentially more to come in the fut
 |-----------------|---------|--------------|
 | kotlin | Dependency for virtually all of my projects, because I write everything in Kotlin and it contains a lot of extensions to the stdlib and some helpful classes | kotlin stdlib, coroutines |
 | javafx | Contains a lot of helpers for JavaFX and some additions like skins and icon sets | kotlin module |
-
-### Usage
-
-When checking out, it has to be in the same directory as the depending projects.
-Example directory structure:
-
-```
-Projects
- ├── monsterutilities
- └── util
-```
-
-Include it in other projects by adding the following line to `settings.gradle`:
-
-```
-includeBuild '../util'
-```
-
-and then in a buildscript include a module via:
-
-```text
-dependencies {
-	compile("xerus.util", "kotlin")
-}
-```

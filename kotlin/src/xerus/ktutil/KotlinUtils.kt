@@ -104,7 +104,11 @@ inline fun <T> T.printIt(name: Any? = null) =
 
 fun Throwable.str() = "${javaClass.simpleName}: $message"
 
-fun Any.reflectField(fieldName: String): Any = javaClass.getField(fieldName).get(this)
+fun Any.reflectField(fieldName: String): Any = try {
+	javaClass.getField(fieldName).get(this)
+} catch (ex: NoSuchFieldException) {
+	javaClass.getMethod("get" + fieldName.first().toUpperCase() + fieldName.substring(1)).invoke(this)
+}
 
 fun String.toLocalDate(): LocalDate? {
 	val split = split("-").map { it.toIntOrNull() ?: return null }
