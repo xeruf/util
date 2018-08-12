@@ -58,7 +58,7 @@ class FilterableTreeItem<T>
 		filteredList.predicateProperty().bind(Bindings.createObjectBinding<Predicate<TreeItem<T>>>(Callable {
 			Predicate { child: TreeItem<T> ->
 				val result = predicate.get()?.invoke(this, child.value) ?: true
-				// Set the predicate of child items to force filtering
+				// Set the predicate of child items for recursive filtering
 				val filterableChild = (child as? FilterableTreeItem<T>)?.also {
 					it.setPredicate(if (keepSubitems && result) null else predicate.get())
 				}
@@ -129,7 +129,7 @@ class FilterableTreeItem<T>
 		var autoLeaf = true
 		/** when true, subitems of matched items will automatically be kept  */
 		var keepSubitems = true
-		/** when true, items will collapse when the [.predicate] is null and expand when it is not  */
+		/** when true, items will collapse when the [predicate] is null and expand when it is not  */
 		var autoExpand = false
 	}
 	
