@@ -18,6 +18,8 @@ inline fun String?.nullIfEmpty() =
 fun String.containsAny(vararg sequences: CharSequence) =
 		sequences.any { contains(it, true) }
 
+fun String.containsEach(other: String) = contains(other, true) || other.contains(this, true)
+
 // Numbers
 
 private val powersOf10 = intArrayOf(1, 10, 100, 1000, 10000)
@@ -110,6 +112,7 @@ fun Any.reflectField(fieldName: String): Any = try {
 	javaClass.getMethod("get" + fieldName.first().toUpperCase() + fieldName.substring(1)).invoke(this)
 }
 
+/** Converts a String in `yyyy-mm-dd` format to a LocalDate */
 fun String.toLocalDate(): LocalDate? {
 	val split = split("-").map { it.toIntOrNull() ?: return null }
 	return LocalDate.of(split[0], split[1], split[2])
