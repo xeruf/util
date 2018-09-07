@@ -124,6 +124,8 @@ class FilterableTreeItem<T>
 		predicate.bind({ property.value.nullIfEmpty()?.let { text -> { _, value -> function(value, text) } } }, property)
 	}
 	
+	override fun toString(): String = "FilterableTreeItem(value=$value, predicate=$predicate)"
+	
 	companion object {
 		/** when true, items with children, but all filtered out, will turn into leafs  */
 		var autoLeaf = true

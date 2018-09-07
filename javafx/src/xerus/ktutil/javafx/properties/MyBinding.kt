@@ -4,6 +4,7 @@ import javafx.beans.Observable
 import javafx.beans.binding.ObjectBinding
 
 class MyBinding<T>(private val func: () -> T, vararg dependencies: Observable) : ObjectBinding<T>() {
+	
 	init {
 		bind(*dependencies)
 	}
@@ -36,4 +37,5 @@ class MyBinding<T>(private val func: () -> T, vararg dependencies: Observable) :
 	override fun dispose() {
 		clearDependencies()
 	}
+	
 }

@@ -29,4 +29,6 @@ open class Listeners<T>(private val observable: ObservableValue<T>) {
 		return new
 	}
 	
+	override fun toString() = "Listeners for $observable with ${listeners.size} listeners"
+	
 }

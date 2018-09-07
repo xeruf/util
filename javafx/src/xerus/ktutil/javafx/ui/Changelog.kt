@@ -25,9 +25,8 @@ class Version(val version: String, val title: String, vararg minorChanges: Strin
 }
 
 internal class Change(private val main: String, private vararg val subChanges: String) {
-	override fun toString(): String {
-		return " - " + arrayOf(main, *subChanges).joinToString(separator = System.lineSeparator() + "      - ")
-	}
+	override fun toString(): String =
+			arrayOf(main, *subChanges).joinToString(separator = System.lineSeparator() + "      - ", prefix = " - ")
 }
 
 class Changelog(private vararg val notes: String) {

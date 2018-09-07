@@ -13,6 +13,8 @@ abstract class AbstractObservableValue<T> : ObservableValue<T> {
 	override fun addListener(listener: ChangeListener<in T>) = listeners.add(listener)
 	override fun removeListener(listener: InvalidationListener) = listeners.remove(listener)
 	override fun removeListener(listener: ChangeListener<in T>) = listeners.remove(listener)
+	
+	override fun toString() = "${this.javaClass.simpleName}(value=$value)"
 }
 
 /** An ObservableValue that recalculates its value from a supplier according to a specified Interval

@@ -70,4 +70,5 @@ class FormattedTableCellFactory<S, T> : Callback<TableColumn<S, T>, TableCell<S,
 		}
 		return cell
 	}
+	
 }

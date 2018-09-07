@@ -73,4 +73,6 @@ open class SimpleTask(title: String = "", message: String = "", autostart: Boole
 	public override fun updateMessage(message: String?) =
 			super.updateMessage(message)
 	
+	override fun toString() = "Simpletask(title='$title', message='$message', progress=$progress)"
+	
 }

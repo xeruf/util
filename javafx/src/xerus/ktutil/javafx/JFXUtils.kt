@@ -71,7 +71,7 @@ fun String?.textWidth(font: Font) =
 
 // MISC
 
-/** takes a hex String like `#aabbcc` and returns the respective [Color] */
+/** Takes a hex String like `#aabbcc` and returns the respective [Color] */
 fun hexToColor(hex: String): Color =
 		Color.rgb(
 				Integer.parseInt(hex.substring(1, 3), 16),
@@ -79,6 +79,7 @@ fun hexToColor(hex: String): Color =
 				Integer.parseInt(hex.substring(5, 7), 16)
 		)
 
+/** Launches this Task with the given [CoroutineContext], which defaults to [DefaultDispatcher] */
 fun <T> Task<T>.launch(context: CoroutineContext = DefaultDispatcher) =
 		kotlinx.coroutines.experimental.launch(context) { run() }
 
