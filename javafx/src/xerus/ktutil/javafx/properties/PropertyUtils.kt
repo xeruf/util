@@ -7,6 +7,7 @@ import javafx.beans.property.Property
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
 import javafx.beans.value.WritableValue
+import javafx.collections.ListChangeListener
 import javafx.collections.ObservableList
 import java.util.concurrent.Callable
 
@@ -80,7 +81,7 @@ fun <T> ObservableValue<T>.listen(listener: (T) -> Unit) =
 
 /** Adds a ChangeListener to this ObservableList that only receives this list */
 fun <T> ObservableList<T>.listen(listener: (ObservableList<T>) -> Unit) =
-		addListener { _: Observable -> listener(this) }
+		addListener(ListChangeListener { listener(this) })
 
 /** Removes a listener, sets this Property to the [value] and then adds the listener back
  * @param listenerToSilence The listener to temporarily remove, so it doesn't get fired by this change */

@@ -3,17 +3,17 @@ import org.jetbrains.kotlin.gradle.dsl.Coroutines
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	kotlin("jvm") version "1.2.51"
+	kotlin("jvm") version "1.2.61"
 	maven
 }
 
 dependencies {
 	compile(kotlin("stdlib"))
-	compile("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "0.22.5")
+	compile("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "0.+")
 }
 
-java.sourceSets {
-	"main" {
+sourceSets {
+	getByName("main") {
 		java.srcDirs("src")
 		resources.srcDirs("resources")
 	}
