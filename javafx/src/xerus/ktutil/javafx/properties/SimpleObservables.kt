@@ -27,7 +27,7 @@ class TimedObservable<T>(private val interval: Long, private val supplier: () ->
 	val job = launch {
 		while (true) {
 			delay(interval)
-			value = listeners.notify(value, supplier())
+			value = listeners.notifyChange(value, supplier()) as T
 		}
 	}
 	
@@ -42,7 +42,7 @@ class SimpleObservable<T>(private var value: T) : AbstractObservableValue<T>(), 
 	override fun setValue(value: T) {
 		val old = this.value
 		this.value = value
-		listeners.notify(old, value)
+		listeners.notifyChange(old, value)
 	}
 	
 	override fun getValue() = value

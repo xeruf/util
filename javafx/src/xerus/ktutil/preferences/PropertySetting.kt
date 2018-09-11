@@ -65,7 +65,7 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 	override fun set(value: T) {
 		val old = _value
 		_value = value
-		listeners.notify(old, value)
+		listeners.notifyChange(old, value)
 		preferences.put(key, value.toString())
 	}
 	
