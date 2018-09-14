@@ -1,13 +1,15 @@
-package xerus.ktutil
+package xerus.ktutil.helpers
 
 import xerus.ktutil.SystemUtils.suppressErr
+import xerus.ktutil.formattedTime
+import xerus.ktutil.getStackTraceString
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import java.util.logging.*
 import java.util.prefs.Preferences
 
-object XerusLogger : Logger("xerus.xeruslogger", null) {
+object XerusLogger : Logger("xeruslogger", null) {
 	
 	init {
 		level = Level.CONFIG

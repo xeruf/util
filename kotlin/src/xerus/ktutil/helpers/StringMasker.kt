@@ -1,6 +1,6 @@
 package xerus.ktutil.helpers
 
-class Masker(private val mask: String, private vararg val toMask: String) {
+class StringMasker(private val mask: String, private vararg val toMask: String) {
 	
 	fun mask(s: String): String {
 		var res = s

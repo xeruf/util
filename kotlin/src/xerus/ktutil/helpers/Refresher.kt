@@ -1,8 +1,6 @@
 package xerus.ktutil.helpers
 
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.*
 
 abstract class Refresher {
 	abstract suspend fun doRefresh()
@@ -22,7 +20,7 @@ abstract class Refresher {
 	}
 	
 	fun start(function: suspend () -> Unit) {
-		job = launch { function() }
+		job = GlobalScope.launch { function() }
 	}
 	
 	operator fun invoke() = refresh()
@@ -34,7 +32,7 @@ open class SimpleRefresher(val function: suspend () -> Unit) : Refresher() {
 }
 
 /** A [Refresher] implementation that will only issue a refresh if a given time has elapsed since the last refresh */
-abstract class TimedRefresher(private val timeDif: Int, runnable: suspend () -> Unit) : SimpleRefresher(runnable) {
+open class TimedRefresher(private val timeDif: Int, runnable: suspend () -> Unit) : SimpleRefresher(runnable) {
 	private var lastRefresh = 0L
 	fun refresh(): Job {
 		if (System.currentTimeMillis() > lastRefresh + timeDif)

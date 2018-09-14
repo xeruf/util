@@ -3,6 +3,7 @@ package xerus.ktutil.javafx.ui
 import javafx.animation.Transition
 import javafx.scene.layout.Region
 import javafx.util.Duration
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import xerus.ktutil.javafx.onFx
@@ -12,7 +13,7 @@ interface Fadable {
 	val fader: SimpleTransition<Region>
 	
 	fun show(new: () -> Unit) {
-		launch {
+		GlobalScope.launch {
 			if (visible)
 				fader.play()
 			while (fading)

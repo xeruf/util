@@ -1,13 +1,17 @@
 package xerus.ktutil
 
-import java.io.*
-import java.net.URL
+import java.io.File
+import java.io.OutputStream
+import java.io.PrintStream
 import java.util.*
 
 object SystemUtils {
 	
 	val tempDir
 		get() = File(System.getProperty("java.io.tmpdir"))
+	
+	val javaVersion
+		get() = System.getProperty("java.version")
 	
 	private val systemErr = System.err
 	fun <T> suppressErr(supplier: () -> T): T {
@@ -28,6 +32,7 @@ object SystemUtils {
 	
 }
 
+/** The current UTC seconds */
 fun currentSeconds() = (System.currentTimeMillis() / 1000).toInt()
 
 /** convenience function to get a String representation of the current localized time
@@ -51,15 +56,9 @@ fun formatTimeDynamic(seconds: Long, orientation: Long = seconds) =
 			else -> "%02ds".format(seconds)
 		}
 
-fun Throwable.getStackTraceString(): String {
-	val sw = StringWriter()
-	val pw = PrintWriter(sw, true)
-	printStackTrace(pw)
-	return sw.buffer.toString()
-}
+/** Gets a resource from the classpath by its absolute path. */
+fun getResource(path: String) = SystemUtils::class.java.getResource("/$path")
 
-fun getResource(path: String) = XerusLogger::class.java.getResource("/$path")
-
+/** Gets a resource from the classpath by its absolute path as a File or null if it doesn't exist */
 fun getResourceAsFile(path: String) = getResource(path)?.file?.let { File(it) }
 
-fun javaVersion(): String = System.getProperty("java.version")

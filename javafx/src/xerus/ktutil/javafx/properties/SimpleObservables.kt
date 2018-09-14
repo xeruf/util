@@ -4,6 +4,7 @@ import javafx.beans.InvalidationListener
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
 import javafx.beans.value.WritableValue
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 
@@ -24,25 +25,28 @@ class TimedObservable<T>(private val interval: Long, private val supplier: () ->
 	private var value = supplier()
 	override fun getValue() = value
 	
-	val job = launch {
+	val job = GlobalScope.launch {
 		while (true) {
 			delay(interval)
-			value = listeners.notifyChange(value, supplier()) as T
+			val old = value
+			value = supplier()
+			listeners.notifyChange(old, value)
 		}
 	}
 	
-	/** Stops the calculation job */
+	/** Stops the job */
 	fun finalize() {
 		job.cancel()
 	}
+	
 }
 
 class SimpleObservable<T>(private var value: T) : AbstractObservableValue<T>(), WritableValue<T> {
 	
-	override fun setValue(value: T) {
+	override fun setValue(newValue: T) {
 		val old = this.value
-		this.value = value
-		listeners.notifyChange(old, value)
+		this.value = newValue
+		listeners.notifyChange(old, newValue)
 	}
 	
 	override fun getValue() = value

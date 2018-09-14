@@ -1,4 +1,4 @@
-@file:Suppress("NOTHING_TO_INLINE")
+@file:Suppress("NOTHING_TO_INLINE", "unused")
 
 package xerus.ktutil
 
@@ -8,7 +8,7 @@ inline fun <C : Collection<T>, T> C?.nullIfEmpty() =
 inline fun <T> List<T>.getReverse(index: Int) =
 		this[size - 1 - index]
 
-fun <E> MutableCollection<E>.addAll(vararg elements: E) =
+inline fun <E> MutableCollection<E>.addAll(vararg elements: E) =
 		this.addAll(elements)
 
 fun ByteArray.toInt() =
@@ -17,12 +17,12 @@ fun ByteArray.toInt() =
 fun Int.toByteArray() =
 		byteArrayOf(this.ushr(24).toByte(), this.ushr(16).toByte(), this.ushr(8).toByte(), this.toByte())
 
-// join
+// JOIN
 
+/** Joins this list in a human way, using commas and `&` instead of the last comma. */
 fun List<Any>.joinEnumeration(): String =
 		if (size == 1) get(0).toString()
-		else "%s & %s".format(slice(0..size - 2).joinToString(), last())
+		else "%s & %s".format(slice(0..size - 2).joinToString(", "), last())
 
-fun joinEnumeration(vararg sequences: Any): String =
-		if (sequences.size == 1) sequences[0].toString()
-		else "%s & %s".format(sequences.slice(0..sequences.size - 2).joinToString(), sequences.last())
+/** Joins the given [sequences] in a human way, using commas and `&` instead of the last comma. */
+inline fun joinEnumeration(vararg sequences: Any): String = sequences.asList().joinEnumeration()

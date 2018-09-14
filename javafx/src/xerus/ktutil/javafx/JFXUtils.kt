@@ -9,7 +9,7 @@ import javafx.scene.Scene
 import javafx.scene.layout.Region
 import javafx.scene.paint.Color
 import javafx.scene.text.*
-import kotlinx.coroutines.experimental.DefaultDispatcher
+import kotlinx.coroutines.experimental.*
 import xerus.ktutil.printWith
 import kotlin.coroutines.experimental.CoroutineContext
 
@@ -80,8 +80,8 @@ fun hexToColor(hex: String): Color =
 		)
 
 /** Launches this Task with the given [CoroutineContext], which defaults to [DefaultDispatcher] */
-fun <T> Task<T>.launch(context: CoroutineContext = DefaultDispatcher) =
-		kotlinx.coroutines.experimental.launch(context) { run() }
+fun <T> Task<T>.launch(context: CoroutineContext = Dispatchers.Default): Job =
+		GlobalScope.launch(context) { run() }
 
 // DEBUG
 

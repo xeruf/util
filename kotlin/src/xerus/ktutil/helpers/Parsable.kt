@@ -6,7 +6,7 @@ import xerus.ktutil.reflectField
 private val fieldParser = Parser('%')
 private val bracketParser = Parser('{', '}')
 
-/** This Interface denotes a class that can be parsed into patterns.
+/** This Interface denotes a class that can be stringified according to patterns.
  * It exposes a [toString] function that takes a pattern as argument
  * and then tries to fill in that pattern, gathering the necessary
  * information via reflection */

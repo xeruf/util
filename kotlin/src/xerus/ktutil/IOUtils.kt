@@ -1,4 +1,4 @@
-@file:Suppress("NOTHING_TO_INLINE")
+@file:Suppress("NOTHING_TO_INLINE", "unused")
 
 package xerus.ktutil
 
@@ -7,7 +7,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 
-inline fun File.appendln(line: String) = appendText(line + "\n")
+// PATH
 
 inline fun Path.exists() = Files.exists(this)
 inline fun Path.renameTo(new: Path) = Files.move(this, new)
@@ -29,6 +29,17 @@ fun Path.moveRecursively(destination: Path) {
 	}
 }
 
+// FILE
+
+/** Replaces common characters in this String which are not permitted in filenames
+ * - ':' with ' -'
+ * - '|' with '-'
+ * - '/' with '-' */
+fun String.replaceIllegalFileChars() =
+		replace(":", " -").replace('|', '-').replace('/', '-').trim()
+
+inline fun File.appendln(line: String) = appendText(line + "\n")
+
 fun File?.findFolder(): File {
 	var file = this
 	while (file != null && !(file.exists() && file.canRead() && file.isDirectory))
@@ -39,17 +50,14 @@ fun File?.findFolder(): File {
 /** waits until the backup file is gone and then creates a backup file before performing the operation */
 fun <T> File.safe(operation: File.() -> T): T {
 	val sibling = resolveSibling("$name~")
-	while(!sibling.createNewFile())
+	while (!sibling.createNewFile())
 		Thread.sleep(10)
-	if(this.exists())
+	if (this.exists())
 		sibling.writeText(readText())
 	val result = operation(this)
 	sibling.delete()
 	return result
 }
-
-fun String.replaceIllegalFileChars() =
-		replace(":", " -").replace('|', '-').replace('/', '-').trim()
 
 /** Replaces the line [line] with [text].
  * If the document is too short, empty lines will be appended to extend it */
@@ -68,6 +76,20 @@ fun File.write(line: Int, text: String) {
 		old.delete()
 	}
 }
+
+val File.hasNewline: Boolean
+	get() {
+		RandomAccessFile(this, "r").use {
+			val fileLength = it.length() - 1;
+			if (fileLength < 0)
+				return true;
+			it.seek(fileLength);
+			val lastByte = it.readByte().toInt();
+			return lastByte == 0xA || lastByte == 0xD;
+		}
+	}
+
+// STREAMS
 
 fun InputStream.dump() = bufferedReader().forEachLine { println(it) }
 
@@ -97,27 +119,14 @@ fun InputStream.copyTo(out: OutputStream, closeIn: Boolean = false, closeOut: Bo
 	}
 }
 
-val File.hasNewline: Boolean
-	get() {
-		RandomAccessFile(this, "r").use {
-			val fileLength = it.length() - 1;
-			if (fileLength < 0)
-				return true;
-			it.seek(fileLength);
-			val lastByte = it.readByte().toInt();
-			return lastByte == 0xA || lastByte == 0xD;
-		}
-	}
+// SERIALIZATION
 
-// Serialization
-
-fun writeObject(file: File, obj: Any) {
+fun Any.writeToFile(file: File) {
 	ObjectOutputStream(FileOutputStream(file)).use { oos ->
-		oos.writeObject(obj)
+		oos.writeObject(this)
 		oos.flush()
 	}
 }
 
-@Suppress("Unchecked_cast")
-inline fun <reified T : Any> readObject(file: File): T =
-		ObjectInputStream(FileInputStream(file)).use { ois -> return ois.readObject() as T }
+inline fun <reified T : Any> File.readToObject(): T =
+		ObjectInputStream(FileInputStream(this)).use { ois -> return ois.readObject() as T }

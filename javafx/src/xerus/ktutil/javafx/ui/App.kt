@@ -4,9 +4,8 @@ import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.control.TextArea
 import javafx.stage.Stage
+import xerus.ktutil.SystemUtils
 import xerus.ktutil.getStackTraceString
-import xerus.ktutil.javaVersion
-import java.lang.RuntimeException
 
 class App : Application() {
 	
@@ -40,7 +39,7 @@ class App : Application() {
 				val stage = Stage()
 				stage.scene = Scene(TextArea("A critical error occured while starting the application. " +
 						"Please contact the developer, providing the information below!\n\n" +
-						"Java version: " + javaVersion() + "\n" +
+						"Java version: " + SystemUtils.javaVersion + "\n" +
 						error.getStackTraceString()))
 				stage.show()
 			}

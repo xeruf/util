@@ -1,7 +1,7 @@
 package xerus.ktutil.javafx
 
 import javafx.scene.Scene
-import xerus.ktutil.XerusLogger
+import xerus.ktutil.helpers.XerusLogger
 import xerus.ktutil.getResource
 import java.net.URL
 

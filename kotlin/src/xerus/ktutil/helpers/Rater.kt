@@ -1,7 +1,5 @@
 package xerus.ktutil.helpers
 
-fun originalPoints(inverted: Boolean) = if (inverted) Double.POSITIVE_INFINITY else Double.NEGATIVE_INFINITY
-
 open class Rater<X> constructor(
 		/** the current object of this Rater */
 		@JvmField
@@ -36,11 +34,15 @@ open class Rater<X> constructor(
 	
 	override fun compareTo(other: Rater<X>) = points.compareTo(other.points)
 	
-	override fun toString() = "%s - Punkte: %.2f".format(obj, points)
+	override fun toString() = "%s - Points: %.2f".format(obj, points)
 	
 	override fun equals(other: Any?) =
 			other is Rater<*> && other.points == this.points && other.obj == obj
 	
 	override fun hashCode() = obj?.hashCode() ?: 0 * 9+points.toInt()
+	
+	companion object {
+		private fun originalPoints(inverted: Boolean) = if (inverted) Double.POSITIVE_INFINITY else Double.NEGATIVE_INFINITY
+	}
 	
 }

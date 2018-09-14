@@ -1,9 +1,9 @@
 package xerus.ktutil.helpers
 
 import xerus.ktutil.dump
+import xerus.ktutil.or
 import java.io.IOException
 import java.net.HttpURLConnection
-import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
 
@@ -19,24 +19,19 @@ fun HttpURLConnection.dumpResponse() = try {
 	errorStream.dump()
 }
 
-object Connections {
-	@Throws(MalformedURLException::class, IOException::class)
-	fun createConnection(url: String): HttpURLConnection {
-		val connection = URL(url).openConnection() as HttpURLConnection
-		connection.setRequestProperty("Accept-Charset", "UTF-8")
-		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
-		return connection
-	}
-	
-	@Throws(IOException::class)
-	fun post(connection: HttpURLConnection, vararg params: String): HttpURLConnection {
-		connection.doOutput = true // Triggers POST
-		connection.outputStream.use { output -> output.write(params.joinToString("&").toByteArray(charset("UTF-8"))) }
-		return connection
-	}
-	
-	@Throws(MalformedURLException::class, IOException::class)
-	fun createPostConnection(url: String, vararg params: String) = post(createConnection(url), *params)
+fun URL.createConnection(): HttpURLConnection {
+	val connection = openConnection() as HttpURLConnection
+	connection.setRequestProperty("Accept-Charset", "UTF-8")
+	connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+	return connection
+}
+
+fun URL.createPostConnection(vararg params: String) = createConnection().post(*params)
+
+fun HttpURLConnection.post(vararg params: String): HttpURLConnection {
+	doOutput = true // Triggers POST
+	outputStream.use { output -> output.write(params.joinToString("&").toByteArray(charset("UTF-8"))) }
+	return this
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -54,13 +49,13 @@ open class HTTPQuery<out T>(vararg queries: String) {
 		return this as T
 	}
 	
-	fun replaceQuery(key: String, `val`: String): T {
-		params.put(key, ArrayList(listOf(`val`)))
+	fun replaceQuery(key: String, value: String): T {
+		params[key] = mutableListOf(value)
 		return this as T
 	}
 	
-	fun addQuery(key: String, vararg vals: String): T {
-		params[key]?.addAll(vals) ?: params.put(key, vals.toMutableList())
+	fun addQuery(key: String, vararg values: String): T {
+		params[key]?.addAll(values) ?: params.put(key, values.toMutableList())
 		return this as T
 	}
 	
