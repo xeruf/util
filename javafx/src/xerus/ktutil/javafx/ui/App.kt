@@ -2,12 +2,11 @@ package xerus.ktutil.javafx.ui
 
 import javafx.application.Application
 import javafx.scene.Scene
+import javafx.scene.control.TextArea
 import javafx.stage.Stage
-import xerus.ktutil.ui.SimpleFrame
-import java.io.OutputStream
-import java.io.PrintWriter
-import javax.swing.JTextArea
-import javax.swing.WindowConstants
+import xerus.ktutil.getStackTraceString
+import xerus.ktutil.javaVersion
+import java.lang.RuntimeException
 
 class App : Application() {
 	
@@ -38,17 +37,12 @@ class App : Application() {
 				stage.scene = content()
 				stage.show()
 			} catch (error: Throwable) {
-				SimpleFrame {
-					val field = JTextArea("A critical error occured. Please contact the developer, providing the information below!" + System.lineSeparator() + System.lineSeparator())
-					field.append("Java version: " + System.getProperty("java.specification.version") + System.lineSeparator())
-					error.printStackTrace(PrintWriter(object : OutputStream() {
-						override fun write(b: Int) {
-							field.append(b.toChar().toString())
-						}
-					}, true))
-					add(field)
-					defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
-				}
+				val stage = Stage()
+				stage.scene = Scene(TextArea("A critical error occured while starting the application. " +
+						"Please contact the developer, providing the information below!\n\n" +
+						"Java version: " + javaVersion() + "\n" +
+						error.getStackTraceString()))
+				stage.show()
 			}
 		}
 	}
