@@ -1,4 +1,4 @@
-/* PLAYBACK */
+/* Playback controls */
 
 #play-pause:selected, #play {
 	-fx-background-image: url(nocfa/play.png);
@@ -21,37 +21,7 @@
 	-fx-background-image: url(nocfa/stop_hover.png);
 }
 
-/* Playlist controls */
-
-#shuffle:selected, #shuffleon {
-	-fx-background-image : url(nocfa/shuffle.png);
-}
-
-#shuffle, #shuffleoff {
-	-fx-background-image : url(nocfa/shuffle-disabled.png);
-}
-
-#shuffle:selected:hover, #shuffleon:hover {
-	-fx-background-image : url(nocfa/shuffle-hover.png);
-}
-
-#shuffle:hover, #shuffleoff:hover {
-	-fx-background-image : url(nocfa/shuffle-disabled-hover.png);
-}
-
-#repeat:selected, #repeaton {
-	-fx-background-image: url(nocfa/refresh.png);
-}
-
-#repeat:selected:hover, #repeaton:hover {
-	-fx-background-image: url(nocfa/refresh_hover.png);
-}
-
-#repeat, #repeatoff {
-	-fx-background-image: url(nocfa/repeat-disabled.png);
-}
-
-/* Playback advanced */
+/* Skipping controls */
 
 #skip {
 	-fx-background-image: url(nocfa/skip.png);
@@ -67,15 +37,37 @@
 	-fx-background-image: url(nocfa/skipb_hover.png);
 }
 
-/*
-#repeat {
-	-fx-background-image: url(nocfa/repeat.png);
+/* Playlist controls */
+
+#shuffle {
+	-fx-background-image : url(extra/shuffle-disabled.png);
 }
-#repeat:hover {
-	-fx-background-image: url(nocfa/repeat_hover.png);
+#shuffle:hover {
+	-fx-background-image : url(extra/shuffle-disabled-hover.png);
+}
+
+#shuffle:selected {
+	-fx-background-image : url(extra/shuffle.png);
+}
+#shuffle:selected:hover {
+	-fx-background-image : url(extra/shuffle-hover.png);
+}
+
+#repeat {
+	-fx-background-image: url(extra/repeat_disabled.png);
+}
+/*#repeat:hover {
+	-fx-background-image: url(extra/repeat_disabled_hover.png);
 }*/
 
-/* OTHER useful stuff */
+#repeat:selected {
+	-fx-background-image: url(nocfa/refresh.png);
+}
+ #repeat:selected:hover {
+	-fx-background-image: url(nocfa/refresh_hover.png);
+}
+
+/* Useful extras */
 
 #refresh {
 	-fx-background-image: url(nocfa/refresh.png);
@@ -105,7 +97,7 @@
 	-fx-background-image: url(nocfa/save_hover.png);
 }
 
-/* OTHER */
+/* Random */
 
 #up {
 	-fx-background-image: url(nocfa/up.png);
