@@ -16,3 +16,19 @@ This project consists of a few modules, with potentially more to come in the fut
 |-----------------|---------|--------------|
 | kotlin | Dependency for virtually all of my projects, because I write everything in Kotlin and it contains a lot of extensions to the stdlib and some helpful classes | kotlin stdlib, coroutines |
 | javafx | Contains a lot of helpers for JavaFX and some additions like skins and icon sets | kotlin module |
+
+### Usage
+
+The project can be depended on via [jitpack](https://jitpack.io/#Xerus2000/util):
+```
+repositories {
+  ...
+  maven("https://jitpack.io")
+}
+
+dependencies {
+  ...
+  implementation(com.github.Xerus2000.util, [module], [version])
+}
+```
+Version can be a tag, a commit hash, "-SNAPSHOT" for the latest master build or "_branch_-SNAPSHOT" fo the latest build of a specific branch. For more information and explanations visit [jitpack.io](https://jitpack.io/#Xerus2000/util).
