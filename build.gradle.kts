@@ -4,21 +4,20 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	java
 	maven
-	kotlin("jvm") version "1.2.70"
+	kotlin("jvm") version "1.2.71"
 }
 
 allprojects {
 	repositories {
 		jcenter()
 	}
+	group = "xerus.util"
 }
 
 subprojects {
 	apply(plugin = "java")
 	apply(plugin = "kotlin")
 	apply(plugin = "maven")
-	
-	group = "xerus.util"
 	
 	tasks {
 		val sourcesJar by creating(Jar::class) {

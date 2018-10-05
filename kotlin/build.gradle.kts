@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 dependencies {
 	compile(kotlin("stdlib"))
-	compile("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "0.+")
+	compile("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "0.30.0")
 }
 
 sourceSets {
