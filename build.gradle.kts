@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	java
 	maven
-	kotlin("jvm") version "1.2.71"
+	kotlin("jvm") version "1.3.0"
 }
 
 allprojects {

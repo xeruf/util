@@ -1,6 +1,6 @@
 package xerus.ktutil.helpers
 
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.*
 
 abstract class Refresher {
 	abstract suspend fun doRefresh()

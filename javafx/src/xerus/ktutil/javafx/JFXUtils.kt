@@ -9,9 +9,9 @@ import javafx.scene.Scene
 import javafx.scene.layout.Region
 import javafx.scene.paint.Color
 import javafx.scene.text.*
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.*
 import xerus.ktutil.printWith
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlin.coroutines.CoroutineContext
 
 /** runs [action] if already on Fx Application Thread, otherwise schedules it via [Platform.runLater] */
 inline fun checkFx(crossinline action: () -> Unit) {

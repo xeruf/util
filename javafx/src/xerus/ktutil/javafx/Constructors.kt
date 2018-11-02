@@ -9,7 +9,7 @@ import javafx.scene.control.*
 import javafx.scene.layout.ColumnConstraints
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Priority
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 import xerus.ktutil.javafx.properties.ImmutableObservable
 import xerus.ktutil.javafx.properties.dependOn
 

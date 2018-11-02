@@ -3,9 +3,9 @@ package xerus.ktutil.javafx.ui
 import javafx.animation.Transition
 import javafx.scene.layout.Region
 import javafx.util.Duration
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import xerus.ktutil.javafx.onFx
 import xerus.ktutil.javafx.setSize
 
