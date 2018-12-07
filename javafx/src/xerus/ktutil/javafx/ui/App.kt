@@ -6,6 +6,9 @@ import javafx.scene.control.TextArea
 import javafx.stage.Stage
 import xerus.ktutil.SystemUtils
 import xerus.ktutil.getStackTraceString
+import xerus.ktutil.javafx.Theme
+import xerus.ktutil.javafx.Themes
+import xerus.ktutil.javafx.applyTheme
 
 class App : Application() {
 	
@@ -22,9 +25,11 @@ class App : Application() {
 		
 		private lateinit var stager: (Stage) -> Unit
 		private lateinit var content: (() -> Scene)
+		private var theme: Theme? = null
 		
-		fun launch(title: String = "Test", stager: ((Stage) -> Unit)? = null, scene: () -> Scene) {
+		fun launch(title: String = "Test", theme: Theme? = Themes.BEIGE, stager: ((Stage) -> Unit)? = null, scene: () -> Scene) {
 			this.content = scene
+			this.theme = theme
 			this.stager = { it.title = title; stager?.invoke(stage) }
 			Application.launch(App::class.java)
 		}
@@ -33,14 +38,14 @@ class App : Application() {
 			try {
 				stage.hide()
 				System.gc()
-				stage.scene = content()
+				stage.scene = content().apply { theme?.let { applyTheme(it) } }
 				stage.show()
 			} catch (error: Throwable) {
 				val stage = Stage()
-				stage.scene = Scene(TextArea("A critical error occured while starting the application. " +
-						"Please contact the developer, providing the information below!\n\n" +
-						"Java version: " + SystemUtils.javaVersion + "\n" +
-						error.getStackTraceString()))
+				stage.scene = Scene(TextArea("A critical error occurred while starting the application. " +
+					"Please contact the developer, providing the information below!\n\n" +
+					"Java version: " + SystemUtils.javaVersion + "\n" +
+					error.getStackTraceString()))
 				stage.show()
 			}
 		}
