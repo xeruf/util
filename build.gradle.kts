@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	java
 	maven
-	kotlin("jvm") version "1.3.0"
+	kotlin("jvm") version "1.3.11"
 }
 
 allprojects {
@@ -26,7 +26,7 @@ subprojects {
 		}
 		val javadocJar by creating(Jar::class) {
 			classifier = "javadoc"
-			from(tasks.getByName<Javadoc>("javadoc").destinationDir)
+			from(getByName<Javadoc>("javadoc").destinationDir)
 		}
 		getByName("install").dependsOn("javadocJar", "sourcesJar")
 		artifacts {
@@ -38,7 +38,5 @@ subprojects {
 			kotlinOptions.jvmTarget = "1.8"
 		}
 	}
-	
-	kotlin.experimental.coroutines = Coroutines.ENABLE
 	
 }

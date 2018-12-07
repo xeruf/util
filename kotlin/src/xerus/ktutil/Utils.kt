@@ -12,7 +12,7 @@ import kotlin.reflect.KProperty
 
 /** If this String is null or empty, other is returned, else this */
 inline fun String?.or(other: String) =
-		if (this.isNullOrEmpty()) other else this!!
+		if (this.isNullOrEmpty()) other else this
 
 inline fun String?.nullIfEmpty() =
 		if (isNullOrEmpty()) null else this

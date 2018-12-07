@@ -6,6 +6,7 @@ import javafx.application.Platform
 import javafx.concurrent.Task
 import javafx.scene.Node
 import javafx.scene.Scene
+import javafx.scene.control.TableView
 import javafx.scene.layout.Region
 import javafx.scene.paint.Color
 import javafx.scene.text.*
@@ -46,6 +47,9 @@ fun Region.setSize(width: Double? = null, height: Double? = null) = apply {
 		maxHeight = height.toDouble()
 	}
 }
+
+val <T> TableView<T>.selectedItem: T?
+	get() = selectionModel.selectedItem
 
 // TEXT
 

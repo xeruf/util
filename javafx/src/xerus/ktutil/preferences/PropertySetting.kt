@@ -44,7 +44,8 @@ open class SettingsNode(val preferences: Preferences) {
 	}
 	
 	companion object {
-		fun getPreferences(path: String) = suppressErr { Preferences.userRoot().node(path) }
+		fun getPreferences(clazz: Class<*>): Preferences = getPreferences(clazz.`package`.toString().replace('.', '/'))
+		fun getPreferences(path: String): Preferences = suppressErr { Preferences.userRoot().node(path) }
 	}
 }
 
