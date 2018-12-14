@@ -21,8 +21,8 @@ class SearchView<T : Any>(val options: ObservableList<AnySearchable<T>>) : GridP
 	constructor(vararg searchables: AnySearchable<T>) : this(FXCollections.observableArrayList(*searchables))
 	
 	val conjunctions = arrayOf<Conjunction<T>>(
-			Conjunction("and", { p1, p2 -> p1.and(p2) }),
-			Conjunction("or", { p1, p2 -> p1.or(p2) }))
+		Conjunction("and", { p1, p2 -> p1.and(p2) }),
+		Conjunction("or", { p1, p2 -> p1.or(p2) }))
 	
 	val rows = FXCollections.observableArrayList<Row>().apply {
 		addListener(ListChangeListener {
@@ -36,10 +36,10 @@ class SearchView<T : Any>(val options: ObservableList<AnySearchable<T>>) : GridP
 	
 	val shortMenu = ContextMenu(MenuItem("Add row", { addRow() }))
 	val contextMenu = ContextMenu(MenuItem("Add row", { addRow() }),
-			MenuItem("Remove row", { rows.removeAt(GridPane.getRowIndex(scene.focusOwner)) }))
+		MenuItem("Remove row", { rows.removeAt(GridPane.getRowIndex(scene.focusOwner)) }))
 	
 	init {
-		if (options.size > 0)
+		if(options.size > 0)
 			addRow(selected = 0)
 		else
 			options.addOneTimeListener { addRow(selected = 0) }
@@ -55,17 +55,17 @@ class SearchView<T : Any>(val options: ObservableList<AnySearchable<T>>) : GridP
 	}
 	
 	inner class Row(searchable: AnySearchable<T>) : SearchRow<T>() {
-		private val myContextMenu = if (rows.size == 0) shortMenu else contextMenu
+		private val myContextMenu = if(rows.size == 0) shortMenu else contextMenu
 		
 		val conjunction: ObservableValue<Conjunction<T>>
 		val components: Array<Control>
 		
 		init {
 			val (connector, con) =
-					if (rows.size == 0)
-						Label().apply { prefWidth = 0.0 }.pair { ImmutableObservable(conjunctions[0]) }
-					else
-						ComboBox<Conjunction<T>>(ImmutableObservableList(*conjunctions)).apply { selectionModel.select(0) }.pair { valueProperty() }
+				if(rows.size == 0)
+					Label().apply { prefWidth = 0.0 }.pair { ImmutableObservable(conjunctions[0]) }
+				else
+					ComboBox<Conjunction<T>>(ImmutableObservableList(*conjunctions)).apply { selectionModel.select(0) }.pair { valueProperty() }
 			conjunction = con
 			
 			val option = ComboBox(options).select(searchable)
@@ -132,7 +132,7 @@ open class SearchRow<T : Any>(searchable: AnySearchable<T>? = null) : SimpleObje
 	init {
 		this.addListener { _ -> addField() }
 		conditionBox.maxWidth = Double.MAX_VALUE
-		if (searchable != null)
+		if(searchable != null)
 			addField()
 	}
 	
@@ -154,8 +154,8 @@ open class SearchRow<T : Any>(searchable: AnySearchable<T>? = null) : SimpleObje
 				Predicate { value: T ->
 					val computed = searchable(value) ?: return@Predicate false
 					val test = { input: Any -> conditionBox.value.predicate(input, filter.value!!) }
-					if (computed is Iterable<*>)
-						computed.any { if (it != null) test(it) else false }
+					if(computed is Iterable<*>)
+						computed.any { if(it != null) test(it) else false }
 					else
 						test(computed)
 				}
@@ -169,7 +169,7 @@ class Condition<in T>(val name: String, val predicate: (T, T) -> Boolean) : (T, 
 	override fun toString() = name
 	
 	companion object {
-		val contains = Condition<Any>("contains", { content, filter -> content.toString().contains(if (filter is Number && filter.toDouble().rem(1.0) == 0.0) filter.toLong().toString() else filter.toString(), true) })
+		val contains = Condition<Any>("contains", { content, filter -> content.toString().contains(if(filter is Number && filter.toDouble().rem(1.0) == 0.0) filter.toLong().toString() else filter.toString(), true) })
 		fun <T> equals(name: String = "is", predicate: (T, T) -> Boolean = { s1, s2 -> s1 == s2 }) = Condition<T>(name, predicate)
 		fun <T> contains(toString: (T) -> String = { it.toString() }) = Condition<T>("contains", { content, filter -> toString(content).contains(toString(filter), true) })
 		
@@ -193,12 +193,12 @@ abstract class Type<T> {
 	
 	companion object {
 		fun <T> create(representation: () -> Pair<Control, ObservableValue<T?>>, vararg conditions: Condition<T>): Type<T> =
-				SimpleType(representation, *conditions)
+			SimpleType(representation, *conditions)
 		
 		val TEXT = create({ TextField().pair { textProperty() } }
-				, Condition.contains()
-				, Condition("contains not", { content, filter -> !content.contains(filter, true) })
-				, Condition.equals { content, filter -> content.equals(filter, true) }
+			, Condition.contains()
+			, Condition("contains not", { content, filter -> !content.contains(filter, true) })
+			, Condition.equals { content, filter -> content.equals(filter, true) }
 		)
 		
 		val INT = NumberType { intSpinner().apply { editor.text = "" }.pair { optionalValue() } }
@@ -208,9 +208,9 @@ abstract class Type<T> {
 		val TIME = TimeType { TimeSpinner().pair { optionalValue() } }
 		
 		val LENGTH = create({ TimeSpinner().pair { optionalValue() } }
-				, Condition.equals()
-				, Condition.larger("longer than")
-				, Condition.smaller("shorter than"))
+			, Condition.equals()
+			, Condition.larger("longer than")
+			, Condition.smaller("shorter than"))
 	}
 	
 	private class SimpleType<T>(override val representation: () -> Pair<Control, ObservableValue<T?>>, vararg conditions: Condition<T>) : DefaultType<T>(*conditions)
@@ -222,18 +222,18 @@ abstract class DefaultType<T>(vararg conditions: Condition<T>) : Type<T>() {
 
 class NumberType<T>(override val representation: () -> Pair<Control, ObservableValue<T?>>) : Type<T>() where T : Comparable<T>, T : Number {
 	override val conditions = ImmutableObservableList<Condition<T>>(
-			Condition.contains { if (it.toDouble().rem(1.0) == 0.0) it.toLong().toString() else it.toString() }
-			, Condition.equals()
-			, Condition.larger("more than")
-			, Condition.smaller("less than")
+		Condition.contains { if(it.toDouble().rem(1.0) == 0.0) it.toLong().toString() else it.toString() }
+		, Condition.equals()
+		, Condition.larger("more than")
+		, Condition.smaller("less than")
 	)
 }
 
 class TimeType<T : Comparable<T>>(override val representation: () -> Pair<Control, ObservableValue<T?>>) : Type<T>() {
 	override val conditions = ImmutableObservableList<Condition<T>>(
-			Condition.equals()
-			, Condition.larger("after")
-			, Condition.smaller("before")
+		Condition.equals()
+		, Condition.larger("after")
+		, Condition.smaller("before")
 	)
 }
 

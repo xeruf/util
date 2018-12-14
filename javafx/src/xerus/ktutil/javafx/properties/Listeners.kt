@@ -26,7 +26,7 @@ open class Listeners<T>(private val observable: ObservableValue<T>? = null) : Ob
 	/** If old != new, then all listeners are notified of the change
 	 * @return the new value */
 	fun notifyChange(old: T?, new: T?): T? {
-		if (old != new)
+		if(old != new)
 			listeners.forEach {
 				(it as? InvalidationListener)?.invalidated(observable) ?: @Suppress("UNCHECKED_CAST")
 				(it as? ChangeListener<in T>)?.changed(observable, old, new)

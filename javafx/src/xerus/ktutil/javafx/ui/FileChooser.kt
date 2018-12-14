@@ -21,7 +21,7 @@ import java.nio.file.Path
  * - when it is empty, any file will be allowed */
 class FileChooser(private val window: Window, val selectedFile: ObjectProperty<File>, private val extension: String?, private val name: String) {
 	
-	constructor(window: Window, initialDir: File, extension: String?, name: String):
+	constructor(window: Window, initialDir: File, extension: String?, name: String) :
 		this(window, SimpleObjectProperty<File>(initialDir), extension, name)
 	
 	val file: File
@@ -36,7 +36,7 @@ class FileChooser(private val window: Window, val selectedFile: ObjectProperty<F
 		val listener = textProperty().dependOn(selectedFile) { it.toString() }
 		textProperty().listen {
 			val newFile = File(it)
-			if (selectedFile.get() != newFile)
+			if(selectedFile.get() != newFile)
 				selectedFile.setWithoutListener(newFile, listener)
 		}
 		maxWidth = Double.MAX_VALUE
@@ -47,7 +47,7 @@ class FileChooser(private val window: Window, val selectedFile: ObjectProperty<F
 	
 	var title = "Select $name"
 	fun showFileChooser() {
-		val file = if (extension == null) {
+		val file = if(extension == null) {
 			val chooser = DirectoryChooser()
 			chooser.initialDirectory = selectedFile.get().findFolder()
 			chooser.title = title
@@ -55,12 +55,12 @@ class FileChooser(private val window: Window, val selectedFile: ObjectProperty<F
 		} else {
 			val chooser = FileChooser()
 			chooser.initialDirectory = selectedFile.get().findFolder()
-			if (extension.isNotEmpty())
+			if(extension.isNotEmpty())
 				chooser.extensionFilters.add(FileChooser.ExtensionFilter(extension.toUpperCase(), "*.$extension"))
 			chooser.title = title
 			chooser.showOpenDialog(window)
 		}
-		if (file != null)
+		if(file != null)
 			selectedFile.set(file)
 	}
 	

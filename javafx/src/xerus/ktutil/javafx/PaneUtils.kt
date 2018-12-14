@@ -2,8 +2,9 @@ package xerus.ktutil.javafx
 
 import javafx.event.ActionEvent
 import javafx.scene.Node
+import javafx.scene.control.Button
+import javafx.scene.control.Label
 import javafx.scene.layout.*
-import javafx.scene.control.*
 
 /** Adds the Node to the children of this container and returns it.*/
 fun <T : Node> Pane.add(node: T) = node.also { children.add(node) }
@@ -40,5 +41,6 @@ fun VBox.fill(node: Region = Region(), pos: Int = children.size) {
 
 /** Adds the [node] preceded by a Label with the given [text] as a [HBox] to this [VBox] */
 fun VBox.addLabeled(text: String, node: Node) = addRow(Label(text), node)
+
 /** Adds the given [nodes] in an [HBox] to this [VBox]*/
 fun VBox.addRow(vararg nodes: Node) = add(HBox(5.0, *nodes))

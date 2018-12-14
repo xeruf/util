@@ -28,7 +28,7 @@ class ArrayMap<K, V> : MutableMap<K, V> {
 	override fun put(key: K, value: V): V? {
 		val i = indexOf(key)
 		var old: V? = null
-		if (i == -1) {
+		if(i == -1) {
 			keys.add(key)
 			values.add(value)
 		} else {
@@ -44,7 +44,7 @@ class ArrayMap<K, V> : MutableMap<K, V> {
 	
 	override fun remove(key: K): V? {
 		val i = indexOf(key)
-		return if (i == -1)
+		return if(i == -1)
 			null
 		else {
 			keys.removeAt(i)

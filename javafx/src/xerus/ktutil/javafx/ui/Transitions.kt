@@ -14,9 +14,9 @@ interface Fadable {
 	
 	fun show(new: () -> Unit) {
 		GlobalScope.launch {
-			if (visible)
+			if(visible)
 				fader.play()
-			while (fading)
+			while(fading)
 				delay(50)
 			onFx {
 				new()
@@ -26,12 +26,12 @@ interface Fadable {
 	}
 	
 	fun fadeOut() {
-		if (visible && !fading)
+		if(visible && !fading)
 			fader.play()
 	}
 	
 	fun ensureVisible() {
-		if (!visible && !fading)
+		if(!visible && !fading)
 			fader.play()
 	}
 	
@@ -45,7 +45,7 @@ interface Fadable {
 
 /**@param translate a negative value will make the content fade upwards, a positive downwards. 0 (default) simple collapses this Region*/
 fun Region.verticalFade(targetHeight: Int, translate: Double = 0.0, seconds: Double = 0.4): SimpleTransition<Region> =
-		SimpleTransition(this, Duration.seconds(seconds), { frac -> setSize(height = targetHeight * frac); translateY = translate * targetHeight * (0.5 - frac / 2); opacity = frac; isVisible = opacity > 0.0 }, false)
+	SimpleTransition(this, Duration.seconds(seconds), { frac -> setSize(height = targetHeight * frac); translateY = translate * targetHeight * (0.5 - frac / 2); opacity = frac; isVisible = opacity > 0.0 }, false)
 
 fun Region.transitionToHeight(targetHeight: Double, seconds: Double = 0.4): SimpleTransition<Region> {
 	val initialHeight = height
@@ -57,7 +57,7 @@ open class SimpleTransition<out T>(internal val target: T, length: Duration, pri
 	
 	init {
 		cycleDuration = length
-		if (instantPlay)
+		if(instantPlay)
 			onFx { play() }
 	}
 	
@@ -69,7 +69,7 @@ open class SimpleTransition<out T>(internal val target: T, length: Duration, pri
 	private var lastPos: Double = 0.0
 	override fun interpolate(pos: Double) {
 		function(target, pos)
-		if (pos != lastPos && (pos == 0.0 || pos == 1.0)) {
+		if(pos != lastPos && (pos == 0.0 || pos == 1.0)) {
 			lastPos = pos
 			onComplete?.invoke(target)
 			onFx {

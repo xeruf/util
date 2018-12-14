@@ -31,12 +31,12 @@ class WeakCollection<E>(size: Int = 4, val growFactor: Float = 1.6f) : AbstractM
 		get() = lastindex + 1
 	
 	override fun add(element: E): Boolean {
-		if (elements.size > size) {
+		if(elements.size > size) {
 			insertAt(element, size)
 			return true
 		}
 		elements.forEachIndexed { index, reference ->
-			if (reference.isEmpty()) {
+			if(reference.isEmpty()) {
 				insertAt(element, index)
 				return true
 			}
@@ -52,8 +52,8 @@ class WeakCollection<E>(size: Int = 4, val growFactor: Float = 1.6f) : AbstractM
 	fun ensureSize(newSize: Int) {
 		val new = arrayOfNulls<WeakReference<E>>((newSize + 2).coerceAtLeast((size * growFactor).toInt()))
 		var i = -1
-		for (element in elements) {
-			if (!element.isEmpty()) {
+		for(element in elements) {
+			if(!element.isEmpty()) {
 				i++
 				new[i] = element
 			}
@@ -97,9 +97,9 @@ class WeakCollection<E>(size: Int = 4, val growFactor: Float = 1.6f) : AbstractM
 			
 			private var next: E? = null
 			override fun hasNext(): Boolean {
-				while (next == null) {
+				while(next == null) {
 					cursor++
-					if (cursor > lastindex)
+					if(cursor > lastindex)
 						return false
 					next = elements[cursor]?.get()
 				}
@@ -107,7 +107,7 @@ class WeakCollection<E>(size: Int = 4, val growFactor: Float = 1.6f) : AbstractM
 			}
 			
 			override fun next(): E {
-				if (!hasNext())
+				if(!hasNext())
 					throw NoSuchElementException()
 				return next.also { next = null } ?: throw NoSuchElementException()
 			}

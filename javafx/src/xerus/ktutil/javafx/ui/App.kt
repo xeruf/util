@@ -40,7 +40,7 @@ class App : Application() {
 				System.gc()
 				stage.scene = content().apply { theme?.let { applyTheme(it) } }
 				stage.show()
-			} catch (error: Throwable) {
+			} catch(error: Throwable) {
 				val stage = Stage()
 				stage.scene = Scene(TextArea("A critical error occurred while starting the application. " +
 					"Please contact the developer, providing the information below!\n\n" +

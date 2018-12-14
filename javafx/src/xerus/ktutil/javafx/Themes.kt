@@ -16,7 +16,7 @@ fun Scene.applySkin(file: File? = null): Scene {
 
 fun Scene.applyTheme(theme: Theme = Themes.BEIGE): Scene {
 	val file = SystemUtils.tempDir.resolve("xerus-themes").resolve(theme.name)
-	if (!file.exists()) {
+	if(!file.exists()) {
 		file.parentFile.mkdirs()
 		file.writeText(".root { -fx-base: hsb(${theme.hue}, ${theme.saturation * 100}%, ${theme.brightness * 100}%); }")
 	}
@@ -29,14 +29,14 @@ fun Scene.applyTheme(theme: String): Scene {
 
 enum class Themes(override val hue: Double, override val saturation: Double, override val brightness: Double) : Theme {
 	WHITE(0.0, 0.0, 0.95),
-	BEIGE(60.0, 0.10, 0.92),
-	BLACK(240.0, 0.10, 0.05),
-	CHOCOLATE(25.0, 0.80, 0.20),
 	SILVER(0.0, 0.00, 0.75),
-	SWAMP(70.0, 0.30, 0.10);
+	BEIGE(60.0, 0.10, 0.92),
+	CHOCOLATE(25.0, 0.80, 0.20),
+	SWAMP(70.0, 0.30, 0.10),
+	BLACK(240.0, 0.10, 0.05);
 }
 
-class SimpleTheme(val name: String, val hue: Double, val saturation: Double, val brightness: Double)
+class SimpleTheme(override val name: String, override val hue: Double, override val saturation: Double, override val brightness: Double) : Theme
 
 interface Theme {
 	val name: String

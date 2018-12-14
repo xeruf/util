@@ -40,18 +40,18 @@ object StylingTools {
 	
 	/** recursively fills the given Collection with Nodes that match the predicate  */
 	fun findRec(node: Styleable?, p: (Styleable) -> Boolean, col: MutableCollection<Styleable>?) {
-		if (node == null)
+		if(node == null)
 			return
-		if (p(node))
+		if(p(node))
 			col?.add(node)
-		when (node) {
-			is TabPane -> for (tab in node.tabs)
+		when(node) {
+			is TabPane -> for(tab in node.tabs)
 				findRec(tab.content, p, col)
-			is MenuBar -> for (child in node.menus)
+			is MenuBar -> for(child in node.menus)
 				findRec(child, p, col)
-			is Menu -> for (child in node.items)
+			is Menu -> for(child in node.items)
 				findRec(child, p, col)
-			is Parent -> for (child in node.childrenUnmodifiable)
+			is Parent -> for(child in node.childrenUnmodifiable)
 				findRec(child, p, col)
 		}
 	}
@@ -66,9 +66,9 @@ object StylingTools {
 	fun toString(style: CssMetaData<out Styleable, *>, n: Node): String {
 		val res = StringBuilder(String.format("%20s: %s", style.property, (style as CssMetaData<Styleable, *>).getInitialValue(n).testString()))
 		val properties = style.subProperties
-		if (properties != null && properties.size > 0) {
+		if(properties != null && properties.size > 0) {
 			res.append(" - sub: [")
-			for (prop in properties) {
+			for(prop in properties) {
 				res.append(toString(prop, n))
 				res.append(", ")
 			}

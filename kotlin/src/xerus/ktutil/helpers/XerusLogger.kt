@@ -23,7 +23,7 @@ object XerusLogger : Logger("xeruslogger", null) {
 			
 			override fun publish(record: LogRecord) {
 				val msg = formatter.format(record)
-				if (record.thrown != null)
+				if(record.thrown != null)
 					System.err.print(msg)
 				else
 					System.out.print(msg)
@@ -44,7 +44,7 @@ object XerusLogger : Logger("xeruslogger", null) {
 	}
 	
 	override fun throwing(sourceClass: String?, sourceMethod: String, thrown: Throwable) {
-		if (sourceClass != null)
+		if(sourceClass != null)
 			format(Level.WARNING, "Method %s in Class %s threw %s", sourceMethod, sourceClass, thrown.toString())
 		else
 			format(Level.WARNING, "%s threw %s", sourceMethod, thrown.toString())
@@ -58,7 +58,7 @@ object XerusLogger : Logger("xeruslogger", null) {
 	private class ShortFormatter : Formatter() {
 		
 		override fun format(record: LogRecord): String {
-			return if (record.thrown != null) {
+			return if(record.thrown != null) {
 				String.format("%s EXCEPTION %s%s", formattedTime(), record.thrown.getStackTraceString(), System.getProperty("line.separator"))
 			} else String.format("%s %-7s %s%s", formattedTime(), record.level.toString(), formatMessage(record), System.getProperty("line.separator"))
 		}
@@ -73,12 +73,12 @@ object XerusLogger : Logger("xeruslogger", null) {
 		
 		val l = args.indexOf("--loglevel")
 		var level = default
-		if (l > -1) {
-			if (args.size < l + 2)
+		if(l > -1) {
+			if(args.size < l + 2)
 				System.err.println("No loglevel provided!")
 			else {
 				level = args[l + 1]
-				if (args.contains("--save") && level != default) {
+				if(args.contains("--save") && level != default) {
 					prefs.put("loglevel", level)
 					default = level
 				}
@@ -86,9 +86,9 @@ object XerusLogger : Logger("xeruslogger", null) {
 		}
 		invoke(level)
 		logLines(Level.CONFIG,
-				"This application can be launched from console using \"java -jar <jar> --loglevel <LogLevel>\"",
-				"LogLevel can be one of: OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST. Appending the argument \"--save\" " +
-						"will result in the given LogLevel becoming the default, which is currently ${default.toUpperCase()}")
+			"This application can be launched from console using \"java -jar <jar> --loglevel <LogLevel>\"",
+			"LogLevel can be one of: OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST. Appending the argument \"--save\" " +
+				"will result in the given LogLevel becoming the default, which is currently ${default.toUpperCase()}")
 		return this
 	}
 	
@@ -97,7 +97,7 @@ object XerusLogger : Logger("xeruslogger", null) {
 			val logLevel = Level.parse(level.toUpperCase())
 			setLevel(logLevel)
 			config("LogLevel set to $logLevel")
-		} catch (e: IllegalArgumentException) {
+		} catch(e: IllegalArgumentException) {
 			System.err.println("$level is not a valid Logger Level!")
 		}
 	}
@@ -107,8 +107,8 @@ object XerusLogger : Logger("xeruslogger", null) {
 	val logFiles = HashMap<File, Handler>(1)
 	fun logToFile(f: File, log: Boolean = true, append: Boolean = true) {
 		val file = f.absoluteFile
-		if (log) {
-			if (!logFiles.contains(file)) {
+		if(log) {
+			if(!logFiles.contains(file)) {
 				logFiles.put(file, addOutputStream(FileOutputStream(file, append)))
 			}
 		} else {
@@ -117,7 +117,7 @@ object XerusLogger : Logger("xeruslogger", null) {
 	}
 	
 	fun addOutputStream(out: OutputStream) =
-			createHandler(out).also { addHandler(it) }
+		createHandler(out).also { addHandler(it) }
 	
 	private fun createHandler(out: OutputStream): StreamHandler {
 		val handler = object : StreamHandler(out, ShortFormatter()) {

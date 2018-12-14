@@ -26,7 +26,7 @@ class TimedObservable<T>(private val interval: Long, private val supplier: () ->
 	override fun getValue() = value
 	
 	val job = GlobalScope.launch {
-		while (true) {
+		while(true) {
 			delay(interval)
 			val old = value
 			value = supplier()

@@ -12,14 +12,14 @@ import kotlin.reflect.KProperty
 
 /** If this String is null or empty, other is returned, else this */
 inline fun String?.or(other: String) =
-		if (this.isNullOrEmpty()) other else this
+	if(this.isNullOrEmpty()) other else this
 
 inline fun String?.nullIfEmpty() =
-		if (isNullOrEmpty()) null else this
+	if(isNullOrEmpty()) null else this
 
 /** checks if this String contains any of the given [sequences], case-insensitive */
 fun String.containsAny(vararg sequences: CharSequence) =
-		sequences.any { contains(it, true) }
+	sequences.any { contains(it, true) }
 
 fun String.containsEach(other: String) = contains(other, true) || other.contains(this, true)
 
@@ -32,13 +32,13 @@ fun String.toLocalDate(): LocalDate? {
 // Generics
 
 inline fun <T, U> T.pair(function: T.() -> U): Pair<T, U> =
-		Pair(this, this.run(function))
+	Pair(this, this.run(function))
 
 inline fun <T> T?.ifNull(runnable: () -> Unit) =
-		also { if (it == null) runnable() }
+	also { if(it == null) runnable() }
 
 inline fun <T> T?.ifNotNull(runnable: (T) -> Unit) =
-		also { if (it != null) runnable(it) }
+	also { if(it != null) runnable(it) }
 
 // Other
 
@@ -56,7 +56,7 @@ fun Throwable.getStackTraceString(): String {
  * If the class has no accessible field with that name, it also tries to find a getter for it. */
 fun Any.reflectField(fieldName: String): Any = try {
 	javaClass.getField(fieldName).get(this)
-} catch (ex: NoSuchFieldException) {
+} catch(ex: NoSuchFieldException) {
 	javaClass.getMethod("get" + fieldName.first().toUpperCase() + fieldName.substring(1)).invoke(this)
 }
 
@@ -64,7 +64,7 @@ fun Any.reflectField(fieldName: String): Any = try {
  * Dedicated for performance-critical algorithms, usually you should use `(start until end).forEach { }` instead */
 inline fun forRange(start: Int, end: Int, action: (Int) -> Unit) {
 	var i = start
-	while (i < end) {
+	while(i < end) {
 		action(i)
 		i++
 	}
@@ -73,5 +73,5 @@ inline fun forRange(start: Int, end: Int, action: (Int) -> Unit) {
 class WeakDelegate<T>(private val supplier: () -> T) {
 	private var reference: WeakReference<T>? = null
 	operator fun getValue(thisRef: Any, property: KProperty<*>): T =
-			reference?.get() ?: supplier().also { reference = WeakReference(it) }
+		reference?.get() ?: supplier().also { reference = WeakReference(it) }
 }

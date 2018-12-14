@@ -9,18 +9,18 @@ import xerus.ktutil.javafx.properties.addOneTimeListener
 
 /** Creates a new Stage from this Window given the [title] and [content], that has this [Window] as its owner */
 fun Window.createStage(title: String, content: Parent) =
-		Stage().also {
-			it.title = title
-			it.scene = Scene(content)
-			it.initWindowOwner(this)
-		}
+	Stage().also {
+		it.title = title
+		it.scene = Scene(content)
+		it.initWindowOwner(this)
+	}
 
 /** Sets the [other] [Window] as owner of this Stage and adjusts the position.
  * Also binds Stylesheets if [other] is a Stage. */
 fun Stage.initWindowOwner(other: Window) {
 	initOwner(other)
 	setPositionRelativeTo(other)
-	if (other is Stage)
+	if(other is Stage)
 		bindStylesheets(other)
 }
 
@@ -28,9 +28,9 @@ fun Stage.initWindowOwner(other: Window) {
  * Only works if called before showing this Stage. */
 fun Stage.setPositionRelativeTo(other: Window) {
 	var disabled = false
-	setOnShowing { if (!disabled) opacity = 0.0 }
+	setOnShowing { if(!disabled) opacity = 0.0 }
 	setOnShown {
-		if (disabled) return@setOnShown
+		if(disabled) return@setOnShown
 		val newx = (other.x + other.width / 2 - width / 2).toInt().toDouble()
 		val newy = (other.y + other.height / 2 - height / 2).toInt().toDouble()
 		onFx {

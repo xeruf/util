@@ -23,11 +23,11 @@ inline fun <T : ButtonBase> T.onClick(crossinline runnable: T.() -> Unit) = appl
 fun Slider.scrollable(step: Double = (max - min) / 20) = this.apply {
 	blockIncrement = step
 	setOnScroll {
-		if (it.touchCount > 0)
+		if(it.touchCount > 0)
 			return@setOnScroll
-		if (it.deltaY > 0)
+		if(it.deltaY > 0)
 			increment()
-		if (it.deltaY < 0)
+		if(it.deltaY < 0)
 			decrement()
 	}
 }
@@ -47,10 +47,10 @@ fun CheckBoxTreeItem<*>.updateSelection() {
 }
 
 fun TreeView<*>.expandAll(expand: Boolean = true) =
-		if (this.isShowRoot)
-			root.expandRecursively(expand)
-		else
-			root.children.forEach { it.expandRecursively(expand) }
+	if(this.isShowRoot)
+		root.expandRecursively(expand)
+	else
+		root.children.forEach { it.expandRecursively(expand) }
 
 fun TreeItem<*>.expandRecursively(expand: Boolean = true) {
 	isExpanded = expand

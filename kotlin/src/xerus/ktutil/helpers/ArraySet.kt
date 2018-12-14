@@ -10,11 +10,11 @@ class ArraySet<E>() : ArrayList<E>(), MutableSet<E> {
 	}
 	
 	override fun add(element: E): Boolean {
-		return if (contains(element)) false else super.add(element)
+		return if(contains(element)) false else super.add(element)
 	}
 	
 	override fun add(index: Int, element: E) {
-		if (!contains(element))
+		if(!contains(element))
 			super.add(index, element)
 	}
 	

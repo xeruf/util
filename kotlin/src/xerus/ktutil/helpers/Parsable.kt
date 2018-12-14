@@ -28,7 +28,7 @@ interface Parsable {
 			}
 		}, {
 			val parsed = parseRecursively(it)
-			if (parsed.second)
+			if(parsed.second)
 				parsed.first
 			else ""
 		})
@@ -38,11 +38,11 @@ interface Parsable {
 	private fun insertField(string: String): String {
 		string.split('|').let {
 			val value = reflectField(it[0])
-			if (it.size > 1) {
+			if(it.size > 1) {
 				val separator = it[1]
 				@Suppress("UNCHECKED_CAST")
 				(value as? Array<Any> ?: (value as? Collection<Any>)?.toTypedArray())?.let {
-					return if (separator == "enumeration") joinEnumeration(*it)
+					return if(separator == "enumeration") joinEnumeration(*it)
 					else it.joinToString(separator)
 				}
 			}

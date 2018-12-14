@@ -17,23 +17,23 @@ class RoughMap<V : Any> {
 	
 	fun get(key: String): V? {
 		val ind = keys.indexOf(key)
-		return if (ind != -1) values[ind] else null
+		return if(ind != -1) values[ind] else null
 	}
 	
 	fun find(key: String): V? {
 		get(key)?.let { return it }
-		keys.forEachIndexed { i, it -> if (it.contains(key, true)) return values[i] }
+		keys.forEachIndexed { i, it -> if(it.contains(key, true)) return values[i] }
 		return null
 	}
 	
 	fun findUnsafe(key: String): V {
 		get(key)?.let { return it }
-		keys.forEachIndexed { i, it -> if (it.contains(key, true)) return values[i] }
+		keys.forEachIndexed { i, it -> if(it.contains(key, true)) return values[i] }
 		throw KeyNotFoundException(key)
 	}
 	
 	fun findAll(key: String): List<V> =
-			keys.mapIndexedNotNull { i, s -> if (s.contains(key, true)) values[i] else null }
+		keys.mapIndexedNotNull { i, s -> if(s.contains(key, true)) values[i] else null }
 	
 }
 

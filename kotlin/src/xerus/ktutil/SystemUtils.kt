@@ -45,16 +45,16 @@ fun formattedTime(): String {
 /** provides a String representation of the given time
  * @return `seconds` in hh:mm:ss format */
 fun formatTime(seconds: Long, format: String = "%02d:%02d:%02d") =
-		format.format(seconds % 86400 / 3600, seconds % 3600 / 60, seconds % 60)
+	format.format(seconds % 86400 / 3600, seconds % 3600 / 60, seconds % 60)
 
 /** provides a dynamic String representation of the given time
  * @return `seconds` in hh:mm:ss format, omitting hours or even minutes if not necessary */
 fun formatTimeDynamic(seconds: Long, orientation: Long = seconds) =
-		when {
-			orientation >= 3600 -> formatTime(seconds)
-			orientation >= 60 -> "%02d:%02d".format(seconds / 60, seconds % 60)
-			else -> "%02ds".format(seconds)
-		}
+	when {
+		orientation >= 3600 -> formatTime(seconds)
+		orientation >= 60 -> "%02d:%02d".format(seconds / 60, seconds % 60)
+		else -> "%02ds".format(seconds)
+	}
 
 /** Gets a resource from the classpath by its absolute path. */
 fun getResource(path: String) = SystemUtils::class.java.getResource("/$path")

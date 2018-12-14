@@ -31,17 +31,17 @@ interface JFXMessageDisplay : MessageDisplay {
 	}
 	
 	fun showAlert(type: Alert.AlertType, title: String? = null, header: String? = null, content: String, vararg buttons: ButtonType) =
-			window.createAlert(type, title, header, content, *buttons).apply { show() }
+		window.createAlert(type, title, header, content, *buttons).apply { show() }
 	
 }
 
 fun Window?.createAlert(type: Alert.AlertType, title: String? = null, header: String? = null, content: String, vararg buttons: ButtonType) =
-		Alert(type, content, *buttons).also {
-			it.title = title
-			it.headerText = header
-			if (this != null)
-				it.initWindowOwner(this)
-		}
+	Alert(type, content, *buttons).also {
+		it.title = title
+		it.headerText = header
+		if(this != null)
+			it.initWindowOwner(this)
+	}
 
 val Alert.stage
 	get() = dialogPane.scene.window as Stage
@@ -49,7 +49,7 @@ val Alert.stage
 fun Alert.initWindowOwner(window: Window) {
 	initOwner(window)
 	stage.setPositionRelativeTo(window)
-	if (window is Stage)
+	if(window is Stage)
 		stage.bindStylesheets(window)
 }
 

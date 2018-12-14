@@ -1,20 +1,19 @@
 package xerus.ktutil.helpers
 
 import xerus.ktutil.dump
-import xerus.ktutil.or
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
 
 fun HttpURLConnection.dumpResponse() = try {
-	if (responseCode % 100 != 5) {
-		for (e in headerFields.entries) {
+	if(responseCode % 100 != 5) {
+		for(e in headerFields.entries) {
 			println(e)
 		}
 	}
 	inputStream.dump()
-} catch (e: IOException) {
+} catch(e: IOException) {
 	println(e)
 	errorStream.dump()
 }
@@ -60,7 +59,7 @@ open class HTTPQuery<out T>(vararg queries: String) {
 	}
 	
 	fun addQueries(vararg queries: String): T {
-		for (s in queries) {
+		for(s in queries) {
 			val ind = s.indexOf('=')
 			addQuery(s.substring(0, ind), s.substring(ind + 1))
 		}
@@ -72,7 +71,7 @@ open class HTTPQuery<out T>(vararg queries: String) {
 		return this as T
 	}
 	
-	fun getQuery(): String? = if (params.isEmpty()) null else params.map { e -> e.key + "=" + e.value.joinToString(",") }.joinToString("&")
+	fun getQuery(): String? = if(params.isEmpty()) null else params.map { e -> e.key + "=" + e.value.joinToString(",") }.joinToString("&")
 	
 	override fun toString() = getQuery().orEmpty()
 	

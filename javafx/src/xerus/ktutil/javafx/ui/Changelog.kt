@@ -26,7 +26,7 @@ class Version(val version: String, val title: String, vararg minorChanges: Strin
 
 internal class Change(private val main: String, private vararg val subChanges: String) {
 	override fun toString(): String =
-			arrayOf(main, *subChanges).joinToString(separator = System.lineSeparator() + "      - ", prefix = " - ")
+		arrayOf(main, *subChanges).joinToString(separator = System.lineSeparator() + "      - ", prefix = " - ")
 }
 
 class Changelog(private vararg val notes: String) {
@@ -53,19 +53,19 @@ class Changelog(private vararg val notes: String) {
 	
 	private fun appendLog(text: LogTextFlow) {
 		with(text) {
-			if (notes.isNotEmpty()) {
+			if(notes.isNotEmpty()) {
 				appendAll(strings = *notes)
 				appendln()
 			}
-			for (version in versions) {
-				for (patch in version.patches.withIndex().reversed()) {
+			for(version in versions) {
+				for(patch in version.patches.withIndex().reversed()) {
 					appendln(version.version + "." + (patch.index + 1))
 					patch.value.forEach { appendln(" - $it") }
 					appendln()
 				}
 				
 				appendFormatted(version.toString() + "\n", true)
-				for (change in version.changes)
+				for(change in version.changes)
 					appendln(change.toString())
 				appendln()
 			}

@@ -60,21 +60,21 @@ class FilterableTreeItem<T>
 				val result = predicate.get()?.invoke(this, child.value) ?: true
 				// Set the predicate of child items for recursive filtering
 				val filterableChild = (child as? FilterableTreeItem<T>)?.also {
-					it.setPredicate(if (keepSubitems && result) null else predicate.get())
+					it.setPredicate(if(keepSubitems && result) null else predicate.get())
 				}
 				// If there is no predicate, keep this tree item
-				if (this.predicate.get() == null) {
-					if (autoExpand)
+				if(this.predicate.get() == null) {
+					if(autoExpand)
 						child.isExpanded = false
 					return@Predicate true
 				}
 				// If there are children, keep this tree item
-				if (child.children.size > 0) {
-					if (autoExpand)
+				if(child.children.size > 0) {
+					if(autoExpand)
 						child.isExpanded = true
 					return@Predicate true
 				}
-				if (!autoLeaf && filterableChild != null && filterableChild.internalChildren.size > 0)
+				if(!autoLeaf && filterableChild != null && filterableChild.internalChildren.size > 0)
 					return@Predicate false
 				result
 			}
@@ -98,7 +98,7 @@ class FilterableTreeItem<T>
 			declaredField.isAccessible = true
 			@Suppress("UNCHECKED_CAST")
 			list.addListener(declaredField.get(this) as ListChangeListener<TreeItem<T>>)
-		} catch (e: Exception) {
+		} catch(e: Exception) {
 			e.printStackTrace()
 		}
 		

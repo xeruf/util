@@ -28,8 +28,8 @@ interface ISetting {
 	/** adds or removes the given key, depending on the Boolean add */
 	fun putMulti(key: String, add: Boolean) {
 		val cur: String = this.value
-		if (add)
-			put(if (cur.isEmpty()) key else cur + multiSeparator + key)
+		if(add)
+			put(if(cur.isEmpty()) key else cur + multiSeparator + key)
 		else {
 			val result = cur.split(multiSeparator).filterNot { it.contains(key) }.toTypedArray()
 			putMulti(*result)

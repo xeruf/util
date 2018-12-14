@@ -13,11 +13,11 @@ class Row(override var size: Int, vararg data: String) : AbstractList<String>(),
 	private var data: Array<String> = data as Array<String>
 	
 	override fun get(index: Int): String =
-			if (index >= data.size) "" else data[index]
+		if(index >= data.size) "" else data[index]
 	
 	override fun set(index: Int, element: String): String? {
 		var old: String? = null
-		if (data.size < index) {
+		if(data.size < index) {
 			data = Arrays.copyOf(data, index + 2).map { it ?: "" }.toTypedArray()
 			size = data.size.coerceAtLeast(size)
 		} else

@@ -19,14 +19,14 @@ fun <T> Property<T>.bind(callable: () -> T, vararg dependencies: Observable): Pr
 fun <T, U> Property<T>.bindBidirectional(other: Property<U>, converterToOther: (T) -> U, converterFromOther: (U) -> T): Property<T> {
 	var working = false
 	addListener { _, _, new ->
-		if (!working) {
+		if(!working) {
 			working = true
 			other.value = converterToOther(new)
 			working = false
 		}
 	}
 	other.addListener { _, _, new ->
-		if (!working) {
+		if(!working) {
 			working = true
 			value = converterFromOther(new)
 			working = false
@@ -49,7 +49,7 @@ fun <T> WritableValue<T>.bindSoft(callable: () -> T, vararg dependencies: Observ
 fun Array<out Observable>.addListener(trigger: Boolean = false, runnable: () -> Unit): InvalidationListener {
 	val listener = InvalidationListener { _ -> runnable() }
 	forEach { it.addListener(listener) }
-	if (trigger)
+	if(trigger)
 		runnable()
 	return listener
 }
@@ -65,7 +65,7 @@ inline fun <T, U> WritableValue<T>.dependOn(dependency: ObservableValue<U>, cros
 /** Creates a simple ObervableValue that updates it's value according to the function when ever
  * this ObservableValue triggers its ChangeListeners */
 fun <T, U> ObservableValue<T>.dependentObservable(function: (T) -> U): ObservableValue<U> =
-		SimpleObservable(function(value)).also { addListener { _, _, new -> it.value = function(new) } }
+	SimpleObservable(function(value)).also { addListener { _, _, new -> it.value = function(new) } }
 
 /** Adds a Listener that removes itself after being triggered once */
 fun Observable.addOneTimeListener(runnable: () -> Unit) = addListener(object : InvalidationListener {
@@ -77,11 +77,11 @@ fun Observable.addOneTimeListener(runnable: () -> Unit) = addListener(object : I
 
 /** Adds a ChangeListener to this ObservableValue that only receives the new value */
 fun <T> ObservableValue<T>.listen(listener: (T) -> Unit) =
-		addListener { _, _, new -> listener(new) }
+	addListener { _, _, new -> listener(new) }
 
 /** Adds a ChangeListener to this ObservableList that only receives this list */
 fun <T> ObservableList<T>.listen(listener: (ObservableList<T>) -> Unit) =
-		addListener(ListChangeListener { listener(this) })
+	addListener(ListChangeListener { listener(this) })
 
 /** Removes a listener, sets this Property to the [value] and then adds the listener back
  * @param listenerToSilence The listener to temporarily remove, so it doesn't get fired by this change */

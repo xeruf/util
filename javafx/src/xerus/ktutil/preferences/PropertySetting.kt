@@ -12,7 +12,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.prefs.Preferences
 
-inline fun <reified T : kotlin.Enum<T>> enumOf(type: String?): T {
+inline fun <reified T : Enum<T>> enumOf(type: String?): T {
 	return java.lang.Enum.valueOf(T::class.java, type)
 }
 
@@ -51,7 +51,7 @@ open class SettingsNode(val preferences: Preferences) {
 	}
 	
 	companion object {
-		fun getPreferences(clazz: Class<*>): Preferences = getPreferences(clazz.`package`.toString().replace('.', '/'))
+		fun getPreferences(clazz: Class<*>): Preferences = getPreferences(clazz.`package`.name.replace('.', '/'))
 		fun getPreferences(path: String): Preferences = suppressErr { Preferences.userRoot().node(path) }
 	}
 }

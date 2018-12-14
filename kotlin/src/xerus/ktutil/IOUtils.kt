@@ -19,8 +19,8 @@ inline fun Path.createDirs() = Files.createDirectories(this)
 
 fun Path.moveRecursively(destination: Path) {
 	val s = this.toFile()
-	if (s.isDirectory) {
-		for (file in s.listFiles())
+	if(s.isDirectory) {
+		for(file in s.listFiles())
 			file.toPath().moveRecursively(destination.resolve(file.name))
 		Files.delete(this)
 	} else {
@@ -31,18 +31,20 @@ fun Path.moveRecursively(destination: Path) {
 
 // FILE
 
-/** Replaces common characters in this String which are not permitted in filenames
+/**
+ * Replaces common characters in this String which are not permitted in filenames and trims it
  * - ':' with ' -'
  * - '|' with '-'
- * - '/' with '-' */
+ * - '/' with '-'
+ */
 fun String.replaceIllegalFileChars() =
-		replace(":", " -").replace('|', '-').replace('/', '-').trim()
+	replace(":", " -").replace('|', '-').replace('/', '-').trim()
 
 inline fun File.appendln(line: String) = appendText(line + "\n")
 
 fun File?.findFolder(): File {
 	var file = this
-	while (file != null && !(file.exists() && file.canRead() && file.isDirectory))
+	while(file != null && !(file.exists() && file.canRead() && file.isDirectory))
 		file = file.parentFile
 	return file ?: File(System.getProperty("user.dir"))
 }
@@ -50,9 +52,9 @@ fun File?.findFolder(): File {
 /** waits until the backup file is gone and then creates a backup file before performing the operation */
 fun <T> File.safe(operation: File.() -> T): T {
 	val sibling = resolveSibling("$name~")
-	while (!sibling.createNewFile())
+	while(!sibling.createNewFile())
 		Thread.sleep(10)
-	if (this.exists())
+	if(this.exists())
 		sibling.writeText(readText())
 	val result = operation(this)
 	sibling.delete()
@@ -63,14 +65,14 @@ fun <T> File.safe(operation: File.() -> T): T {
  * If the document is too short, empty lines will be appended to extend it */
 fun File.write(line: Int, text: String) {
 	val lines = readLines()
-	if (line >= lines.size) {
+	if(line >= lines.size) {
 		appendText("\n".repeat(line - lines.size + hasNewline.to(0, 1)) + text)
 	} else {
 		val old = File("$name.old")
 		renameTo(old)
 		bufferedWriter().use { new ->
 			lines.forEachIndexed { index, s ->
-				new.appendln(if (index == line) text else s)
+				new.appendln(if(index == line) text else s)
 			}
 		}
 		old.delete()
@@ -81,7 +83,7 @@ val File.hasNewline: Boolean
 	get() {
 		RandomAccessFile(this, "r").use {
 			val fileLength = it.length() - 1;
-			if (fileLength < 0)
+			if(fileLength < 0)
 				return true;
 			it.seek(fileLength);
 			val lastByte = it.readByte().toInt();
@@ -103,18 +105,18 @@ fun InputStream.copyTo(out: OutputStream, closeIn: Boolean = false, closeOut: Bo
 		val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
 		var bytesCopied = 0L
 		var bytes = read(buffer)
-		while (bytes >= 0) {
+		while(bytes >= 0) {
 			out.write(buffer, 0, bytes)
 			bytesCopied += bytes
-			if (progressHandler(bytesCopied))
+			if(progressHandler(bytesCopied))
 				break
 			bytes = read(buffer)
 		}
 		return bytesCopied
 	} finally {
-		if (closeIn)
+		if(closeIn)
 			this.close()
-		if (closeOut)
+		if(closeOut)
 			out.close()
 	}
 }
@@ -129,4 +131,4 @@ fun Any.writeToFile(file: File) {
 }
 
 inline fun <reified T : Any> File.readToObject(): T =
-		ObjectInputStream(FileInputStream(this)).use { ois -> return ois.readObject() as T }
+	ObjectInputStream(FileInputStream(this)).use { ois -> return ois.readObject() as T }
