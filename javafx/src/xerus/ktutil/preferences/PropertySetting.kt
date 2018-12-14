@@ -12,11 +12,18 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.prefs.Preferences
 
+inline fun <reified T : kotlin.Enum<T>> enumOf(type: String?): T {
+	return java.lang.Enum.valueOf(T::class.java, type)
+}
+
 open class SettingsNode(val preferences: Preferences) {
 	constructor(path: String) : this(getPreferences(path))
 	
 	fun <T> create(key: String, default: T, parser: (String) -> T) =
-			PropertySetting(key, default, preferences, parser).also { settings.add(it) }
+		PropertySetting(key, default, preferences, parser).also { settings.add(it) }
+	
+	inline fun <reified T : Enum<T>> create(key: String, default: T) =
+		create(key, default) { enumOf(it) }
 	
 	fun create(key: String, default: String = "") = create(key, default) { it }
 	fun create(key: String, default: Boolean) = create(key, default) { it.toBoolean() }

@@ -85,7 +85,7 @@ fun <T> ObservableList<T>.listen(listener: (ObservableList<T>) -> Unit) =
 
 /** Removes a listener, sets this Property to the [value] and then adds the listener back
  * @param listenerToSilence The listener to temporarily remove, so it doesn't get fired by this change */
-fun <T> Property<T>.setSilently(value: T, listenerToSilence: ChangeListener<T>) {
+fun <T> Property<T>.setWithoutListener(value: T, listenerToSilence: ChangeListener<T>) {
 	removeListener(listenerToSilence)
 	setValue(value)
 	addListener(listenerToSilence)
