@@ -8,7 +8,6 @@
 package xerus.ktutil.javafx.ui
 
 import javafx.beans.Observable
-import javafx.beans.binding.Bindings
 import javafx.beans.property.Property
 import javafx.beans.property.SimpleObjectProperty
 import javafx.collections.FXCollections
@@ -19,8 +18,8 @@ import javafx.scene.control.CheckBoxTreeItem
 import javafx.scene.control.TreeItem
 import javafx.scene.control.cell.CheckBoxTreeCell
 import xerus.ktutil.javafx.properties.bind
+import xerus.ktutil.javafx.properties.dependOn
 import xerus.ktutil.nullIfEmpty
-import java.util.concurrent.Callable
 import java.util.function.Predicate
 
 /**
@@ -55,15 +54,15 @@ class FilterableTreeItem<T>
 	
 	init {
 		val filteredList = FilteredList<TreeItem<T>>(this.internalChildren)
-		filteredList.predicateProperty().bind(Bindings.createObjectBinding<Predicate<TreeItem<T>>>(Callable {
+		filteredList.predicateProperty().dependOn(this.predicate) { predicate ->
 			Predicate { child: TreeItem<T> ->
-				val result = predicate.get()?.invoke(this, child.value) ?: true
+				val result = predicate?.invoke(this, child.value) ?: true
 				// Set the predicate of child items for recursive filtering
-				val filterableChild = (child as? FilterableTreeItem<T>)?.also {
-					it.setPredicate(if(keepSubitems && result) null else predicate.get())
+				val filterableChild = (child as? FilterableTreeItem<T>)?.also { child ->
+					child.setPredicate(if(keepAllChildren && result) null else predicate)
 				}
 				// If there is no predicate, keep this tree item
-				if(this.predicate.get() == null) {
+				if(predicate == null) {
 					if(autoExpand)
 						child.isExpanded = false
 					return@Predicate true
@@ -74,11 +73,13 @@ class FilterableTreeItem<T>
 						child.isExpanded = true
 					return@Predicate true
 				}
+				// If autoLeaf is off and this item has filterable children that are all filtered out, then hide this
 				if(!autoLeaf && filterableChild != null && filterableChild.internalChildren.size > 0)
 					return@Predicate false
+				// This is a leaf, only filtered by the Predicate
 				result
 			}
-		}, this.predicate))
+		}
 		
 		setHiddenFieldChildren(filteredList)
 	}
@@ -129,8 +130,8 @@ class FilterableTreeItem<T>
 	companion object {
 		/** when true, items with children, but all filtered out, will turn into leafs  */
 		var autoLeaf = true
-		/** when true, subitems of matched items will automatically be kept  */
-		var keepSubitems = true
+		/** when true, children of matched items will automatically be kept  */
+		var keepAllChildren = true
 		/** when true, items will collapse when the [predicate] is null and expand when it is not  */
 		var autoExpand = false
 	}

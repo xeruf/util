@@ -27,6 +27,7 @@ class App : Application() {
 		private lateinit var content: (() -> Scene)
 		private var theme: Theme? = null
 		
+		/** Launches the JavaFX Application in the current Thread. This method will only return once JavaFX is terminated. */
 		fun launch(title: String = "Test", theme: Theme? = Themes.BEIGE, stager: ((Stage) -> Unit)? = null, scene: () -> Scene) {
 			this.content = scene
 			this.theme = theme
@@ -34,9 +35,13 @@ class App : Application() {
 			Application.launch(App::class.java)
 		}
 		
+		/** Hides the [stage], invokes [System.gc] to ensure all old bindings are gone and creates a new Scene
+		 * from the parameters set at [launch] and shows the [stage] again.
+		 * If an error occurs during startup, a crash report is shown instead. */
 		fun restart() {
 			try {
 				stage.hide()
+				stage.scene = null
 				System.gc()
 				stage.scene = content().apply { theme?.let { applyTheme(it) } }
 				stage.show()

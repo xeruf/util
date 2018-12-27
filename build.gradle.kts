@@ -30,8 +30,8 @@ subprojects {
 		}
 		getByName("install").dependsOn("javadocJar", "sourcesJar")
 		artifacts {
-			add("archives", sourcesJar.outputs.files.first()) { classifier = "sources" }
-			add("archives", javadocJar.outputs.files.first()) { classifier = "javadoc" }
+			add("archives", sourcesJar.outputs.files.singleFile) { classifier = "sources" }
+			add("archives", javadocJar.outputs.files.singleFile) { classifier = "javadoc" }
 		}
 		
 		withType<KotlinCompile> {

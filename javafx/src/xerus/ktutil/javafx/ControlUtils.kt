@@ -38,12 +38,12 @@ fun CheckBox.bind(property: Property<Boolean>) = apply { selectedProperty().bind
 
 fun <T> ComboBox<T>.select(item: T) = apply { selectionModel.select(item) }
 
-/** Updates the Selection of this [CheckBoxTreeItem] by flipping the isSelected state of the first child twice */
+/** Updates the Selection state of this [CheckBoxTreeItem] by flipping the isSelected state of the lowest first child twice */
 fun CheckBoxTreeItem<*>.updateSelection() {
-	(children.firstOrNull() as? CheckBoxTreeItem)?.run {
+	(children.firstOrNull() as? CheckBoxTreeItem)?.updateSelection() ?: run {
 		isSelected = !isSelected
 		isSelected = !isSelected
-	} ?: run { isSelected = false }
+	}
 }
 
 fun TreeView<*>.expandAll(expand: Boolean = true) =
