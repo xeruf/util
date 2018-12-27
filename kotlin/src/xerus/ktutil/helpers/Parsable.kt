@@ -1,6 +1,6 @@
 package xerus.ktutil.helpers
 
-import xerus.ktutil.joinEnumeration
+import xerus.ktutil.collections.joinEnumeration
 import xerus.ktutil.reflectField
 
 private val fieldParser = Parser('%')

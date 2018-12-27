@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE", "unused")
 
-package xerus.ktutil
+package xerus.ktutil.collections
 
 inline fun <C : Collection<T>, T> C?.nullIfEmpty() =
 	this?.takeUnless { it.isEmpty() }

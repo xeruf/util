@@ -1,4 +1,4 @@
-package xerus.ktutil.helpers
+package xerus.ktutil.collections
 
 class RoughMap<V : Any> {
 	

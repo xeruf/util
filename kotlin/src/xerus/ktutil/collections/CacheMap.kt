@@ -1,4 +1,4 @@
-package xerus.ktutil.helpers
+package xerus.ktutil.collections
 
 import java.lang.ref.SoftReference
 import java.lang.ref.WeakReference
@@ -6,7 +6,7 @@ import java.util.ArrayList
 import java.util.NoSuchElementException
 import kotlin.collections.HashMap
 
-class Cache<T, V> {
+class CacheMap<T, V> {
 	
 	private val map = HashMap<T, SoftReference<V>>()
 	

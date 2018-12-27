@@ -1,4 +1,4 @@
-package xerus.ktutil.helpers
+package xerus.ktutil.collections
 
 class ArrayMap<K, V> : MutableMap<K, V> {
 	
@@ -16,7 +16,8 @@ class ArrayMap<K, V> : MutableMap<K, V> {
 	
 	override fun isEmpty() = keys.isEmpty()
 	
-	/** highly inefficient! Avoid if at all possible! */
+	/** Highly inefficient! Avoid if at all possible!
+	 * Modifications will not be reflected in this map! */
 	override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
 		get() = mutableSetOf(*(0 until keys.size).map { ArrayMapEntry(it) }.toTypedArray())
 	

@@ -11,6 +11,7 @@ class PreferencesTest {
 	fun settingsNodeTest() {
 		Assertions.assertEquals("/xerus/test", settings.preferences.absolutePath())
 		settings.clear()
+		settings.preferences.put("dayOfWeek", "TROLOLOL")
 		val enumSettingBackend = settings.create("dayOfWeek", DayOfWeek.WEDNESDAY)
 		val enumSetting = settings.create("dayOfWeek", DayOfWeek.THURSDAY)
 		Assertions.assertEquals(DayOfWeek.THURSDAY, enumSetting())

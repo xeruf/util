@@ -1,12 +1,13 @@
-package xerus.ktutil.helpers
+package xerus.ktutil.collections
 
 import java.util.*
 
 /** A List of Strings similar to an ArrayList that never throws an [IndexOutOfBoundsException].
  *
  * When trying to access an element out of bounds, then it will report an empty String.
- * If an element at an index is set which is out of bounds, then the List will expand with empty Strings.*/
-class Row(override var size: Int, vararg data: String) : AbstractList<String>(), RandomAccess {
+ * If an element is inserted at an index that is out of bounds, then the List will expand with empty Strings
+ * to fit the new element. */
+class StringRow(override var size: Int, vararg data: String) : AbstractList<String>(), RandomAccess {
 	constructor(vararg data: String) : this(data.size, *data)
 	
 	@Suppress("Unchecked_cast")
@@ -26,6 +27,6 @@ class Row(override var size: Int, vararg data: String) : AbstractList<String>(),
 		return old
 	}
 	
-	override fun toString() = "Row(${Arrays.toString(data)})"
+	override fun toString() = "StringRow(${Arrays.toString(data)})"
 	
 }

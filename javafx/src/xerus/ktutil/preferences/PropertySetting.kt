@@ -5,6 +5,7 @@ import javafx.beans.property.ObjectProperty
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
 import xerus.ktutil.SystemUtils.suppressErr
+import xerus.ktutil.collections.WeakCollection
 import xerus.ktutil.javafx.properties.Listeners
 import xerus.ktutil.javafx.properties.bindSoft
 import java.io.File
@@ -16,6 +17,8 @@ import kotlin.reflect.KClass
 open class SettingsNode(val preferences: Preferences) {
 	constructor(path: String) : this(getPreferences(path))
 	
+	/** Creates a new [PropertySetting] using the parameters and [preferences]
+	 * and adds it to the [settings] so they can all be cleared at once */
 	fun <T> create(key: String, default: T, parser: (String) -> T) =
 		PropertySetting(key, default, preferences, parser).also { settings.add(it) }
 	
@@ -31,7 +34,7 @@ open class SettingsNode(val preferences: Preferences) {
 	fun create(key: String, default: File) = create(key, default) { File(it) }
 	fun create(key: String, default: Path) = create(key, default) { Paths.get(it) }
 	
-	val settings = ArrayList<PropertySetting<*>>()
+	val settings = WeakCollection<PropertySetting<*>>()
 	
 	/** Removes all data from [preferences] and resets all created settings to their default and finally executes [flush] */
 	fun clear() {
@@ -65,7 +68,14 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 		get() = get().toString()
 		set(value) = set(parser(value))
 	
-	private var _value = preferences.get(key, null)?.let { parser(it) } ?: default
+	private var _value = preferences.get(key, null)?.let {
+		try {
+			parser(it)
+		} catch(e: Exception) {
+			null
+		}
+	} ?: default
+	
 	override fun get() = _value
 	
 	override fun set(value: T) {
