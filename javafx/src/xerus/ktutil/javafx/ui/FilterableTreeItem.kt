@@ -58,9 +58,8 @@ class FilterableTreeItem<T>
 			Predicate { child: TreeItem<T> ->
 				val result = predicate?.invoke(this, child.value) ?: true
 				// Set the predicate of child items for recursive filtering
-				val filterableChild = (child as? FilterableTreeItem<T>)?.also { child ->
-					child.setPredicate(if(keepAllChildren && result) null else predicate)
-				}
+				val filterableChild = (child as? FilterableTreeItem<T>)
+				filterableChild?.setPredicate(if(keepAllChildren && result) null else predicate)
 				// If there is no predicate, keep this tree item
 				if(predicate == null) {
 					if(autoExpand)
@@ -105,22 +104,19 @@ class FilterableTreeItem<T>
 		
 	}
 	
-	/** @return the predicate property */
 	fun predicateProperty() = this.predicate
 	
-	/** @return the predicate */
 	fun getPredicate() = this.predicate.get()
 	
-	/** Set the predicate */
 	fun setPredicate(predicate: TreeItemPredicate<T>?) = this.predicate.set(predicate)
 	
-	/** Create and set the predicate */
+	/** Automatically update the predicate */
 	fun bindPredicate(filter: (T) -> Boolean, vararg dependencies: Observable) {
 		predicate.bind({ { _, value -> filter.invoke(value) } }, *dependencies)
 	}
 	
 	/** Establishes a Binding to that Property that defaults to filtering the value using the string, ignoring case
-	 * if the current String of the Property is empty, the Predicate is automatically set to zero */
+	 * if the current String of the Property is empty, the Predicate is automatically set to null */
 	fun bindPredicate(property: Property<String>, function: (T, String) -> Boolean = { value, text -> value.toString().contains(text, true) }) {
 		predicate.bind({ property.value.nullIfEmpty()?.let { text -> { _, value -> function(value, text) } } }, property)
 	}

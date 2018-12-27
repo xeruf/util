@@ -11,10 +11,7 @@ import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.prefs.Preferences
-
-inline fun <reified T : Enum<T>> enumOf(type: String?): T {
-	return java.lang.Enum.valueOf(T::class.java, type)
-}
+import kotlin.reflect.KClass
 
 open class SettingsNode(val preferences: Preferences) {
 	constructor(path: String) : this(getPreferences(path))
@@ -23,7 +20,7 @@ open class SettingsNode(val preferences: Preferences) {
 		PropertySetting(key, default, preferences, parser).also { settings.add(it) }
 	
 	inline fun <reified T : Enum<T>> create(key: String, default: T) =
-		create(key, default) { enumOf(it) }
+		create(key, default) { enumValueOf(it) }
 	
 	fun create(key: String, default: String = "") = create(key, default) { it }
 	fun create(key: String, default: Boolean) = create(key, default) { it.toBoolean() }
@@ -36,31 +33,32 @@ open class SettingsNode(val preferences: Preferences) {
 	
 	val settings = ArrayList<PropertySetting<*>>()
 	
+	/** Removes all data from [preferences] and resets all created settings to their default and finally executes [flush] */
 	fun clear() {
 		preferences.clear()
 		settings.forEach { it.clear() }
 		flush()
 	}
 	
-	/** writes all pending changes to disk */
+	/** Writes all pending changes to disk */
 	fun flush() = preferences.flush()
 	
-	/** refreshes each Setting created by this [SettingsNode] */
+	/** Reloads each Setting created by this [SettingsNode] from the [preferences] */
 	fun refresh() {
 		settings.forEach { it.refresh() }
 	}
 	
 	companion object {
-		fun getPreferences(clazz: Class<*>): Preferences = getPreferences(clazz.`package`.name.replace('.', '/'))
+		fun getPreferences(clazz: KClass<*>): Preferences = getPreferences(clazz.java.`package`.name.replace('.', '/'))
 		fun getPreferences(path: String): Preferences = suppressErr { Preferences.userRoot().node(path) }
 	}
 }
 
 /**
- * Caches the Setting as an [ObjectProperty]
+ * Caches the Setting as an [ObjectProperty] to minimise I/O.
  *
- * Recommended to be created using a [SettingsNode]
- * */
+ * It is recommended to use a [SettingsNode] to ease the creation, but it can also be used independently.
+ */
 open class PropertySetting<T>(private val key: String, private val default: T, val preferences: Preferences, private val parser: (String) -> T) : ObjectProperty<T>(), ISetting {
 	
 	override var value: String
@@ -77,10 +75,10 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 		preferences.put(key, value.toString())
 	}
 	
-	/** reloads the [value] from the [preferences] */
+	/** Reloads the [value] from the [preferences] */
 	fun refresh() = set(preferences.get(key, null)?.let { parser(it) } ?: default)
 	
-	/** clears the entry in [preferences] and resets the value to the default */
+	/** Clears the entry in [preferences] and resets the value to the default */
 	fun clear() {
 		preferences.remove(key)
 		set(default)
