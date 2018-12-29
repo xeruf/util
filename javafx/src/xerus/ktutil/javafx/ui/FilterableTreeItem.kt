@@ -1,10 +1,5 @@
-/******************************************************************************* Copyright (c) 2014 EM-SOFTWARE and
- * others. All rights reserved. This program and the accompanying materials are made available under the terms of the
- * Eclipse Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors: Christoph Keimel <c.keimel></c.keimel>@emsw.de> - initial API and
- * implementation  */
+/** Initial implementation by Christoph Keimel from [http://www.kware.net/?p=204#The_Filterable_Tree_Item].
+ * Adapted & Modified by Janek Fischer. */
 package xerus.ktutil.javafx.ui
 
 import javafx.beans.Observable
@@ -14,6 +9,7 @@ import javafx.collections.FXCollections
 import javafx.collections.ListChangeListener
 import javafx.collections.ObservableList
 import javafx.collections.transformation.FilteredList
+import javafx.scene.Node
 import javafx.scene.control.CheckBoxTreeItem
 import javafx.scene.control.TreeItem
 import javafx.scene.control.cell.CheckBoxTreeCell
@@ -30,24 +26,22 @@ import java.util.function.Predicate
  *
  * A tree item that has children will not be filtered. The predicate will only be evaluated if the TreeItem is a leaf.
  * Since the predicate is also set for the child tree items, the tree item in question can turn into a leaf if all of
- * its children are filtered out and [.autoLeaf] is set to true.
- *
+ * its children are filtered out and [autoLeaf] is set to true.
  *
  * This class extends [CheckBoxTreeItem] so it can, but does not need to be, used in conjunction with
  * [CheckBoxTreeCell] cells.
- * @param <T> The type of the [value][.getValue] property within [TreeItem].
-</T> */
-class FilterableTreeItem<T>
-/**
- * Creates a new [TreeItem] with filtered children.
- * @param value the value of the [TreeItem]
+ *
+ * @param T The type of the [value] property within this [TreeItem].
+ * @param value The object to be stored as the value of this CheckBoxTreeItem.
+ * @param graphic The Node to show in the TreeView next to this CheckBoxTreeItem.
+ * @param selected The initial value of the [selectedProperty].
+ * @param independent The initial value of the [independentProperty].
  */
-(value: T) : CheckBoxTreeItem<T>(value) {
+@Suppress("unused")
+class FilterableTreeItem<T>(value: T, graphic: Node? = null, selected: Boolean = false, independent: Boolean = false) :
+	CheckBoxTreeItem<T>(value, graphic, selected, independent) {
 	
-	/**
-	 * Returns the list of children that is backing the filtered list.
-	 * @return underlying list of children
-	 */
+	/** @return the list of children that is backing the filtered list. */
 	val internalChildren: ObservableList<TreeItem<T>> = FXCollections.observableArrayList<TreeItem<T>>()
 	
 	private val predicate = SimpleObjectProperty<TreeItemPredicate<T>?>()
@@ -124,11 +118,11 @@ class FilterableTreeItem<T>
 	override fun toString(): String = "FilterableTreeItem(value=$value, predicate=$predicate)"
 	
 	companion object {
-		/** when true, items with children, but all filtered out, will turn into leafs  */
+		/** when true, if no child of an item matches the [predicate], it will turn into a leaf */
 		var autoLeaf = true
-		/** when true, children of matched items will automatically be kept  */
+		/** when true, children of items that match the [predicate] will automatically be kept */
 		var keepAllChildren = true
-		/** when true, items will collapse when the [predicate] is null and expand when it is not  */
+		/** when true, all items will collapse when the [predicate] is null and expand when it is not */
 		var autoExpand = false
 	}
 	
