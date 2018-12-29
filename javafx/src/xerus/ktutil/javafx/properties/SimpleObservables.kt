@@ -8,8 +8,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-abstract class AbstractObservableValue<T> : ObservableValue<T> {
-	protected val listeners = Listeners(this)
+abstract class AbstractObservableValue<T>(alwaysNotify: Boolean = false) : ObservableValue<T> {
+	protected val listeners = Listeners(this, alwaysNotify)
 	override fun addListener(listener: InvalidationListener) = listeners.add(listener)
 	override fun addListener(listener: ChangeListener<in T>) = listeners.add(listener)
 	override fun removeListener(listener: InvalidationListener) = listeners.remove(listener)
@@ -41,7 +41,7 @@ class TimedObservable<T>(private val interval: Long, private val supplier: () ->
 	
 }
 
-class SimpleObservable<T>(private var value: T) : AbstractObservableValue<T>(), WritableValue<T> {
+class SimpleObservable<T>(private var value: T, alwaysNotify: Boolean = false) : AbstractObservableValue<T>(alwaysNotify), WritableValue<T> {
 	
 	override fun setValue(newValue: T) {
 		val old = this.value
