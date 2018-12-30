@@ -1,5 +1,6 @@
 package xerus.ktutil.javafx.properties
 
+import javafx.animation.PauseTransition
 import javafx.beans.InvalidationListener
 import javafx.beans.Observable
 import javafx.beans.binding.Bindings
@@ -9,6 +10,7 @@ import javafx.beans.value.ObservableValue
 import javafx.beans.value.WritableValue
 import javafx.collections.ListChangeListener
 import javafx.collections.ObservableList
+import javafx.util.Duration
 import java.util.concurrent.Callable
 
 /** Creates a [javafx.beans.binding.ObjectBinding] using the supplied parameters and binds this property to it.
@@ -85,6 +87,16 @@ fun Observable.addOneTimeListener(runnable: () -> Unit) = addListener(object : I
 /** Adds a ChangeListener to this ObservableValue that only receives the new value. */
 fun <T> ObservableValue<T>.listen(listener: (T) -> Unit) =
 	ChangeListener<T> { _, _, new -> listener(new) }.also { addListener(it) }
+
+/** Adds a ChangeListener to this ObservableValue that only receives the new value
+ * if there has not been a new value for [millis]. */
+fun <T> ObservableValue<T>.debounce(millis: Int, listener: (T) -> Unit): ChangeListener<T> {
+	val debouncer = PauseTransition(Duration(millis.toDouble()))
+	return listen { new ->
+		debouncer.setOnFinished { listener(new) }
+		debouncer.playFromStart()
+	}
+}
 
 /** Adds a ChangeListener to this ObservableList that only receives this list. */
 fun <T> ObservableList<T>.listen(listener: (ObservableList<T>) -> Unit) =
