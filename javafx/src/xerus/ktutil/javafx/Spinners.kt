@@ -1,6 +1,7 @@
 package xerus.ktutil.javafx
 
 import javafx.beans.property.Property
+import javafx.beans.value.WritableValue
 import javafx.scene.control.Spinner
 import javafx.scene.control.SpinnerValueFactory
 import javafx.util.converter.LocalTimeStringConverter
@@ -37,9 +38,8 @@ fun <T> Spinner<T>.editable(): Spinner<T> {
 fun <T> Spinner<T>.optionalValue() = editor.textProperty().dependentObservable { if(it.isEmpty()) null else value }
 
 /** Updates the given Property whenever the value of this Spinner changes */
-infix fun <T> Spinner<T>.syncTo(observable: Property<T>): Spinner<T> {
-	valueFactory.value = observable.value
-	observable.bind(valueProperty())
+infix fun <T> Spinner<T>.syncWith(property: Property<T>): Spinner<T> {
+	valueFactory.valueProperty().bindBidirectional(property)
 	return this
 }
 
