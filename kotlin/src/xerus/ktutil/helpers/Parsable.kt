@@ -8,12 +8,11 @@ private val bracketParser = Parser('{', '}')
 
 /** This Interface denotes a class that can be stringified according to patterns.
  * It exposes a [toString] function that takes a pattern as argument
- * and then tries to fill in that pattern, gathering the necessary
- * information via reflection */
+ * and then tries to fill in that pattern by filling field references
+ * (indicated by surrounding % signs) using [getField] */
 interface Parsable {
 	
-	/**
-	 * parses this object to a String using the given format String
+	/**Parses this object to a String using the given format String.
 	 * @throws NoSuchFieldException if the format contains an unknown field
 	 */
 	fun toString(pattern: String) = parseRecursively(pattern).first
@@ -21,10 +20,17 @@ interface Parsable {
 	private fun parseRecursively(pattern: String): Pair<String, Boolean> {
 		var inserted = false
 		val result = bracketParser.parse(pattern, {
-			fieldParser.parse(it) {
-				val value = insertField(it)
-				inserted = inserted || value.isNotEmpty()
-				value
+			try {
+				fieldParser.parse(it) { field ->
+					val value = parseField(field)
+					inserted = inserted || value.isNotEmpty()
+					value
+				}
+			} catch(e: ParserException) {
+				if(e.cause is NoSuchFieldException)
+					throw e.cause
+				else
+					throw e
 			}
 		}, {
 			val parsed = parseRecursively(it)
@@ -35,19 +41,23 @@ interface Parsable {
 		return Pair(result, inserted)
 	}
 	
-	private fun insertField(string: String): String {
-		string.split('|').let {
-			val value = reflectField(it[0])
+	/** Parses a field for insertion and joins it if it is an array or a collection, taking into account a potential given separator */
+	private fun parseField(field: String): String {
+		field.split('|').let {
+			val value = getField(it[0])
 			if(it.size > 1) {
 				val separator = it[1]
 				@Suppress("UNCHECKED_CAST")
-				(value as? Array<Any> ?: (value as? Collection<Any>)?.toTypedArray())?.let {
-					return if(separator == "enumeration") joinEnumeration(*it)
-					else it.joinToString(separator)
+				(value as? Array<Any> ?: (value as? Collection<Any>)?.toTypedArray())?.let { array ->
+					return if(separator == "enumeration") joinEnumeration(*array)
+					else array.joinToString(separator)
 				}
 			}
 			return value.toString()
 		}
 	}
+	
+	/** Gets the value of the [field] for insertion. The default implementation uses [reflectField]. */
+	fun getField(field: String)= reflectField(field)
 	
 }

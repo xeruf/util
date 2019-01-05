@@ -52,8 +52,8 @@ fun Throwable.getStackTraceString(): String {
 	return sw.buffer.toString()
 }
 
-/** Locates the value of the field with the given name using java reflection.
- * If the class has no accessible field with that name, it also tries to find a getter for it. */
+/** Gets the value of the field with the given name using java reflection.
+ * If the class has no accessible field with that name, it also tries its getter. */
 fun Any.reflectField(fieldName: String): Any = try {
 	javaClass.getField(fieldName).get(this)
 } catch(ex: NoSuchFieldException) {
