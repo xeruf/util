@@ -52,7 +52,7 @@ interface Parsable {
 				(value as? Array<Any> ?: (value as? Collection<Any>)?.toTypedArray())?.let { array ->
 					return when {
 						array.size == 1 -> array.first().toString()
-						separator == "enumeration" -> joinEnumeration(*array)
+						separator == "enumeration" || separator == "enumerate" || separator == "enum" -> joinEnumeration(*array)
 						else -> array.joinToString(separator)
 					}
 				}
