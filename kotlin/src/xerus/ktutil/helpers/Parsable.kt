@@ -15,14 +15,14 @@ interface Parsable {
 	/**Parses this object to a String using the given format String.
 	 * @throws NoSuchFieldException if the format contains an unknown field
 	 */
-	fun toString(pattern: String) = parseRecursively(pattern).first
+	fun toString(pattern: String, vararg additionalFields: Pair<String, String>) = parseRecursively(pattern, additionalFields.associate { it }).first
 	
-	private fun parseRecursively(pattern: String): Pair<String, Boolean> {
+	private fun parseRecursively(pattern: String, additionalFields: Map<String, String>): Pair<String, Boolean> {
 		var inserted = false
 		val result = bracketParser.parse(pattern, {
 			try {
 				fieldParser.parse(it) { field ->
-					val value = parseField(field)
+					val value = parseField(field, additionalFields)
 					inserted = inserted || value.isNotEmpty()
 					value
 				}
@@ -33,7 +33,7 @@ interface Parsable {
 					throw e
 			}
 		}, {
-			val parsed = parseRecursively(it)
+			val parsed = parseRecursively(it, additionalFields)
 			if(parsed.second)
 				parsed.first
 			else ""
@@ -41,16 +41,20 @@ interface Parsable {
 		return Pair(result, inserted)
 	}
 	
-	/** Parses a field for insertion and joins it if it is an array or a collection, taking into account a potential given separator */
-	private fun parseField(field: String): String {
+	/** Parses a field for insertion and joins it if it is an array or a collection, taking into account a potential given separator. */
+	private fun parseField(field: String, additionalFields: Map<String, String>): String {
 		field.split('|').let {
-			val value = getField(it[0])
+			val fieldName = it[0]
+			val value = additionalFields[fieldName] ?: getField(fieldName)
 			if(it.size > 1) {
-				val separator = it[1]
+				val separator = it.getOrNull(1) ?: ","
 				@Suppress("UNCHECKED_CAST")
 				(value as? Array<Any> ?: (value as? Collection<Any>)?.toTypedArray())?.let { array ->
-					return if(separator == "enumeration") joinEnumeration(*array)
-					else array.joinToString(separator)
+					return when {
+						array.size == 1 -> array.first().toString()
+						separator == "enumeration" -> joinEnumeration(*array)
+						else -> array.joinToString(separator)
+					}
 				}
 			}
 			return value.toString()
@@ -58,6 +62,6 @@ interface Parsable {
 	}
 	
 	/** Gets the value of the [field] for insertion. The default implementation uses [reflectField]. */
-	fun getField(field: String)= reflectField(field)
+	fun getField(field: String) = reflectField(field)
 	
 }
