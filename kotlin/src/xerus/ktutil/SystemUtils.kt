@@ -14,21 +14,25 @@ object SystemUtils {
 		get() = System.getProperty("java.version")
 	
 	private val systemErr = System.err
+	/** Calls the [supplier] while muting the [System.err] Stream.
+	 * Useful for blocking unhelpful warnings or known errors. */
 	fun <T> suppressErr(supplier: () -> T): T {
-		suspendErr()
+		muteSystemErr()
 		val result = supplier()
-		restoreErr()
+		restoreSystemErr()
 		return result
 	}
 	
-	fun suspendErr() {
+	/** Sets [System.err] to a Stream that does nothing. */
+	fun muteSystemErr() {
 		System.setErr(PrintStream(object : OutputStream() {
 			override fun write(b: Int) {
 			}
 		}))
 	}
 	
-	fun restoreErr() = System.setErr(systemErr)
+	/** Sets [System.err] back to its original value */
+	fun restoreSystemErr() = System.setErr(systemErr)
 	
 }
 

@@ -11,7 +11,7 @@ fun rootHsbStyling(hue: Double, saturation: Double, brightness: Double) =
 	".root { -fx-base: hsb($hue, ${saturation * 100}%, ${brightness * 100}%); }"
 
 /** Clears the Stylesheets and applies the Stylesheet from [file] together with the default stylesheets. */
-fun Scene.applySkin(file: File? = null): Scene {
+fun Scene.applyStyles(file: File? = null): Scene {
 	stylesheets.clear()
 	arrayOf(file?.let { URL("file", null, it.absolutePath) }, getResource("css/default.css"), getResource("css/style.css"))
 		.forEach { it?.toExternalForm()?.let { stylesheets.add(it) } }
@@ -25,10 +25,10 @@ fun Scene.applyTheme(theme: Theme = Themes.BEIGE): Scene {
 		file.parentFile.mkdirs()
 		file.writeText(theme.styling)
 	}
-	return applySkin(file)
+	return applyStyles(file)
 }
 
-/** Finds a theme in [Themes] with the name [theme], upper-cased. */
+/** Finds a theme in [Themes] with the name [theme], upper-cased, and applies it. */
 fun Scene.applyTheme(theme: String) =
 	applyTheme(Themes.valueOf(theme.toUpperCase()))
 
@@ -46,10 +46,15 @@ enum class Themes(hue: Double,  saturation: Double, brightness: Double) : Theme 
 	override val styling = rootHsbStyling(hue, saturation, brightness)
 }
 
+/** A Theme that only defines the root color of the application */
 open class ColorTheme(displayName: String, hue: Double, saturation: Double, brightness: Double) : SimpleTheme(displayName, rootHsbStyling(hue, saturation, brightness))
 
+/** A Simple Theme with name and styling that can be constructed and used instantly */
 open class SimpleTheme(override val displayName: String, override val styling: String) : Theme
 
+/** A Theme is used to style the application.
+ * The [styling] will be directly used, as such it has to be valid CSS.
+ * The [displayName] will be used to display this Theme to the user. */
 interface Theme : Named {
 	val styling: String
 }

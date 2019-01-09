@@ -12,6 +12,10 @@ import xerus.ktutil.javafx.applyTheme
 
 class App : Application() {
 	
+	init {
+		application = this
+	}
+	
 	override fun start(primaryStage: Stage) {
 		stage = primaryStage
 		initialized = true
@@ -21,6 +25,7 @@ class App : Application() {
 	
 	companion object {
 		var initialized = false
+		lateinit var application: Application
 		lateinit var stage: Stage
 		
 		private lateinit var stager: (Stage) -> Unit
