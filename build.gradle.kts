@@ -26,12 +26,12 @@ subprojects {
 		}
 		val javadocJar by creating(Jar::class) {
 			classifier = "javadoc"
-			from(getByName<Javadoc>("javadoc").destinationDir)
+			from(javadoc.get().destinationDir)
 		}
-		getByName("install").dependsOn("javadocJar", "sourcesJar")
+		install.get().dependsOn(javadocJar, sourcesJar)
 		artifacts {
-			add("archives", sourcesJar.outputs.files.singleFile) { classifier = "sources" }
-			add("archives", javadocJar.outputs.files.singleFile) { classifier = "javadoc" }
+			archives(sourcesJar.outputs.files.singleFile) { classifier = "sources" }
+			archives(javadocJar.outputs.files.singleFile) { classifier = "javadoc" }
 		}
 		
 		withType<KotlinCompile> {

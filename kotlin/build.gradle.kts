@@ -8,7 +8,7 @@ dependencies {
 }
 
 sourceSets {
-	getByName("main") {
+	main {
 		java.srcDirs("src")
 		resources.srcDirs("resources")
 	}
