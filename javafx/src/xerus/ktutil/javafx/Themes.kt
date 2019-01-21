@@ -5,7 +5,6 @@ import xerus.ktutil.SystemUtils
 import xerus.ktutil.getResource
 import xerus.ktutil.helpers.Named
 import java.io.File
-import java.net.URL
 
 fun rootHsbStyling(hue: Double, saturation: Double, brightness: Double) =
 	".root { -fx-base: hsb($hue, ${saturation * 100}%, ${brightness * 100}%); }"
@@ -13,14 +12,14 @@ fun rootHsbStyling(hue: Double, saturation: Double, brightness: Double) =
 /** Clears the Stylesheets and applies the Stylesheet from [file] together with the default stylesheets. */
 fun Scene.applyStyles(file: File? = null): Scene {
 	stylesheets.clear()
-	arrayOf(file?.let { URL("file", null, it.absolutePath) }, getResource("css/default.css"), getResource("css/style.css"))
+	arrayOf(file?.toURI()?.toURL(), getResource("css/default.css"), getResource("css/style.css"))
 		.forEach { it?.toExternalForm()?.let { stylesheets.add(it) } }
 	return this
 }
 
 /** Applies the given [theme]. */
 fun Scene.applyTheme(theme: Theme = Themes.BEIGE): Scene {
-	val file = SystemUtils.tempDir.resolve("xerus-themes").resolve(theme.displayName)
+	val file = SystemUtils.tempDir.resolve("xerus-themes").resolve(theme.displayName + ".css")
 	if(!file.exists()) {
 		file.parentFile.mkdirs()
 		file.writeText(theme.styling)
