@@ -32,13 +32,28 @@ fun Path.moveRecursively(destination: Path) {
 // FILE
 
 /**
- * Replaces common characters in this String which are not permitted in filenames and trims it
- * - ':' with ' -'
- * - '|' with '-'
- * - '/' with '-'
+ * Replaces common characters in this String which are not permitted in filenames on the current OS
+ * and trims it:
+ *
+ * Linux: Only trim
+ *
+ * Mac: Replace ':' with ' -' and trim
+ *
+ * Windows:
+ * - Replace ':' with ' -'
+ * - Replace '|', '/', '\', '*' with '-'
+ * - Remove '?', '"', '<', '>'
+ *
+ * @see https://kb.acronis.com/content/39790
  */
 fun String.replaceIllegalFileChars() =
-	replace(":", " -").replace('|', '-').replace('/', '-').trim()
+	when {
+		SystemUtils.isWindows -> replace("<", "").replace(">", "").replace('|', '-')
+			.replace("?", "").replace(":", " -").replace('*', '-')
+			.replace('/', '-').replace('\\', '-').replace("\"", "")
+		SystemUtils.isMac -> replace(":", " -")
+		else -> this
+	}.trim()
 
 inline fun File.appendln(line: String) = appendText(line + "\n")
 

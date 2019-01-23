@@ -10,8 +10,15 @@ object SystemUtils {
 	val tempDir
 		get() = File(System.getProperty("java.io.tmpdir"))
 	
-	val javaVersion
+	val javaVersion: String
 		get() = System.getProperty("java.version")
+	
+	val os: String
+		get() = System.getProperty("os.name")
+	
+	val isWindows = os.startsWith("Windows")
+	
+	val isMac = os.indexOf("mac") >= 0 || os.indexOf("darwin") >= 0
 	
 	private val systemErr = System.err
 	/** Calls the [supplier] while muting the [System.err] Stream.
