@@ -68,13 +68,7 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 		get() = get().toString()
 		set(value) = set(parser(value))
 	
-	private var _value = preferences.get(key, null)?.let {
-		try {
-			parser(it)
-		} catch(e: Exception) {
-			null
-		}
-	} ?: default
+	private var _value = loadValue()
 	
 	override fun get() = _value
 	
@@ -86,7 +80,15 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 	}
 	
 	/** Reloads the [value] from the [preferences] */
-	fun refresh() = set(preferences.get(key, null)?.let { parser(it) } ?: default)
+	fun refresh() = set(loadValue())
+	
+	private fun loadValue() = preferences.get(key, null)?.let {
+		try {
+			parser(it)
+		} catch(e: Exception) {
+			null
+		}
+	} ?: default
 	
 	/** Clears the entry in [preferences] and resets the value to the default */
 	fun clear() {
