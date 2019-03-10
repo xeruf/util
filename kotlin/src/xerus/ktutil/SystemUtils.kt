@@ -10,6 +10,9 @@ object SystemUtils {
 	val tempDir
 		get() = File(System.getProperty("java.io.tmpdir"))
 	
+	val cacheDir
+		get() = File("/var/tmp").takeIf { it.exists() } ?: File(System.getProperty("java.io.tmpdir"))
+	
 	val javaVersion: String
 		get() = System.getProperty("java.version")
 	

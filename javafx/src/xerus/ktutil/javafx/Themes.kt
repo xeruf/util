@@ -19,7 +19,7 @@ fun Scene.applyStyles(file: File? = null): Scene {
 
 /** Applies the given [theme]. */
 fun Scene.applyTheme(theme: Theme = Themes.BEIGE): Scene {
-	val file = SystemUtils.tempDir.resolve("xerus-themes").resolve(theme.displayName + ".css")
+	val file = SystemUtils.cacheDir.resolve("xerus-themes").resolve(theme.displayName + ".css")
 	if(!file.exists()) {
 		file.parentFile.mkdirs()
 		file.writeText(theme.styling)
