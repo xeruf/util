@@ -4,58 +4,9 @@ import javafx.beans.InvalidationListener
 import javafx.beans.property.ObjectProperty
 import javafx.beans.value.ChangeListener
 import javafx.beans.value.ObservableValue
-import xerus.ktutil.SystemUtils.suppressErr
-import xerus.ktutil.collections.WeakCollection
 import xerus.ktutil.javafx.properties.Listeners
 import xerus.ktutil.javafx.properties.bindSoft
-import java.io.File
-import java.nio.file.Path
-import java.nio.file.Paths
 import java.util.prefs.Preferences
-import kotlin.reflect.KClass
-
-open class SettingsNode(val preferences: Preferences) {
-	constructor(path: String) : this(getPreferences(path))
-	
-	/** Creates a new [PropertySetting] using the parameters and [preferences]
-	 * and adds it to the [settings] so they can all be cleared at once */
-	fun <T> create(key: String, default: T, parser: (String) -> T) =
-		PropertySetting(key, default, preferences, parser).also { settings.add(it) }
-	
-	inline fun <reified T : Enum<T>> create(key: String, default: T) =
-		create(key, default) { enumValueOf(it) }
-	
-	fun create(key: String, default: String = "") = create(key, default) { it }
-	fun create(key: String, default: Boolean) = create(key, default) { it.toBoolean() }
-	fun create(key: String, default: Int) = create(key, default) { it.toInt() }
-	fun create(key: String, default: Long) = create(key, default) { it.toLong() }
-	fun create(key: String, default: Double) = create(key, default) { it.toDouble() }
-	
-	fun create(key: String, default: File) = create(key, default) { File(it) }
-	fun create(key: String, default: Path) = create(key, default) { Paths.get(it) }
-	
-	val settings = WeakCollection<PropertySetting<*>>()
-	
-	/** Removes all data from [preferences] and resets all created settings to their default and finally executes [flush] */
-	fun clear() {
-		preferences.clear()
-		settings.forEach { it.clear() }
-		flush()
-	}
-	
-	/** Writes all pending changes to disk */
-	fun flush() = preferences.flush()
-	
-	/** Reloads each Setting created by this [SettingsNode] from the [preferences] */
-	fun refresh() {
-		settings.forEach { it.refresh() }
-	}
-	
-	companion object {
-		fun getPreferences(clazz: KClass<*>): Preferences = getPreferences(clazz.java.`package`.name.replace('.', '/'))
-		fun getPreferences(path: String): Preferences = suppressErr { Preferences.userRoot().node(path) }
-	}
-}
 
 /**
  * Caches the Setting as an [ObjectProperty] to minimise I/O.
@@ -73,9 +24,7 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 	override fun get() = _value
 	
 	override fun set(value: T) {
-		val old = _value
-		_value = value
-		listeners.notifyChange(old, value)
+		updateOwnValue(value)
 		preferences.put(key, value.toString())
 	}
 	
@@ -90,10 +39,16 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 		}
 	} ?: default
 	
+	private fun updateOwnValue(value: T) {
+		val old = _value
+		_value = value
+		listeners.notifyChange(old, value)
+	}
+	
 	/** Clears the entry in [preferences] and resets the value to the default */
 	fun clear() {
 		preferences.remove(key)
-		set(default)
+		updateOwnValue(default)
 	}
 	
 	// Listeners
