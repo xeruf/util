@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	java
 	maven
-	kotlin("jvm") version "1.3.11"
+	kotlin("jvm") version "1.3.21"
 }
 
 allprojects {
@@ -21,17 +21,17 @@ subprojects {
 	
 	tasks {
 		val sourcesJar by creating(Jar::class) {
-			classifier = "sources"
-			from(sourceSets.getByName("main").allSource)
+			archiveClassifier.set("sources")
+			from(sourceSets.main.get().allSource)
 		}
 		val javadocJar by creating(Jar::class) {
-			classifier = "javadoc"
+			archiveClassifier.set("javadoc")
 			from(javadoc.get().destinationDir)
 		}
 		install.get().dependsOn(javadocJar, sourcesJar)
 		artifacts {
-			archives(sourcesJar.outputs.files.singleFile) { classifier = "sources" }
-			archives(javadocJar.outputs.files.singleFile) { classifier = "javadoc" }
+			archives(sourcesJar.archiveFile) { classifier = "sources" }
+			archives(javadocJar.archiveFile) { classifier = "javadoc" }
 		}
 		
 		withType<KotlinCompile> {
