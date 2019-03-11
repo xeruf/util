@@ -3,8 +3,11 @@ package xerus.ktutil.helpers
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldNotBe
 import io.kotlintest.specs.StringSpec
+import java.util.*
 
 class RaterTest: StringSpec({
+	Locale.setDefault(Locale.ENGLISH)
+	
 	fun newRater() = Rater("Karlson vom Dach", 1.337)
 	val rater = newRater()
 	val slightlyHigherRater = newRater()

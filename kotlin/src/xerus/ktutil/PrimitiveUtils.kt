@@ -46,11 +46,13 @@ fun Double.format(digits: Int, locale: Locale = Locale.ENGLISH) =
 	"%.${digits}f".format(locale, this)
 
 /** Turns this Long into a human-readable byte amount. */
-fun Long.byteCountString(): String {
+fun Long.byteCountString(locale: Locale = Locale.ENGLISH): String {
 	val unit = 1024
+	if(this < unit)
+		return "$this B"
 	val exp = (Math.log(toDouble()) / Math.log(unit.toDouble())).toInt()
 	val prefix = " KMGTPE"[Math.max(exp, 0)]
-	return String.format("%.1f %sB", this / Math.pow(unit.toDouble(), exp.toDouble()), prefix)
+	return "%.1f %siB".format(locale, this / Math.pow(unit.toDouble(), exp.toDouble()), prefix)
 }
 
 // Statistics

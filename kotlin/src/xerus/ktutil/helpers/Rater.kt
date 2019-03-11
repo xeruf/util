@@ -39,7 +39,7 @@ open class Rater<X> constructor(
 	 * **Note** If this returns 0, the obj's could still differ */
 	override fun compareTo(other: Rater<X>) = points.compareTo(other.points)
 	
-	override fun toString() = "%s - Points: %.2f".format(Locale.US, obj, points)
+	override fun toString() = "%s - Points: %.2f".format(obj, points)
 	
 	/** Checks if [points] and [obj] of this Rater and [other] are equal */
 	override fun equals(other: Any?) =

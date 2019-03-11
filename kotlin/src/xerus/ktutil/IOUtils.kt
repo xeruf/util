@@ -55,7 +55,7 @@ fun String.replaceIllegalFileChars() =
 		else -> this
 	}.trim()
 
-inline fun File.appendln(line: String) = appendText(line + "\n")
+inline fun File.appendLn(line: String) = appendText(line + "\n")
 
 fun File?.findFolder(): File {
 	var file = this
@@ -64,11 +64,11 @@ fun File?.findFolder(): File {
 	return file ?: File(System.getProperty("user.dir"))
 }
 
-/** waits until the backup file is gone and then creates a backup file before performing the operation */
-fun <T> File.safe(operation: File.() -> T): T {
+/** Waits until the backup file is gone and then creates a backup file before performing the operation */
+fun <T> File.safe(delay: Long = 10, operation: File.() -> T): T {
 	val sibling = resolveSibling("$name~")
 	while(!sibling.createNewFile())
-		Thread.sleep(10)
+		Thread.sleep(delay)
 	if(this.exists())
 		sibling.writeText(readText())
 	val result = operation(this)
@@ -83,26 +83,26 @@ fun File.write(line: Int, text: String) {
 	if(line >= lines.size) {
 		appendText("\n".repeat(line - lines.size + hasNewline.to(0, 1)) + text)
 	} else {
-		val old = File("$name.old")
-		renameTo(old)
+		val bakFile = File("$name.bak")
+		renameTo(bakFile)
 		bufferedWriter().use { new ->
 			lines.forEachIndexed { index, s ->
 				new.appendln(if(index == line) text else s)
 			}
 		}
-		old.delete()
+		bakFile.delete()
 	}
 }
 
 val File.hasNewline: Boolean
 	get() {
 		RandomAccessFile(this, "r").use {
-			val fileLength = it.length() - 1;
+			val fileLength = it.length() - 1
 			if(fileLength < 0)
-				return true;
-			it.seek(fileLength);
-			val lastByte = it.readByte().toInt();
-			return lastByte == 0xA || lastByte == 0xD;
+				return true
+			it.seek(fileLength)
+			val lastByte = it.readByte().toInt()
+			return lastByte == 0xA || lastByte == 0xD
 		}
 	}
 
@@ -145,5 +145,5 @@ fun Any.writeToFile(file: File) {
 	}
 }
 
-inline fun <reified T : Any> File.readToObject(): T =
+inline fun <reified T: Any> File.readToObject(): T =
 	ObjectInputStream(FileInputStream(this)).use { ois -> return ois.readObject() as T }
