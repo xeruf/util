@@ -4,6 +4,7 @@ out
 
 .gradle
 build
+.kotlintest
 
 bin
 *.class
@@ -11,3 +12,4 @@ bin
 .project
 .classpath
 .settings
+

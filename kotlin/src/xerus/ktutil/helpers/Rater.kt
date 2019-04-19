@@ -1,7 +1,5 @@
 package xerus.ktutil.helpers
 
-import java.util.*
-
 open class Rater<X> constructor(
 	/** the current object of this Rater */
 	@JvmField
