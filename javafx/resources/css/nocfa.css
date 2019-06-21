@@ -40,17 +40,17 @@
 /* Playlist controls */
 
 #shuffle {
-	-fx-background-image : url(extra/shuffle-disabled.png);
+	-fx-background-image : url(extra/shuffle_disabled.png);
 }
 #shuffle:hover {
-	-fx-background-image : url(extra/shuffle-disabled-hover.png);
+	-fx-background-image : url(extra/shuffle_disabled_hover.png);
 }
 
 #shuffle:selected {
 	-fx-background-image : url(extra/shuffle.png);
 }
 #shuffle:selected:hover {
-	-fx-background-image : url(extra/shuffle-hover.png);
+	-fx-background-image : url(extra/shuffle_hover.png);
 }
 
 #repeat {
