@@ -8,7 +8,7 @@ import javafx.scene.layout.Priority
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import javafx.stage.Window
-import xerus.ktutil.findFolder
+import xerus.ktutil.findExistingDirectory
 import xerus.ktutil.javafx.createButton
 import xerus.ktutil.javafx.properties.dependOn
 import xerus.ktutil.javafx.properties.listen
@@ -49,12 +49,12 @@ class FileChooser(private val window: Window, val selectedFile: ObjectProperty<F
 	fun showFileChooser() {
 		val file = if(extension == null) {
 			val chooser = DirectoryChooser()
-			chooser.initialDirectory = selectedFile.get().findFolder()
+			chooser.initialDirectory = selectedFile.get().findExistingDirectory()
 			chooser.title = title
 			chooser.showDialog(window)
 		} else {
 			val chooser = FileChooser()
-			chooser.initialDirectory = selectedFile.get().findFolder()
+			chooser.initialDirectory = selectedFile.get().findExistingDirectory()
 			if(extension.isNotEmpty())
 				chooser.extensionFilters.add(FileChooser.ExtensionFilter(extension.toUpperCase(), "*.$extension"))
 			chooser.title = title
