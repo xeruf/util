@@ -1,17 +1,18 @@
 package xerus.ktutil.helpers
 
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 abstract class Refresher {
 	abstract suspend fun doRefresh()
 	
 	protected lateinit var job: Job
 	open fun refresh(startNew: Boolean = false): Job {
-		if (!::job.isInitialized || !job.isActive)
+		if(!::job.isInitialized || !job.isActive)
 			start { doRefresh() }
-		else if (startNew && ::job.isInitialized) {
+		else if(startNew && ::job.isInitialized) {
 			val oldJob = job
 			start {
 				oldJob.join()
@@ -22,7 +23,7 @@ abstract class Refresher {
 	}
 	
 	fun start(function: suspend () -> Unit) {
-		job = launch { function() }
+		job = GlobalScope.launch { function() }
 	}
 	
 	operator fun invoke() = refresh()
@@ -34,10 +35,10 @@ open class SimpleRefresher(val function: suspend () -> Unit) : Refresher() {
 }
 
 /** A [Refresher] implementation that will only issue a refresh if a given time has elapsed since the last refresh */
-abstract class TimedRefresher(private val timeDif: Int, runnable: suspend () -> Unit) : SimpleRefresher(runnable) {
+open class TimedRefresher(private val timeDif: Int, runnable: suspend () -> Unit) : SimpleRefresher(runnable) {
 	private var lastRefresh = 0L
 	fun refresh(): Job {
-		if (System.currentTimeMillis() > lastRefresh + timeDif)
+		if(System.currentTimeMillis() > lastRefresh + timeDif)
 			super.refresh(false).invokeOnCompletion { lastRefresh = System.currentTimeMillis() }
 		return job
 	}
@@ -53,7 +54,7 @@ open class DelayedRefresher(val delayMillis: Long, val function: suspend () -> U
 	}
 	
 	override suspend fun doRefresh() {
-		while (waitUntil > System.currentTimeMillis())
+		while(waitUntil > System.currentTimeMillis())
 			delay(delayMillis / 3)
 		function()
 	}

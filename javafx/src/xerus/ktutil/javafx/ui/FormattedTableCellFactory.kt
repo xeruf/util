@@ -48,7 +48,7 @@ class FormattedTableCellFactory<S, T> : Callback<TableColumn<S, T>, TableCell<S,
 	override fun call(p: TableColumn<S, T>): TableCell<S, T> {
 		val cell = object : TableCell<S, T>() {
 			override fun updateItem(item: T?, empty: Boolean) {
-				if (item === getItem())
+				if(item === getItem())
 					return
 				super.updateItem(item, empty)
 				when {
@@ -63,11 +63,12 @@ class FormattedTableCellFactory<S, T> : Callback<TableColumn<S, T>, TableCell<S,
 			}
 		}
 		cell.textAlignment = alignment
-		when (alignment) {
+		when(alignment) {
 			TextAlignment.CENTER -> cell.setAlignment(Pos.CENTER)
 			TextAlignment.RIGHT -> cell.setAlignment(Pos.CENTER_RIGHT)
 			else -> cell.setAlignment(Pos.CENTER_LEFT)
 		}
 		return cell
 	}
+	
 }

@@ -17,7 +17,7 @@ open class FadingHBox(visible: Boolean, translate: Double = 0.0, targetHeight: I
 	init {
 		id("controls")
 		alignment = Pos.CENTER
-		if (visible) {
+		if(visible) {
 			setSize(height = targetHeight.toDouble())
 		} else {
 			setSize(height = 0.0)

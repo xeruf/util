@@ -20,7 +20,7 @@ class DistributedRandom<T> {
 	}
 	
 	fun add(value: T, probability: Float) {
-		if (distribution!![value] != null) {
+		if(distribution!![value] != null) {
 			sum -= distribution!![value]!!.toDouble()
 		}
 		distribution!!.put(value, probability)
@@ -29,12 +29,12 @@ class DistributedRandom<T> {
 	
 	fun generate(): T? {
 		var rand = Math.random() * sum
-		for ((key, value) in distribution!!) {
+		for((key, value) in distribution!!) {
 			rand -= value.toDouble()
-			if (rand < 0)
+			if(rand < 0)
 				return key
 		}
-		if (distribution!!.size == 0)
+		if(distribution!!.size == 0)
 			return null
 		throw RuntimeException("Randomness didn't go as expected!")
 	}
