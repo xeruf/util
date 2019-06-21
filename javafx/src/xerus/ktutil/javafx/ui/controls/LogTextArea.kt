@@ -12,6 +12,6 @@ class LogTextArea : TextArea(), Loggable {
 	}
 	
 	override fun appendText(text: String) =
-			checkFx { super.appendText(text) }
+		checkFx { super.appendText(text) }
 	
 }

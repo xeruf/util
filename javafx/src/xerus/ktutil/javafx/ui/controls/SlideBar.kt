@@ -29,7 +29,7 @@ class SlideBar(width: Int? = null) : StackPane() {
 		children.addAll(progressBar, slider)
 		progressBar.progressProperty().bindSoft({
 			val value = slider.value
-			if (value == 0.0)
+			if(value == 0.0)
 				return@bindSoft 0.0
 			val corrector = 10 / progressBar.width
 			(value / slider.max) * (1 - corrector) + corrector

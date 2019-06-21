@@ -20,14 +20,14 @@ class Parser(startDelimiter: Char, endDelimiter: Char) {
 		
 		val out = StringBuilder()
 		var apply = false
-		for (cur in split) {
-			if (cur.isNotEmpty())
+		for(cur in split) {
+			if(cur.isNotEmpty())
 				try {
-					if (apply)
+					if(apply)
 						out.append(function(cur))
 					else
 						out.append(unparsed(cur))
-				} catch (e: Exception) {
+				} catch(e: Exception) {
 					throw ParserException(cur, e)
 				}
 			apply = !apply
@@ -38,7 +38,7 @@ class Parser(startDelimiter: Char, endDelimiter: Char) {
 	/** Creates a Matcher from this Parser with the given String
 	 * @throws ParserException when the Matcher encounters errors while reading in the String to parse */
 	fun createMatcher(toParse: String, vararg keys: String): Matcher =
-			Matcher(delimiters, toParse, *keys)
+		Matcher(delimiters, toParse, *keys)
 	
 	class Matcher @Throws(ParserException::class)
 	constructor(delimiters: Delimiters, toParse: String, vararg keys: String) {
@@ -56,11 +56,11 @@ class Parser(startDelimiter: Char, endDelimiter: Char) {
 			matchIndices = IntArray(s)
 			
 			var i = 0
-			while (i < s) {
+			while(i < s) {
 				intersections[i] = split[i]
 				val cur = split[i + 1]
 				val index = keys.indexOf(cur)
-				if (index == -1)
+				if(index == -1)
 					throw ParserException(cur)
 				matchIndices[i] = index
 				i += 2
@@ -73,7 +73,7 @@ class Parser(startDelimiter: Char, endDelimiter: Char) {
 		 *  @throws ArrayIndexOutOfBoundsException if less values are provided than needed */
 		fun apply(vararg values: String): String {
 			val out = StringBuilder()
-			for (i in matchIndices.indices) {
+			for(i in matchIndices.indices) {
 				out.append(intersections[i])
 				out.append(values[matchIndices[i]])
 			}
@@ -89,15 +89,15 @@ class Parser(startDelimiter: Char, endDelimiter: Char) {
 		 * Its length is always uneven and starts and ends with characters which were not within delimiters */
 		fun apply(toSplit: String): List<String> {
 			val result = ArrayList<String>()
-			for (s in toSplit.split(start)) {
+			for(s in toSplit.split(start)) {
 				val ind = s.indexOf(end)
-				if (ind != -1) {
+				if(ind != -1) {
 					result.add(s.substring(0, ind))
 					result.add(s.substring(ind + 1))
 				} else
 					result.add(s)
 			}
-			if (result.size % 2 == 0)
+			if(result.size % 2 == 0)
 				result.add("")
 			return result
 		}

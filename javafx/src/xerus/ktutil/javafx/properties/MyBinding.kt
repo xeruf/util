@@ -4,6 +4,7 @@ import javafx.beans.Observable
 import javafx.beans.binding.ObjectBinding
 
 class MyBinding<T>(private val func: () -> T, vararg dependencies: Observable) : ObjectBinding<T>() {
+	
 	init {
 		bind(*dependencies)
 	}
@@ -26,7 +27,7 @@ class MyBinding<T>(private val func: () -> T, vararg dependencies: Observable) :
 	override fun computeValue(): T? {
 		return try {
 			func()
-		} catch (e: Exception) {
+		} catch(e: Exception) {
 			System.err.println("Exception while evaluating binding!")
 			e.printStackTrace()
 			null
@@ -36,4 +37,5 @@ class MyBinding<T>(private val func: () -> T, vararg dependencies: Observable) :
 	override fun dispose() {
 		clearDependencies()
 	}
+	
 }
