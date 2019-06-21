@@ -32,28 +32,26 @@ fun Path.moveRecursively(destination: Path) {
 // FILE
 
 /**
- * Replaces common characters in this String which are not permitted in filenames on the current OS
- * and trims it:
+ * Replaces characters in this String which are not permitted in filenames on the current OS and trims it.
  *
- * Linux: Only trim
+ * On all operating systems, it will replace '/' with '-' and trim,
+ * on Mac it will additionally replace ':' with ' -'.
  *
- * Mac: Replace ':' with ' -' and trim
- *
- * Windows:
+ * On Windows, these actions will additionally be performed:
  * - Replace ':' with ' -'
- * - Replace '|', '/', '\', '*' with '-'
+ * - Replace '|', '\', '*' with '-'
  * - Remove '?', '"', '<', '>'
  *
- * @see https://kb.acronis.com/content/39790
+ * See also: [Wikipedia: Filenames - Reserved_characters_and_words](https://www.wikiwand.com/en/Filename#/Reserved_characters_and_words)
  */
 fun String.replaceIllegalFileChars() =
 	when {
-		SystemUtils.isWindows -> replace("<", "").replace(">", "").replace('|', '-')
-			.replace("?", "").replace(":", " -").replace('*', '-')
-			.replace('/', '-').replace('\\', '-').replace("\"", "")
+		SystemUtils.isWindows -> replace(":", " -")
+			.replace('|', '-').replace('*', '-').replace('\\', '-')
+			.filterNot { it in arrayOf('?', '<', '>', '"') }
 		SystemUtils.isMac -> replace(":", " -")
 		else -> this
-	}.trim()
+	}.replace('/', '-').trim()
 
 inline fun File.appendLn(line: String) = appendText(line + "\n")
 
