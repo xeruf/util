@@ -35,7 +35,7 @@ fun Path.moveRecursively(destination: Path) {
  * Replaces common characters in this String which are not permitted in filenames on the current OS
  * and trims it:
  *
- * Linux: Only trim
+ * Linux: Replace '/' with ' -' and trim
  *
  * Mac: Replace ':' with ' -' and trim
  *
@@ -52,7 +52,7 @@ fun String.replaceIllegalFileChars() =
 			.replace("?", "").replace(":", " -").replace('*', '-')
 			.replace('/', '-').replace('\\', '-').replace("\"", "")
 		SystemUtils.isMac -> replace(":", " -")
-		else -> this
+		else -> replace('/', ' -')
 	}.trim()
 
 inline fun File.appendLn(line: String) = appendText(line + "\n")
