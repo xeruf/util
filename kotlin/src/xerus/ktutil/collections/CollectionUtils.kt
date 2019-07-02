@@ -19,10 +19,15 @@ fun Int.toByteArray() =
 
 // JOIN
 
-/** Joins this list in a human way, using commas and `&` instead of the last comma. */
-fun List<Any>.joinEnumeration(): String =
-	if(size == 1) get(0).toString()
-	else "%s & %s".format(slice(0..size - 2).joinToString(", "), last())
+/** Joins this list in a way that is natural to read for humans, using commas and `&` instead of the last comma.
+ * @return - an empty string if the list is empty
+ * - the first element [toString] if there is only one
+ * - otherwise a string following the pattern "str(0), str(1), ... str(n-1) & str(n)" where n is the length of this List. */
+fun List<Any>.joinEnumeration(): String = when(size) {
+	0 -> ""
+	1 -> get(0).toString()
+	else -> "%s & %s".format(slice(0..size - 2).joinToString(", "), last())
+}
 
 /** Joins the given [sequences] in a human way, using commas and `&` instead of the last comma. */
 inline fun joinEnumeration(vararg sequences: Any): String = sequences.asList().joinEnumeration()

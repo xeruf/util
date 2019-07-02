@@ -14,8 +14,8 @@ This project consists of a few modules, with potentially more to come in the fut
 
 | Module (folder)	| Summary | Dependencies |
 |-----------------|---------|--------------|
-| kotlin | Dependency for virtually all of my projects, because I write everything in Kotlin and it contains a lot of extensions to the stdlib and some helpful classes | kotlin stdlib, coroutines |
-| javafx | Contains a lot of helpers for JavaFX and some additions like Themes and icon sets | kotlin module |
+| kotlin | Contains a lot of extensions to the stdlib and some other helpers. Dependency for almost all of my projects written in Kotlin. | kotlin stdlib, coroutines |
+| javafx | Helpers for JavaFX and some additions like Themes and icon sets. | kotlin module |
 
 ### Usage
 
