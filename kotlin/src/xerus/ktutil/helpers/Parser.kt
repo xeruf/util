@@ -40,35 +40,36 @@ class Parser(startDelimiter: Char, endDelimiter: Char) {
 	fun createMatcher(toParse: String, vararg keys: String): Matcher =
 		Matcher(delimiters, toParse, *keys)
 	
-	class Matcher @Throws(ParserException::class)
-	constructor(delimiters: Delimiters, toParse: String, vararg keys: String) {
+	/** A Matcher is useful for string templates that are reused.
+	 * On creation, it requires [Delimiters], a String and keys within the string that should be replaced.
+	 * Then the string will be read into an abstraction and the template can quickly be filled using [apply].
+	 * @throws ParserException if there is a delimited string which matches no provided key */
+	class Matcher(delimiters: Delimiters, toParse: String, vararg keys: String) {
 		
 		private val intersections: Array<String?>
 		private val matchIndices: IntArray
-		private val uneven: Boolean
 		
 		init {
 			val split = delimiters.apply(toParse)
 			
 			val s = split.size / 2
-			uneven = split.size % 2 == 1
-			intersections = arrayOfNulls(s + uneven.toInt())
+			intersections = arrayOfNulls(s + 1)
 			matchIndices = IntArray(s)
 			
 			var i = 0
 			while(i < s) {
-				intersections[i] = split[i]
-				val cur = split[i + 1]
+				intersections[i] = split[i * 2]
+				val cur = split[i * 2 + 1]
 				val index = keys.indexOf(cur)
 				if(index == -1)
-					throw ParserException(cur)
+					throw ParserException("No matching key for $cur in ${Arrays.toString(keys)}")
 				matchIndices[i] = index
-				i += 2
+				i++
 			}
 			intersections[s] = split.last()
 		}
 		
-		/** tries to insert the given values into the parsed String
+		/** Tries to insert the given values into the template.
 		 *  @return the processed String
 		 *  @throws ArrayIndexOutOfBoundsException if less values are provided than needed */
 		fun apply(vararg values: String): String {
