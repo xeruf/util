@@ -1,6 +1,5 @@
 package xerus.ktutil.helpers
 
-import xerus.ktutil.toInt
 import java.util.*
 
 class Parser(startDelimiter: Char, endDelimiter: Char) {
@@ -28,6 +27,8 @@ class Parser(startDelimiter: Char, endDelimiter: Char) {
 					else
 						out.append(unparsed(cur))
 				} catch(e: Exception) {
+					if(e is ParserException)
+						throw ParserException(cur, e.cause)
 					throw ParserException(cur, e)
 				}
 			apply = !apply

@@ -13,39 +13,42 @@ private val bracketParser = Parser('{', '}')
  * (indicated by surrounding % signs) using [getField]. */
 interface Parsable {
 	
-	/** Parses this object to a String using the given format String, see [parseRecursively].
+	/** Parses this object to a String using the given [template], see [parseRecursively].
 	 * @return The result of the parsing. */
-	fun toString(pattern: String, vararg additionalFields: Pair<String, String>) = parseRecursively(pattern, additionalFields.associate { it }).result
+	fun toString(template: String, vararg additionalFields: Pair<String, String>) = parseRecursively(template, additionalFields.associate { it }).result
 	
-	/** Parses this object to a String using the given format String, parsing recursively if any curly brackets are found so that potential empty parsings are eliminated.
+	/** Parses this object to a String using the given [template], parsing recursively if any curly brackets are found so that potential empty parsings are eliminated.
+	 * @param template the string template to parse into
+	 * @param additionalFields mapping of field names to values, used instead of [getField]
+	 *
 	 * @return The result of the parsing together with an indicator of whether any values where inserted for the fields.
 	 * @throws FieldNotFoundException if the format contains an unknown field
 	 * @throws ParserException wrapper for any other unexpected exceptions */
-	private fun parseRecursively(pattern: String, additionalFields: Map<String, String>): ParseResult {
+	private fun parseRecursively(template: String, additionalFields: Map<String, String>): ParseResult {
 		var inserted = false
-		val result = bracketParser.parse(pattern, {
-			try {
+		try {
+			val result = bracketParser.parse(template, {
 				fieldParser.parse(it) { field ->
 					val value = parseField(field, additionalFields)
 					inserted = inserted || value.isNotEmpty()
 					value
 				}
-			} catch(e: ParserException) {
-				if(e.cause is FieldNotFoundException)
-					throw e.cause
-				else
-					throw e
-			}
-		}, {
-			val parsed = parseRecursively(it, additionalFields)
-			if(parsed.inserted)
-				parsed.result
-			else ""
-		})
-		return ParseResult(result, inserted)
+			}, {
+				val parsed = parseRecursively(it, additionalFields)
+				if(parsed.inserted)
+					parsed.result
+				else ""
+			})
+			return ParseResult(result, inserted)
+		} catch(e: ParserException) {
+			if(e.cause is FieldNotFoundException)
+				throw e.cause
+			throw e
+		}
 	}
 	
-	/** Parses a field for insertion and joins it if it is an array or a collection, taking into account a potential given separator. */
+	/** Parses a field for insertion and joins it if it is an array or a collection, taking into account a potential given separator.
+	 * @param additionalFields mapping of field names to values, otherwise [getField] is used */
 	private fun parseField(field: String, additionalFields: Map<String, String>): String {
 		field.split('|').let {
 			val fieldName = it[0]
