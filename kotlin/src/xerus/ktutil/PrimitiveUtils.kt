@@ -55,6 +55,14 @@ fun Long.byteCountString(locale: Locale = Locale.ENGLISH): String {
 	return "%.1f %siB".format(locale, this / Math.pow(unit.toDouble(), exp.toDouble()), prefix)
 }
 
+/** Turns the first 4 bytes in this [ByteArray] into their corresponding [Int] value. */
+fun ByteArray.toInt() =
+	this[3].toInt() and 0xFF or (this[2].toInt() and 0xFF shl 8) or (this[1].toInt() and 0xFF shl 16) or (this[0].toInt() and 0xFF shl 24)
+
+/** Creates a [ByteArray] with 4 elements, representing the bytes of this [Int]. */
+fun Int.toByteArray() =
+	byteArrayOf(this.ushr(24).toByte(), this.ushr(16).toByte(), this.ushr(8).toByte(), this.toByte())
+
 // Statistics
 
 /** @return The factorial of this Int */
