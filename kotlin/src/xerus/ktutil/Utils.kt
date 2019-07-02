@@ -53,12 +53,21 @@ fun Throwable.getStackTraceString(): String {
 }
 
 /** Gets the value of the field with the given name using java reflection.
- * If the class has no accessible field with that name, it also tries its getter. */
-fun Any.reflectField(fieldName: String): Any = try {
-	javaClass.getField(fieldName).get(this)
-} catch(ex: NoSuchFieldException) {
-	javaClass.getMethod("get" + fieldName.first().toUpperCase() + fieldName.substring(1)).invoke(this)
-}
+ * If the class has no accessible field with that name, it also tries to find a getter.
+ * @return value of the Field
+ * @throws FieldNotFoundException if neither an accessible field nor a getter with the corresponding name could be found in this class */
+fun Any.reflectField(fieldName: String): Any =
+	try {
+		javaClass.getField(fieldName).get(this)
+	} catch(e: NoSuchFieldException) {
+		try {
+			javaClass.getMethod("get" + fieldName.capitalize()).invoke(this)
+		} catch(e: NoSuchMethodException) {
+			throw FieldNotFoundException(fieldName, this.javaClass)
+		}
+	}
+
+class FieldNotFoundException(val fieldName: String, val clazz: Class<*>): ReflectiveOperationException("Field not found: $fieldName")
 
 /** Calls [action] with all values from [start], inclusive, to [end], exclusive.
  * Dedicated for performance-critical algorithms, usually you should use `(start until end).forEach { }` instead */

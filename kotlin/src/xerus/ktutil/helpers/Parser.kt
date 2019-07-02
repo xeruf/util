@@ -5,7 +5,7 @@ import java.util.*
 
 class Parser(startDelimiter: Char, endDelimiter: Char) {
 	
-	constructor(delimiter: Char) : this(delimiter, delimiter)
+	constructor(delimiter: Char): this(delimiter, delimiter)
 	
 	private val delimiters = Delimiters(startDelimiter, endDelimiter)
 	
@@ -84,9 +84,11 @@ class Parser(startDelimiter: Char, endDelimiter: Char) {
 	
 	class Delimiters(private val start: Char, private val end: Char) {
 		
-		/** splits the given String with these Delimiters
-		 * @return a List of the split results, which alternates between Strings enclosed by delimiters and Strings in between.
-		 * Its length is always uneven and starts and ends with characters which were not within delimiters */
+		constructor(delimiter: Char): this(delimiter, delimiter)
+		
+		/** Splits the given String with these Delimiters.
+		 * @return A List of the split results, which alternates between Strings enclosed by delimiters and Strings in between.
+		 * Its length is always uneven and starts and ends with characters which were not within delimiters. */
 		fun apply(toSplit: String): List<String> {
 			val result = ArrayList<String>()
 			for(s in toSplit.split(start)) {
@@ -102,27 +104,9 @@ class Parser(startDelimiter: Char, endDelimiter: Char) {
 			return result
 		}
 		
-		companion object {
-			fun create(delimiter: Char): Delimiters {
-				return Delimiters(delimiter, delimiter)
-			}
-		}
-		
 	}
 	
 }
 
 
-class ParserException : Exception {
-	
-	val match: String
-	
-	constructor(msg: String) : super("Error while parsing $msg") {
-		match = msg
-	}
-	
-	constructor(msg: String, t: Throwable) : super("Error while parsing $msg", t) {
-		match = msg
-	}
-	
-}
+class ParserException(msg: String, cause: Throwable? = null): Exception("Error while parsing $msg", cause)
