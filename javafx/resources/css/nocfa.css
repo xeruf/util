@@ -1,4 +1,4 @@
-/* PLAYBACK */
+/* Playback controls */
 
 #play-pause:selected, #play {
 	-fx-background-image: url(nocfa/play.png);
@@ -21,7 +21,7 @@
 	-fx-background-image: url(nocfa/stop_hover.png);
 }
 
-/* Playback advanced */
+/* Skipping controls */
 
 #skip {
 	-fx-background-image: url(nocfa/skip.png);
@@ -37,14 +37,37 @@
 	-fx-background-image: url(nocfa/skipb_hover.png);
 }
 
-#repeat {
-	-fx-background-image: url(nocfa/repeat.png);
+/* Playlist controls */
+
+#shuffle {
+	-fx-background-image : url(extra/shuffle_disabled.png);
 }
-#repeat:hover {
-	-fx-background-image: url(nocfa/repeat_hover.png);
+#shuffle:hover {
+	-fx-background-image : url(extra/shuffle_disabled_hover.png);
 }
 
-/* OTHER useful stuff */
+#shuffle:selected {
+	-fx-background-image : url(extra/shuffle.png);
+}
+#shuffle:selected:hover {
+	-fx-background-image : url(extra/shuffle_hover.png);
+}
+
+#repeat {
+	-fx-background-image: url(extra/repeat_disabled.png);
+}
+/*#repeat:hover {
+	-fx-background-image: url(extra/repeat_disabled_hover.png);
+}*/
+
+#repeat:selected {
+	-fx-background-image: url(nocfa/refresh.png);
+}
+ #repeat:selected:hover {
+	-fx-background-image: url(nocfa/refresh_hover.png);
+}
+
+/* Useful extras */
 
 #refresh {
 	-fx-background-image: url(nocfa/refresh.png);
@@ -74,7 +97,7 @@
 	-fx-background-image: url(nocfa/save_hover.png);
 }
 
-/* OTHER */
+/* Random */
 
 #up {
 	-fx-background-image: url(nocfa/up.png);
