@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	java
 	maven
-	kotlin("jvm") version "1.3.40"
+	kotlin("jvm") version "1.3.41"
 	id("org.jetbrains.dokka") version "0.9.18"
 	id("com.github.ben-manes.versions") version "0.21.0"
 }
@@ -22,10 +22,10 @@ subprojects {
 	apply(plugin = "org.jetbrains.dokka")
 	
 	dependencies {
-		val junitVersion = "5.4.2"
+		val junitVersion = "5.5.0"
 		testImplementation("org.junit.jupiter", "junit-jupiter-api", junitVersion)
 		testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", junitVersion)
-		testImplementation("io.kotlintest", "kotlintest-runner-junit5", "3.3.2")
+		testImplementation("io.kotlintest", "kotlintest-runner-junit5", "3.3.3")
 		testImplementation("org.slf4j", "slf4j-simple", "1.7.26")
 	}
 	
