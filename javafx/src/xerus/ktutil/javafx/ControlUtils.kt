@@ -2,18 +2,20 @@ package xerus.ktutil.javafx
 
 import javafx.beans.property.Property
 import javafx.scene.control.*
+import javafx.scene.image.Image
 import javafx.scene.text.TextAlignment
+import xerus.ktutil.javafx.properties.listen
 
-fun <T : Control> T.tooltip(string: String) = apply { tooltip = Tooltip(string) }
+fun <T: Control> T.tooltip(string: String) = apply { tooltip = Tooltip(string) }
 
-fun <T : Labeled> T.text(text: String) = also { it.text = text }
-fun <T : Labeled> T.centerText() = apply { textAlignment = TextAlignment.CENTER }
-fun <T : Labeled> T.textWidth(text: String? = this.text) = text.textWidth(font)
+fun <T: Labeled> T.text(text: String) = also { it.text = text }
+fun <T: Labeled> T.centerText() = apply { textAlignment = TextAlignment.CENTER }
+fun <T: Labeled> T.textWidth(text: String? = this.text) = text.textWidth(font)
 
-fun <T : TextInputControl> T.placeholder(prompt: String) = apply { promptText = prompt }
-fun <T : TextInputControl> T.bindText(property: Property<String>) = also { it.textProperty().bindBidirectional(property) }
+fun <T: TextInputControl> T.placeholder(prompt: String) = apply { promptText = prompt }
+fun <T: TextInputControl> T.bindText(property: Property<String>) = also { it.textProperty().bindBidirectional(property) }
 
-inline fun <T : ButtonBase> T.onClick(crossinline runnable: T.() -> Unit) = apply {
+inline fun <T: ButtonBase> T.onClick(crossinline runnable: T.() -> Unit) = apply {
 	setOnAction { runnable(this) }
 }
 
@@ -59,4 +61,15 @@ fun TreeItem<*>.expandRecursively(expand: Boolean = true) {
 
 fun <T, U> TableView<T>.addColumn(title: String, function: (T) -> U) {
 	columns.add(TableColumn<T, U>(title) { function(it.value) })
+}
+
+/** Instantly calls the handler with the exception if [Image.isError] and attaches a Listener to the exceptionProperty
+ * to call the handler on future exceptions. */
+fun Image.onError(handler: (Exception) -> Unit) {
+	if(isError)
+		handler(exception)
+	exceptionProperty().listen {
+		if(it != null)
+			handler(it)
+	}
 }
