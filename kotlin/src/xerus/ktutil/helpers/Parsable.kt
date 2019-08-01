@@ -13,8 +13,9 @@ private val bracketParser = Parser('{', '}')
  * (indicated by surrounding % signs) using [getField]. */
 interface Parsable {
 	
-	/** Parses this object to a String using the given [template], see [parseRecursively].
-	 * @return The result of the parsing. */
+	/** Parses this object to a String using the given [template].
+	 * @return The result of the parsing.
+	 * @see parseRecursively */
 	fun toString(template: String, vararg additionalFields: Pair<String, String>) = parseRecursively(template, additionalFields.associate { it }).result
 	
 	/** Parses this object to a String using the given [template], parsing recursively if any curly brackets are found so that potential empty parsings are eliminated.

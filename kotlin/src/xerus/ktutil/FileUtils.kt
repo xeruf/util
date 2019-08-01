@@ -16,7 +16,8 @@ import java.io.RandomAccessFile
  * - Replace '|', '\', '*' with '-'
  * - Remove '?', '"', '<', '>'
  *
- * See also: [Wikipedia: Filenames - Reserved_characters_and_words](https://www.wikiwand.com/en/Filename#/Reserved_characters_and_words)
+ * @return A String that should be a valid filename on the current operating system.
+ * @see <a href="https://www.wikiwand.com/en/Filename#/Reserved_characters_and_words">Wikipedia: Filenames - Reserved characters and words</a>
  */
 fun String.replaceIllegalFileChars() =
 	when {

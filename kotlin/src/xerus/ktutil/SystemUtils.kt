@@ -5,43 +5,53 @@ import java.io.OutputStream
 import java.io.PrintStream
 import java.util.*
 
+/** Collection of utils that expand the [System] class. */
 object SystemUtils {
 	
+	/** Returns `java.io.tmpdir` as [File]. */
 	val tempDir
 		get() = File(System.getProperty("java.io.tmpdir"))
 	
+	/** Returns `/var/tmp` on Unix, otherwise [tempDir]. */
 	val cacheDir
-		get() = File("/var/tmp").takeIf { it.exists() } ?: File(System.getProperty("java.io.tmpdir"))
+		get() = File("/var/tmp").takeIf { it.exists() } ?: tempDir
 	
+	/** System property `java.version`. */
 	val javaVersion: String
 		get() = System.getProperty("java.version")
 	
+	/** System property `os.name`. */
 	val os: String
 		get() = System.getProperty("os.name")
 	
+	/** Whether [os] is Windows. */
 	val isWindows = os.startsWith("Windows")
 	
-	val isMac = os.indexOf("mac") >= 0 || os.indexOf("darwin") >= 0
+	/** Whether [os] contains `mac` or `darwin`. */
+	val isMac = os.contains("mac") || os.contains("darwin")
 	
+	/** Reference to the original [System.err] stream. */
 	private val systemErr = System.err
+	
 	/** Calls the [supplier] while muting the [System.err] Stream.
 	 * Useful for blocking unhelpful warnings or known errors. */
 	fun <T> suppressErr(supplier: () -> T): T {
+		val currentErr = System.err
 		muteSystemErr()
 		val result = supplier()
-		restoreSystemErr()
+		System.setErr(currentErr)
 		return result
 	}
 	
 	/** Sets [System.err] to a Stream that does nothing. */
 	fun muteSystemErr() {
-		System.setErr(PrintStream(object : OutputStream() {
+		System.setErr(PrintStream(object: OutputStream() {
 			override fun write(b: Int) {
 			}
 		}))
 	}
 	
-	/** Sets [System.err] back to its original value */
+	/** Sets [System.err] to its original value. */
 	fun restoreSystemErr() = System.setErr(systemErr)
 	
 }
@@ -73,6 +83,6 @@ fun formatTimeDynamic(seconds: Long, orientation: Long = seconds) =
 /** Gets a resource from the classpath by its absolute path. */
 fun getResource(path: String) = SystemUtils::class.java.getResource("/$path")
 
-/** Gets a resource from the classpath by its absolute path as a File or null if it doesn't exist */
+/** Gets a resource from the classpath by its absolute path as a File or null if it doesn't exist. */
 fun getResourceAsFile(path: String) = getResource(path)?.file?.let { File(it) }
 
