@@ -2,6 +2,7 @@ package xerus.ktutil.preferences
 
 import xerus.ktutil.SystemUtils
 import xerus.ktutil.collections.WeakCollection
+import xerus.ktutil.preferences.ISetting.Companion.MULTIDELIMITER
 import xerus.ktutil.printIt
 import java.io.File
 import java.nio.file.Path
@@ -28,6 +29,8 @@ open class SettingsNode(val preferences: Preferences) {
 	
 	fun create(key: String, default: File) = create(key, default) { File(it) }
 	fun create(key: String, default: Path) = create(key, default) { Paths.get(it) }
+	
+	fun create(key: String, default: Array<*>) = create(key, default.joinToString(MULTIDELIMITER)) { it }
 	
 	val settings = WeakCollection<PropertySetting<*>>()
 	
