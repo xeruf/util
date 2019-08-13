@@ -1,55 +1,55 @@
 /* PLAYBACK */
 
-#play-pause:selected, #play {
+#satin-play-pause:selected, #satin-play {
 	-fx-background-image: url(satin/play.png);
 }
 
-#play-pause, #pause {
+#satin-play-pause, #satin-pause {
 	-fx-background-image: url(satin/pause.png);
 }
 
-#stop {
+#satin-stop {
 	-fx-background-image: url(satin/splay.png);
 }
 
-#skipback {
+#satin-skipback {
 	-fx-background-image: url(satin/skipb.png);
 }
 
-#skip {
+#satin-skip {
 	-fx-background-image: url(satin/skipf.png);
 }
 
-#repeat {
+#satin-repeat {
 	-fx-background-image: url(satin/ref.png);
 }
 
 /* OTHER */
 
-#up {
+#satin-up {
 	-fx-background-image: url(satin/up.png);
 }
 
-#down {
+#satin-down {
 	-fx-background-image: url(satin/down.png);
 }
 
-#like {
+#satin-like {
 	-fx-background-image: url(satin/add.png);
 }
 
-#dislike {
+#satin-dislike {
 	-fx-background-image: url(satin/del.png);
 }
 
-#save {
+#satin-save {
 	-fx-background-image: url(satin/save.png);
 }
 
-#back {
+#satin-back {
 	-fx-background-image: url(satin/undo.png);
 }
 
-#close {
+#satin-close {
 	-fx-background-image: url(satin/close.png);
 }
