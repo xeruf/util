@@ -53,3 +53,11 @@
 #satin-close {
 	-fx-background-image: url(satin/close.png);
 }
+
+#satin-add {
+	-fx-background-image: url(satin/add.png);
+}
+
+#sating-open {
+	-fx-background-image: url(satin/open.png);
+}
