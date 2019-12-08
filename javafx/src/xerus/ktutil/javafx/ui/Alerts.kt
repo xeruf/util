@@ -49,19 +49,21 @@ val Alert.stage
 	get() = dialogPane.scene.window as Stage
 
 /** Inits the owner of this Alert to the given [window], which will additionally set up the Position and Stylesheets. */
-fun Alert.initWindowOwner(window: Window) {
+fun Alert.initWindowOwner(window: Window): Alert {
 	initOwner(window)
 	stage.setPositionRelativeTo(window)
 	if(window is Stage)
 		stage.bindStylesheets(window)
+	return this
 }
 
 /** Tells the internal DialogPane to resize, either to its preferred size or given values. */
-fun Alert.resize(width: Double? = null, height: Double? = null) {
+fun Alert.resize(width: Double? = null, height: Double? = null): Alert {
 	dialogPane.apply {
 		minWidth = width ?: Region.USE_PREF_SIZE
 		minHeight = height ?: Region.USE_PREF_SIZE
 	}
+	return this
 }
 
 /** Shows this Alert and listens for its Result, calling the given [function] once its done. */
@@ -69,3 +71,7 @@ fun Alert.useResultAsync(function: (ButtonType) -> Unit) {
 	show()
 	resultProperty().listen(function)
 }
+
+/** Shows this Alert and listens for its Result, calling the given [function] if the resulting [ButtonType] is in [confirmations]. */
+fun Alert.onConfirm(confirmations: Array<ButtonType> = arrayOf(ButtonType.YES, ButtonType.OK), function: () -> Unit) =
+	useResultAsync { if(it in confirmations) function() }
