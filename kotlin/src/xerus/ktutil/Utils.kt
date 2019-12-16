@@ -4,32 +4,6 @@ package xerus.ktutil
 
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.time.LocalDate
-
-// Strings
-
-/** If this String is null or empty, return [other], otherwise returns itself. */
-inline fun String?.or(other: String) =
-	if(this.isNullOrEmpty()) other else this
-
-/** If this String is empty, return null, otherwise returns itself. */
-inline fun String?.nullIfEmpty() =
-	if(isNullOrEmpty()) null else this
-
-/** Checks if this String contains any of the given [sequences], ignoring case. */
-fun String.containsAny(vararg sequences: CharSequence) =
-	sequences.any { contains(it, true) }
-
-/** Checks if this String contains [other] or the other way around, ignoring case. */
-fun String.containsEach(other: String) = contains(other, true) || other.contains(this, true)
-
-/** Converts a String in `yyyy-mm-dd` format to a LocalDate */
-fun String.toLocalDate(): LocalDate? {
-	val split = split("-").map { it.toIntOrNull() ?: return null }
-	return LocalDate.of(split[0], split[1], split[2])
-}
-
-// Generics
 
 /** Creates a Pair of this object and a value calculated from it. */
 inline fun <T, U> T.pair(function: T.() -> U): Pair<T, U> =
