@@ -43,25 +43,27 @@ infix fun <T> Spinner<T>.syncWith(property: Property<T>): Spinner<T> {
 	return this
 }
 
-class TimeSpinner : Spinner<LocalTime>() {
+/** A [Spinner] for displaying a [LocalTime] in a specific format.
+ * By default the time will be displayed in HH:mm:ss format and the spin steps will be minutes. */
+class TimeSpinner(val pattern: String = "HH:mm:ss", val increment: (LocalTime, Long) -> LocalTime = { value, steps -> value.plusMinutes(steps) }, val decrement: (LocalTime, Long) -> LocalTime = { value, steps -> value.minusMinutes(steps) }) : Spinner<LocalTime>() {
 	
 	init {
 		valueFactory = object : SpinnerValueFactory<LocalTime>() {
 			init {
-				converter = LocalTimeStringConverter(DateTimeFormatter.ofPattern("HH:mm:ss"), DateTimeFormatter.ofPattern("HH:mm:ss"))
+				converter = LocalTimeStringConverter(DateTimeFormatter.ofPattern(pattern), DateTimeFormatter.ofPattern(pattern))
 			}
 			
 			override fun increment(steps: Int) {
 				if(value == null)
 					value = LocalTime.MIN
-				value = value.plusMinutes(steps.toLong())
+				increment(value, steps.toLong())
 			}
 			
 			override fun decrement(steps: Int) {
 				value = if(value == null || value.minute == 0)
 					LocalTime.MIN
 				else
-					value.minusMinutes(steps.toLong())
+					decrement(value, steps.toLong())
 			}
 			
 		}
