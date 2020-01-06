@@ -24,11 +24,11 @@ fun String.toLocalDate(): LocalDate? {
 }
 
 val titleDelimiters = charArrayOf(' ', ',', '[', ']', '(', ')', '&')
-val titleFluff = arrayOf("", "-", "feat.", "Remix")
+val titleFluff = arrayOf("", "-", "Remix")
 
 /** Splits a String, usually a music title, into its parts using [titleDelimiters] and filters out [titleFluff]. */
 fun String.splitTitleTrimmed() =
-	split(*titleDelimiters).filterNot { it in titleFluff }
+	split(*titleDelimiters).filterNot { it in titleFluff || it.matches(Regex("(ft|feat)\\.?", RegexOption.IGNORE_CASE)) }
 
 /** Tries to find out how similar these two collections of strings are.
  * A 1.0 means that all strings of both lists are equal, disregarding ordering. */
