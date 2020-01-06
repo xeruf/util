@@ -6,10 +6,11 @@ import xerus.ktutil.getResource
 import xerus.ktutil.helpers.Named
 import java.io.File
 
+/** @return a String that, interpreted as CSS, will style the root node (and thus the whole application) in the given HSB color. */
 fun rootHsbStyling(hue: Double, saturation: Double, brightness: Double) =
 	".root { -fx-base: hsb($hue, ${saturation * 100}%, ${brightness * 100}%); }"
 
-/** Clears the Stylesheets and applies the Stylesheet from [file] together with the default stylesheets. */
+/** Clears the stylesheets of this [Scene] and applies the stylesheet from [file] together with the default stylesheets. */
 fun Scene.applyStyles(file: File? = null): Scene {
 	stylesheets.clear()
 	arrayOf(file?.toURI()?.toURL(), getResource("css/default.css"), getResource("css/style.css"))
@@ -17,7 +18,7 @@ fun Scene.applyStyles(file: File? = null): Scene {
 	return this
 }
 
-/** Applies the given [theme]. */
+/** Applies the given [theme]. Default: BEIGE */
 fun Scene.applyTheme(theme: Theme = Themes.BEIGE): Scene {
 	val file = SystemUtils.cacheDir.resolve("xerus-themes").resolve(theme.displayName + ".css")
 	if(!file.exists()) {
@@ -27,10 +28,18 @@ fun Scene.applyTheme(theme: Theme = Themes.BEIGE): Scene {
 	return applyStyles(file)
 }
 
-/** Finds a theme in [Themes] with the name [theme], upper-cased, and applies it. */
+/** Finds a Theme called [theme] in [Themes] and applies it to [this] [Scene]. */
 fun Scene.applyTheme(theme: String) =
 	applyTheme(Themes.valueOf(theme.toUpperCase()))
 
+/** A Theme is used to style the application.
+ * The [styling] is to be used directly, as such it has to be valid CSS.
+ * The [displayName] is used to identify this Theme to the system and the user. */
+interface Theme : Named {
+	val styling: String
+}
+
+/** Preset application themes based on HSB values. */
 enum class Themes(hue: Double,  saturation: Double, brightness: Double) : Theme {
 	WHITE(0.0, 0.0, 0.95),
 	SILVER(0.0, 0.00, 0.75),
@@ -45,15 +54,9 @@ enum class Themes(hue: Double,  saturation: Double, brightness: Double) : Theme 
 	override val styling = rootHsbStyling(hue, saturation, brightness)
 }
 
-/** A Theme that only defines the root color of the application */
-open class ColorTheme(displayName: String, hue: Double, saturation: Double, brightness: Double) : SimpleTheme(displayName, rootHsbStyling(hue, saturation, brightness))
-
-/** A Simple Theme with name and styling that can be constructed and used instantly */
+/** A Simple Theme with name and styling. */
 open class SimpleTheme(override val displayName: String, override val styling: String) : Theme
 
-/** A Theme is used to style the application.
- * The [styling] will be directly used, as such it has to be valid CSS.
- * The [displayName] will be used to display this Theme to the user. */
-interface Theme : Named {
-	val styling: String
-}
+/** A Theme that only defines the root color of the application. */
+open class ColorTheme(displayName: String, hue: Double, saturation: Double, brightness: Double) : SimpleTheme(displayName, rootHsbStyling(hue, saturation, brightness))
+

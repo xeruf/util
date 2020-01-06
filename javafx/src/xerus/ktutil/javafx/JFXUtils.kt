@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import xerus.ktutil.printWith
 import kotlin.coroutines.CoroutineContext
 
-/** runs [action] if already on Fx Application Thread, otherwise schedules it via [Platform.runLater] */
+/** Runs [action] if already on Fx Application Thread, otherwise schedules it via [Platform.runLater]. */
 inline fun checkFx(crossinline action: () -> Unit) {
 	if(Platform.isFxApplicationThread())
 		action()
@@ -28,22 +28,26 @@ inline fun checkFx(crossinline action: () -> Unit) {
 		Platform.runLater { action() }
 }
 
-/** runs [action] via [Platform.runLater] */
+/** Runs [action] via [Platform.runLater]. */
 inline fun onFx(crossinline action: () -> Unit) = Platform.runLater { action() }
 
 // NODES
 
+/** Adds the given [styleClass] to this Node. */
 fun <T : Node> T.styleClass(styleClass: String): T = this.apply { getStyleClass().add(styleClass) }
+/** Sets the id of this Node. */
 fun <T : Node> T.id(id: String): T = this.apply { setId(id) }
 
-fun <T : Region> T.allowExpand(horizontal: Boolean = true, vertical: Boolean = true) = also {
+/** Configures this [Region] to expand horizontically and vertically by lifting the size limits. */
+fun <T : Region> T.allowExpand(horizontal: Boolean = true, vertical: Boolean = true) = apply {
 	if(horizontal)
-		it.maxWidth = Double.MAX_VALUE
+		maxWidth = Double.MAX_VALUE
 	if(vertical)
-		it.maxHeight = Double.MAX_VALUE
+		maxHeight = Double.MAX_VALUE
 }
 
-fun Region.setSize(width: Double? = null, height: Double? = null) = apply {
+/** Locks the size of this [Region] to the given [width] and [height]. Providing null changes nothing. */
+fun <T : Region> T.setSize(width: Double? = null, height: Double? = null) = apply {
 	if(width != null) {
 		minWidth = width.toDouble()
 		maxWidth = width.toDouble()
@@ -54,25 +58,28 @@ fun Region.setSize(width: Double? = null, height: Double? = null) = apply {
 	}
 }
 
+/** @return the selectedItem of the selectionModel. */
 val <T> TableView<T>.selectedItem: T?
 	get() = selectionModel.selectedItem
 
 // TEXT
 
-/** Returns a new Font with the same family and size but adjusted weight and posture */
+/** @return a new Font with the same family and size but adjusted weight and posture. */
 fun Font.format(bold: Boolean = false, italic: Boolean = false): Font =
 	Font.font(family, if(bold) FontWeight.BOLD else FontWeight.NORMAL, if(italic) FontPosture.ITALIC else FontPosture.REGULAR, size)
 
-/** Returns a new Font with the same family and size but in italics */
+/** @return a new Font with the same family and size but in italics. */
 fun Font.italic() = format(italic = true)
 
-/** Returns a new Font with the same family and size but in bold */
+/** @return a new Font with the same family and size but in bold. */
 fun Font.bold() = format(bold = true)
 
+/** Sets the [style] of this [Text] to adjust its formatting. */
 fun Text.format(bold: Boolean = false, italic: Boolean = false) = apply {
 	style = arrayOf("weight: bold".takeIf { bold }, "style: italic".takeIf { italic }).filterNotNull().joinToString(separator = ";", prefix = "-fx-font-")
 }
 
+/** Estimates the width of a given String when displayed as [Text]. */
 fun String?.textWidth(font: Font) =
 	Text(this).let {
 		it.font = font

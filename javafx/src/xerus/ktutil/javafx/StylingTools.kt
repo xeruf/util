@@ -13,23 +13,24 @@ import java.util.*
 @Suppress("UNCHECKED_CAST")
 object StylingTools {
 	
-	/** returns a recursively composed Collection with Nodes that match the given css StyleClass  */
+	/** @return a recursively composed Collection with Nodes that match the given css StyleClass. */
 	fun findByStyleClass(root: Styleable, className: String): Collection<Styleable> {
 		return find(root, { node -> node.styleClass.contains(className) })
 	}
 	
-	/** returns a recursively composed Collection with Nodes that are instances of the given Class  */
+	/** @return a recursively composed Collection with Nodes that are instances of the given Class. */
 	fun <T> findByClass(root: Styleable, c: Class<T>): Collection<T> {
 		return find(root, { c.isInstance(it) }) as Collection<T>
 	}
 	
-	/** returns a recursively composed Collection with Nodes that match the predicate  */
+	/** @return a recursively composed Collection with Nodes that match the predicate. */
 	fun find(root: Styleable, p: (Styleable) -> Boolean): Collection<Styleable> {
 		val found = HashSet<Styleable>()
 		findRec(root, p, found)
 		return found
 	}
 	
+	/** Prints all children of [root] that match [f] to stdout. Only for debugging. */
 	fun dump(root: Styleable, f: (Styleable) -> String?) {
 		findRec(root, { node ->
 			val s = f(node) ?: false
@@ -38,7 +39,7 @@ object StylingTools {
 		}, null)
 	}
 	
-	/** recursively fills the given Collection with Nodes that match the predicate  */
+	/** Recursively fills the given Collection with Nodes that match the predicate. */
 	fun findRec(node: Styleable?, p: (Styleable) -> Boolean, col: MutableCollection<Styleable>?) {
 		if(node == null)
 			return
