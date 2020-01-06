@@ -10,6 +10,8 @@ import java.nio.file.Paths
 import java.util.prefs.Preferences
 import kotlin.reflect.KClass
 
+/** A helper object for creating [PropertySetting].
+ * By using its utility functions you can quickly start using the system with little boilerplate. */
 open class SettingsNode(val preferences: Preferences) {
 	constructor(path: String) : this(getPreferences(path))
 	

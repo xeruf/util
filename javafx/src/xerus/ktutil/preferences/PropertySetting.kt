@@ -9,11 +9,11 @@ import xerus.ktutil.javafx.properties.bindSoft
 import java.util.prefs.Preferences
 
 /**
- * Caches the Setting as an [ObjectProperty] to minimise I/O.
+ * A generic [ISetting] that caches its [value] as an [ObjectProperty] to minimise I/O.
  *
- * It is recommended to use a [SettingsNode] to ease the creation, but it can also be used independently.
+ * It is recommended to use a [SettingsNode] to simplify the creation, but it can also be used independently.
  */
-open class PropertySetting<T>(private val key: String, private val default: T, val preferences: Preferences, private val parser: (String) -> T) : ObjectProperty<T>(), ISetting {
+open class PropertySetting<T>(val key: String, val default: T, val prefs: Preferences, private val parser: (String) -> T) : ObjectProperty<T>(), ISetting {
 	
 	override var value: String
 		get() = get().toString()
@@ -25,13 +25,13 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 	
 	override fun set(value: T) {
 		updateOwnValue(value)
-		preferences.put(key, value.toString())
+		prefs.put(key, value.toString())
 	}
 	
-	/** Reloads the [value] from the [preferences] */
+	/** Reloads the [value] from the [prefs]. */
 	fun refresh() = set(loadValue())
 	
-	private fun loadValue() = preferences.get(key, null)?.let {
+	private fun loadValue() = prefs.get(key, null)?.let {
 		try {
 			parser(it)
 		} catch(e: Exception) {
@@ -45,9 +45,9 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 		listeners.notifyChange(old, value)
 	}
 	
-	/** Clears the entry in [preferences] and resets the value to the default */
+	/** Clears the entry in [prefs] and resets the value to the default. */
 	fun clear() {
-		preferences.remove(key)
+		prefs.remove(key)
 		updateOwnValue(default)
 	}
 	
@@ -60,7 +60,7 @@ open class PropertySetting<T>(private val key: String, private val default: T, v
 	override fun removeListener(listener: ChangeListener<in T>) = listeners.remove(listener)
 	
 	override fun getName() = key
-	override fun getBean() = preferences
+	override fun getBean() = prefs
 	
 	// Bindings
 	private var observable: ObservableValue<out T>? = null
