@@ -24,7 +24,7 @@ fun String.toLocalDate(): LocalDate? {
 }
 
 val titleDelimiters = charArrayOf(' ', ',', '[', ']', '(', ')', '&')
-val titleFluff = arrayOf("", "feat.", "Remix")
+val titleFluff = arrayOf("", "-", "feat.", "Remix")
 
 /** Splits a String, usually a music title, into its parts using [titleDelimiters] and filters out [titleFluff]. */
 fun String.splitTitleTrimmed() =
