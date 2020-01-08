@@ -30,7 +30,3 @@ val titleFluff = arrayOf("", "-", "Remix")
 fun String.splitTitleTrimmed() =
 	split(*titleDelimiters).filterNot { it in titleFluff || it.matches(Regex("(ft|feat)\\.?", RegexOption.IGNORE_CASE)) }
 
-/** Tries to find out how similar these two collections of strings are.
- * A 1.0 means that all strings of both lists are equal, disregarding ordering. */
-fun findSimilarity(list1: List<String>, list2: List<String>): Double =
-	(list1.count { list2.contains(it) } + list2.count { list1.contains(it) }).toDouble() / (list1.size + list2.size)
