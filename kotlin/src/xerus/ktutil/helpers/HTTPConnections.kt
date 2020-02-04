@@ -29,6 +29,7 @@ fun URL.createPostConnection(vararg params: String) = createConnection().post(*p
 
 fun HttpURLConnection.post(vararg params: String): HttpURLConnection {
 	doOutput = true // Triggers POST
+	requestMethod = "POST"
 	outputStream.use { output -> output.write(params.joinToString("&").toByteArray(charset("UTF-8"))) }
 	return this
 }

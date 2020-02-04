@@ -3,16 +3,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	java
 	maven
-	kotlin("jvm") version "1.3.60"
-	id("org.jetbrains.dokka") version "0.9.18"
-	id("com.github.ben-manes.versions") version "0.21.0"
+	kotlin("jvm") version "1.3.61"
+	id("org.jetbrains.dokka") version "0.10.1"
+	id("com.github.ben-manes.versions") version "0.27.0"
+	id("se.patrikerdes.use-latest-versions") version "0.2.13"
 }
 
 allprojects {
+	group = "xerus.util"
 	repositories {
 		jcenter()
 	}
-	group = "xerus.util"
 }
 
 subprojects {
@@ -22,11 +23,8 @@ subprojects {
 	apply(plugin = "org.jetbrains.dokka")
 	
 	dependencies {
-		val junitVersion = "5.5.1"
-		testImplementation("org.junit.jupiter", "junit-jupiter-api", junitVersion)
-		testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", junitVersion)
 		testImplementation("io.kotlintest", "kotlintest-runner-junit5", "3.4.0")
-		testImplementation("org.slf4j", "slf4j-simple", "1.7.26")
+		testImplementation("org.slf4j", "slf4j-simple", "1.7.30")
 	}
 	
 	sourceSets {
