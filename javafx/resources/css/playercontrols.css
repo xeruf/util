@@ -1,4 +1,5 @@
 @import "nocfa.css";
+@import "satin.css";
 
 #controls #repeat:selected {
     -fx-background-color: -fx-base;
