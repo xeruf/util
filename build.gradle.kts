@@ -3,9 +3,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	java
 	maven
-	kotlin("jvm") version "1.3.61"
+	kotlin("jvm") version "1.3.71"
 	id("org.jetbrains.dokka") version "0.10.1"
-	id("com.github.ben-manes.versions") version "0.27.0"
+	id("com.github.ben-manes.versions") version "0.28.0"
 	id("se.patrikerdes.use-latest-versions") version "0.2.13"
 }
 
@@ -23,7 +23,7 @@ subprojects {
 	apply(plugin = "org.jetbrains.dokka")
 	
 	dependencies {
-		testImplementation("io.kotlintest", "kotlintest-runner-junit5", "3.4.0")
+		testImplementation("io.kotlintest", "kotlintest-runner-junit5", "3.4.2")
 		testImplementation("org.slf4j", "slf4j-simple", "1.7.30")
 	}
 	
