@@ -3,7 +3,6 @@ package xerus.ktutil.helpers
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.StringSpec
-import sun.plugin.dom.exception.InvalidStateException
 
 class ParserTest: StringSpec({
 	val parseString = "test%ab% test %cd%"
@@ -19,7 +18,7 @@ class ParserTest: StringSpec({
 			return@parse when(it) {
 				"ab" -> "run"
 				"cd" -> "go"
-				else -> throw InvalidStateException("")
+				else -> throw NoWhenBranchMatchedException()
 			}
 		} shouldBe resultString
 	}
