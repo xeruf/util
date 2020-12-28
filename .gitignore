@@ -1,15 +1,2 @@
-.idea
-out
-*.iml
-
 .gradle
 build
-.kotlintest
-
-bin
-*.class
-
-.project
-.classpath
-.settings
-
