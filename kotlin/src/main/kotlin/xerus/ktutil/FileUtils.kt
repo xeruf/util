@@ -67,14 +67,14 @@ fun File.write(line: Int, text: String) {
 		renameTo(backup)
 		bufferedWriter().use { new ->
 			lines.forEachIndexed { index, s ->
-				new.appendln(if(index == line) text else s)
+				new.appendLine(if(index == line) text else s)
 			}
 		}
 		backup.delete()
 	}
 }
 
-/** Checks whether this file has a newline character at the end. */
+/** Checks whether this file ends with a newline character. */
 val File.hasNewline: Boolean
 	get() {
 		RandomAccessFile(this, "r").use {

@@ -54,7 +54,7 @@ class Changelog(private vararg val notes: String) {
 	private fun appendLog(text: LogTextFlow) {
 		with(text) {
 			if(notes.isNotEmpty()) {
-				appendAll(strings = *notes)
+				appendAll(strings = notes)
 				appendln()
 			}
 			for(version in versions) {
