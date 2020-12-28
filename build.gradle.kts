@@ -23,17 +23,6 @@ subprojects {
 	
 	dependencies {
 		testImplementation("io.kotlintest", "kotlintest-runner-junit5", "3.4.2")
-		testImplementation("org.slf4j", "slf4j-simple", "1.7.30")
-	}
-	
-	sourceSets {
-		main {
-			java.srcDir("src")
-			resources.srcDir("resources")
-		}
-		test {
-			java.srcDir("test")
-		}
 	}
 	
 	tasks {
