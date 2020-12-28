@@ -1,4 +1,4 @@
 dependencies {
-	compile(kotlin("stdlib"))
-	compile("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "1.2.2")
+	api(kotlin("stdlib"))
+	api("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "1.4.2")
 }

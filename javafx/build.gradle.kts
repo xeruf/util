@@ -1,3 +1,3 @@
 dependencies {
-	compile(project(":kotlin"))
+	api(project(":kotlin"))
 }

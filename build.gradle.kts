@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	java
 	maven
-	kotlin("jvm") version "1.3.71"
+	kotlin("jvm") version "1.4.21"
 	id("org.jetbrains.dokka") version "0.10.1"
-	id("com.github.ben-manes.versions") version "0.28.0"
-	id("se.patrikerdes.use-latest-versions") version "0.2.13"
+ 
+	id("com.github.ben-manes.versions") version "0.36.0"
+	id("se.patrikerdes.use-latest-versions") version "0.2.15"
 }
 
 allprojects {
@@ -17,7 +17,6 @@ allprojects {
 }
 
 subprojects {
-	apply(plugin = "java")
 	apply(plugin = "kotlin")
 	apply(plugin = "maven")
 	apply(plugin = "org.jetbrains.dokka")
@@ -62,9 +61,8 @@ subprojects {
 		}
 		
 		withType<KotlinCompile> {
-			kotlinOptions.jvmTarget = "1.8"
+			kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
 		}
-		
 		test {
 			useJUnitPlatform()
 		}
