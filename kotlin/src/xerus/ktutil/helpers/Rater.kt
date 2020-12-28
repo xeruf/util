@@ -21,9 +21,11 @@ open class Rater<X> constructor(
 	
 	/** replaces the object if the given points are higher than the saved ones
 	 * @return if [other] became the current [obj] */
-	open fun update(other: X?, otherPoints: Double): Boolean {
+	open fun update(other: X?, otherPoints: Double) = update(otherPoints) { other }
+	
+	open fun update(otherPoints: Double, newValue: () -> X?): Boolean {
 		if(!inverted && otherPoints > points || inverted && otherPoints < points) {
-			obj = other
+			obj = newValue()
 			points = otherPoints
 			return true
 		}
