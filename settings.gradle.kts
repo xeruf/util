@@ -1,1 +1,1 @@
-include("kotlin", "javafx")
+include("kotlin", "javafx", "logging")
