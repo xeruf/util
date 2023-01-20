@@ -42,9 +42,7 @@ interface Parsable {
 			})
 			return ParseResult(result, inserted)
 		} catch(e: ParserException) {
-			if(e.cause is FieldNotFoundException)
-				throw e.cause
-			throw e
+			throw e.cause as? FieldNotFoundException ?: e
 		}
 	}
 	

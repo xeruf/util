@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	maven
-	kotlin("jvm") version "1.4.21"
+	`maven-publish`
+	kotlin("jvm") version "1.8.0"
 	id("org.jetbrains.dokka") version "0.10.1"
  
 	id("com.github.ben-manes.versions") version "0.36.0"
@@ -12,13 +12,13 @@ plugins {
 allprojects {
 	group = "xerus.util"
 	repositories {
-		jcenter()
+		mavenCentral()
 	}
 }
 
 subprojects {
 	apply(plugin = "kotlin")
-	apply(plugin = "maven")
+	apply(plugin = "maven-publish")
 	apply(plugin = "org.jetbrains.dokka")
 	
 	dependencies {
@@ -27,27 +27,27 @@ subprojects {
 	
 	tasks {
 		
-		dokka {
-			outputFormat = "javadoc"
-			outputDirectory = "$buildDir/doc"
-		}
-		
-		val docJar by creating(Jar::class) {
-			dependsOn(dokka.get())
-			archiveClassifier.set("javadoc")
-			from(dokka.get().outputDirectory)
-		}
+		//dokka {
+		//	outputFormat = "javadoc"
+		//	outputDirectory = "$buildDir/doc"
+		//}
+		//
+		//val docJar by creating(Jar::class) {
+		//	dependsOn(dokka.get())
+		//	archiveClassifier.set("javadoc")
+		//	from(dokka.get().outputDirectory)
+		//}
 		
 		val sourcesJar by creating(Jar::class) {
 			archiveClassifier.set("sources")
 			from(sourceSets.main.get().allSource)
 		}
 		
-		install.get().dependsOn(docJar, sourcesJar)
-		artifacts {
-			archives(sourcesJar.archiveFile) { classifier = "sources" }
-			archives(docJar.archiveFile) { classifier = "javadoc" }
-		}
+		//publishToMavenLocal.get().dependsOn(docJar, sourcesJar)
+		//artifacts {
+		//	archives(sourcesJar.archiveFile) { classifier = "sources" }
+		//	archives(docJar.archiveFile) { classifier = "javadoc" }
+		//}
 		
 		withType<KotlinCompile> {
 			kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
