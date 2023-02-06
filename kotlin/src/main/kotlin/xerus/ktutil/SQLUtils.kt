@@ -1,5 +1,6 @@
-import java.sql.ResultSet
+package xerus.ktutil
 
+import java.sql.ResultSet
 inline fun ResultSet.forEach(function: ResultSet.() -> Unit) {
     while (next())
         function(this)
