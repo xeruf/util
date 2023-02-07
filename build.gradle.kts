@@ -45,10 +45,6 @@ subprojects {
 			archives(docJar.archiveFile) { classifier = "javadoc" }
 		}
 		
-		withType<KotlinCompile> {
-			kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
-		}
-
 		test {
 			useJUnitPlatform()
 		}
